@@ -1,0 +1,2064 @@
+/* ===============================
+   RESET
+================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+
+}
+
+/* ===============================
+   ROOT VARIABLES
+================================ */
+:root {
+  /* Backgrounds */
+  --bg: #FAF7F4;          /* warm off-white */
+  --card: #FFFFFF;
+
+  /* Text */
+  --text: #1F1F1F;
+  --text-muted: #6B6B6B;
+
+  /* Primary (brand) */
+  --primary: #660B05;
+  --primary-dark: #3E0703;
+  --primary-light: #8C1007;
+
+  /* Accent */
+  --accent: #B08B4A;
+  --accent-soft: #E6D3A3;
+
+  /* Neutral UI */
+  --cool-contrast: #5F676F;
+  --cool-light: #D6DADF;
+
+  /* Borders & radius */
+  --border: #E2DED9;
+  --radius: 14px;
+  --radius-sm: 8px;
+
+  /* Motion */
+  --transition: 0.25s ease;
+
+  /* Typography */
+  --font-main: system-ui, -apple-system, BlinkMacSystemFont,
+               "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  /* Layout helpers */
+  --container-width: 1200px;
+  --section-padding: clamp(2rem, 5vw, 4rem);
+}
+
+/* ===============================
+   GLOBAL
+================================ */
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+a {
+  text-decoration: none;
+  color: var(--primary);
+  transition: color var(--transition);
+}
+
+a:hover {
+  color: var(--accent);
+}
+
+section {
+  padding: 4rem 2rem;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* ===============================
+   HEADER
+================================ */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: var(--card);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+header img.logo {
+  height: 50px;
+}
+
+nav a {
+  margin-left: 1.5rem;
+  font-weight: 500;
+}
+
+/* ===============================
+   BUTTONS
+================================ */
+button,
+.btn {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 10px 22px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background var(--transition), transform var(--transition);
+}
+
+button:hover,
+.btn:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+}
+
+/* ===============================
+   GRID SYSTEM
+================================ */
+.grid {
+  display: grid;
+  gap: 25px;
+}
+
+.grid-3 {
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.grid-4 {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+/* ===============================
+   PRODUCT CARD – MASTER
+   (USED EVERYWHERE)
+================================ */
+.product-card h4 {
+  min-height: 3.2em;
+  line-height: 1.6em;
+  overflow: hidden;
+}
+.product-card,
+.card,
+.sim-card {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 20px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.product-card img,
+.card img,
+.sim-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+.product-card h4,
+.card h4,
+.sim-card h4 {
+  margin: 6px 0;
+  font-size: 1.1rem;
+}
+
+.product-card p,
+.card p,
+.sim-card p {
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.product-card:hover,
+.card:hover,
+.sim-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
+
+/* ===============================
+   HOME PAGE
+================================ */
+#home-page .hero {
+  min-height: min(80vh, 700px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: clamp(3rem, 6vw, 6rem) 1.5rem;
+}
+
+
+#home-page .hero-content {
+  max-width: 680px;
+}
+
+#home-page .hero p {
+  margin: 20px 0;
+  font-size: 1.1rem;
+}
+
+#home-page .hero .btn {
+  margin-top: 25px;
+  font-size: 1rem;
+  padding: 14px 34px;
+  box-shadow: 0 8px 18px rgba(102, 11, 5, 0.25);
+}
+#home-page .hero .btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 26px rgba(102, 11, 5, 0.35);
+}
+
+#home-page h1 {
+  font-size: clamp(2.2rem, 5vw, 3rem);
+  line-height: 1.25;
+  margin-bottom: 1rem;
+}
+
+#home-page .hero p {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+
+#home-page .section-title {
+  font-size: 1.8rem;
+  margin-bottom: 2.5rem;
+}
+
+/* ===============================
+   CONTACT PAGE
+================================ */
+.contact-hero {
+  height: 50vh;
+  background: linear-gradient(
+      rgba(62,7,3,0.6),
+      rgba(62,7,3,0.6)
+    ),
+    url("images/contact-bg.jpg") center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+}
+
+.contact-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 25px;
+  max-width: 1100px;
+  margin: auto;
+}
+
+.contact-card {
+  background: var(--card);
+  padding: 30px;
+  border-radius: var(--radius);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contact-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+}
+/* =========================================
+   CONTACT PAGE – HERO (REMOVE COLOR OVERLAY)
+========================================= */
+
+.contact-page .contact-hero {
+  background: var(--bg);
+  color: var(--text);
+  height: auto;
+  padding: clamp(4rem, 8vw, 6rem) 1.5rem;
+}
+
+.contact-page .contact-hero-content {
+  max-width: 680px;
+  margin: auto;
+}
+
+.contact-page .contact-hero h1 {
+  font-size: clamp(2rem, 5vw, 2.8rem);
+  margin-bottom: 0.75rem;
+}
+
+.contact-page .contact-hero p {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+}
+/* =========================================
+   CONTACT PAGE – FORM LAYOUT
+========================================= */
+
+.contact-page .contact-form-section {
+  padding: clamp(3rem, 6vw, 5rem) 1.5rem;
+}
+
+.contact-page .contact-form {
+  max-width: 640px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.contact-page .contact-form .form-row {
+  display: flex;
+  gap: 1rem;
+}
+
+@media (max-width: 600px) {
+  .contact-page .contact-form .form-row {
+    flex-direction: column;
+  }
+}
+/* =========================================
+   CONTACT PAGE – INPUTS & TEXTAREA
+========================================= */
+
+.contact-page .contact-form input,
+.contact-page .contact-form textarea {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 0.95rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.contact-page .contact-form textarea {
+  resize: vertical;
+  min-height: 140px;
+}
+
+.contact-page .contact-form input::placeholder,
+.contact-page .contact-form textarea::placeholder {
+  color: #8A8A8A;
+}
+
+.contact-page .contact-form input:focus,
+.contact-page .contact-form textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(102, 11, 5, 0.15);
+}
+/* =========================================
+   CONTACT PAGE – SUBMIT BUTTON
+========================================= */
+
+.contact-page .contact-form button {
+  align-self: flex-start;
+  padding: 14px 36px;
+  font-size: 0.95rem;
+  border-radius: var(--radius);
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.contact-page .contact-form button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(102, 11, 5, 0.3);
+}
+.contact-page .contact-form input:invalid,
+.contact-page .contact-form textarea:invalid {
+  border-color: #c0392b;
+}
+
+.contact-page .contact-form input:valid,
+.contact-page .contact-form textarea:valid {
+  border-color: #2ecc71;
+}
+
+/* ===============================
+   VISIT STORE
+================================ */
+.visit-store {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  max-width: 1100px;
+  margin: auto;
+}
+
+.visit-store img {
+  width: 45%;
+  border-radius: var(--radius);
+}
+
+@media (max-width: 768px) {
+  .visit-store {
+    flex-direction: column;
+    text-align: center;
+  }
+  .visit-store img {
+    width: 100%;
+  }
+}
+
+/* ===============================
+   FLIP CARDS (FAQ + VALUES)
+================================ */
+.flip-grid,
+.faq-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 25px;
+}
+
+.flip-card,
+.faq-card {
+  position: relative;
+  height: 180px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  cursor: pointer;
+}
+
+.flip-front,
+.flip-back,
+.faq-front,
+.faq-back {
+  position: absolute;
+  inset: 0;
+  padding: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.flip-front,
+.faq-front {
+  background: var(--card);
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.flip-back,
+.faq-back {
+  background: var(--primary);
+  color: white;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.flip-card:hover .flip-back,
+.faq-card:hover .faq-back {
+  opacity: 1;
+}
+
+.flip-card:hover .flip-front,
+.faq-card:hover .faq-front {
+  opacity: 0;
+}
+
+/* ===============================
+   PRODUCT PAGE – STRICTLY SCOPED
+================================ */
+#product-page-only {
+  max-width: 1200px;
+  margin: 60px auto;
+  padding: 0 20px;
+}
+
+#product-page-only .product-layout {
+  display: flex;
+  align-items: flex-start;
+}
+
+#product-page-only .product-image {
+  flex: 0 0 40%;
+}
+
+#product-page-only .product-details {
+  flex: 1;
+  margin-left: 80px;
+}
+
+#product-page-only .sizes button {
+  margin-right: 8px;
+  padding: 8px 14px;
+  border: 1px solid #ccc;
+  background: white;
+}
+
+#product-page-only .sizes button:hover {
+  border-color: black;
+}
+
+/* ===============================
+   POPUP
+================================ */
+.popup {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #660B05;
+  color: #fff;
+  padding: 12px 18px;
+  border-radius: 8px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.popup.show {
+  opacity: 1;
+}
+
+/* =========================================
+   FOOTER — CLEAN EXTERNAL STYLING
+   (Replaces inline styles exactly)
+========================================= */
+
+footer {
+  background: #f8f8f8;
+  padding: 45px 20px;
+  margin-top: 40px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont,
+               "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: #1a1a1a;
+}
+
+/* Main footer row */
+footer > div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  max-width: 1000px;
+  margin: auto;
+  gap: 2.5rem;
+}
+
+/* Columns */
+footer > div > div {
+  flex: 1;
+  min-width: 220px;
+}
+
+/* ---------------- CONTACT INFO ---------------- */
+
+footer h3 {
+  margin-bottom: 12px;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+footer p {
+  margin: 4px 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #444;
+}
+
+footer p img {
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+/* ---------------- BRAND SECTION ---------------- */
+
+footer h2 {
+  margin-bottom: 12px;
+  font-size: 1.6rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+footer h2 + p {
+  line-height: 1.6;
+  margin: 0;
+  max-width: 420px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  color: #555;
+}
+
+/* ---------------- INSTAGRAM ---------------- */
+
+footer a img {
+  width: 36px;
+  height: 36px;
+  margin-top: 4px;
+  opacity: 0.85;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+footer a img:hover {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+footer > div > div:last-child {
+  text-align: center;
+}
+
+/* Center the Instagram link & icon */
+footer > div > div:last-child a {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+/* ---------------- DIVIDER ---------------- */
+
+footer hr {
+  margin: 30px auto 20px;
+  width: 80%;
+  opacity: 0.3;
+  border: none;
+  border-top: 1px solid #ccc;
+}
+
+/* ---------------- COPYRIGHT ---------------- */
+
+footer > p {
+  text-align: center;
+  font-size: 14px;
+  margin: 0;
+  color: #666;
+}
+
+/* ---------------- MOBILE ---------------- */
+
+@media (max-width: 768px) {
+  footer > div {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  footer > div > div {
+    min-width: 100%;
+  }
+
+  footer p {
+    justify-content: center;
+  }
+}
+
+/* =========================================
+   REMOVE FAKE PAGE HEIGHT & EMPTY SPACE
+========================================= */
+
+/* Stop forcing pages to full viewport height */
+html, body {
+  min-height: auto !important;
+  height: auto !important;
+}
+
+/* Common page wrappers (safe reset) */
+main,
+.page,
+.content,
+.wrapper,
+section {
+  min-height: auto !important;
+}
+
+/* Remove excessive bottom spacing */
+section {
+  padding-bottom: clamp(2rem, 6vw, 4rem);
+  margin-bottom: 0;
+}
+
+/* Last section before footer should not push footer down */
+section:last-of-type {
+  margin-bottom: 0 !important;
+  padding-bottom: 2rem;
+}
+
+
+/* ===============================
+   HOME PAGE ONLY STYLES
+================================ */
+#home-page section {
+  padding: clamp(3rem, 6vw, 5rem) clamp(1.2rem, 4vw, 2rem);
+}
+
+#home-page .section-title {
+  margin-bottom: 40px;
+}
+/* ===============================
+   HOME – FEATURED PRODUCT CARDS
+================================ */
+#home-page .grid {
+  max-width: 1100px;
+  margin: auto;
+}
+
+#home-page .product-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 18px;
+  text-align: center;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+#home-page .product-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+
+#home-page .product-card h4 {
+  font-size: 17px;
+  margin: 6px 0;
+}
+
+#home-page .product-card p {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 14px;
+}
+
+#home-page .product-card .actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#home-page .product-card button {
+  border-radius: 22px;
+  padding: 8px 16px;
+  font-size: 14px;
+}
+
+/* Hover effect */
+#home-page .product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
+
+/* ===============================
+   PRODUCT PAGE – SIZE BUTTONS
+================================ */
+#product-page-only .sizes button {
+  color: #1a1a1a;
+  border: 1px solid #ccc;
+  background: white;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+#product-page-only .sizes button:hover {
+  border-color: #6b0000;
+  color: #6b0000;
+}
+/* ===============================
+   PRODUCT PAGE – QUANTITY
+================================ */
+#product-page-only .quantity button {
+  width: 28px;
+  height: 28px;
+  font-size: 16px;
+  padding: 0;
+}
+
+#product-page-only .quantity input {
+  width: 40px;
+  text-align: center;
+  font-size: 14px;
+}
+/* ===============================
+   PRODUCT PAGE – SIMILAR PRODUCTS
+================================ */
+#product-page-only .sim-card {
+  flex: 0 0 calc(25% - 20px);
+}
+/* ===============================
+   PRODUCT PAGE – SIZE SELECTION
+================================ */
+#product-page-only .sizes button {
+  background: #fff;
+  border: 1px solid #ccc;
+  color: #1a1a1a;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#product-page-only .sizes button.selected {
+  background: #6b0000;        /* palette color */
+  color: #fff;
+  border-color: #6b0000;
+}
+/* ===============================
+   PRODUCT PAGE – SIMILAR PRODUCTS
+================================ */
+#product-page-only .similar-track-wrapper {
+  overflow: hidden;
+  width: 100%;
+}
+
+#product-page-only .similar-track {
+  display: flex;
+  gap: 25px;
+  transition: transform 0.4s ease;
+}
+
+#product-page-only .sim-card {
+  flex: 0 0 calc(25% - 20px);
+}
+/* ===============================
+   PRODUCT PAGE – POPUP
+================================ */
+#product-page-only .popup {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #6b0000;
+  color: #fff;
+  padding: 12px 18px;
+  border-radius: 8px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 1000;
+}
+
+#product-page-only .popup.show {
+  opacity: 1;
+}
+/* ===============================
+   PRODUCT PAGE – SIMILAR NAV
+================================ */
+#product-page-only .similar-products-catalog {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+#product-page-only .sim-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+}
+
+#product-page-only .sim-nav.left {
+  left: -20px;
+}
+
+#product-page-only .sim-nav.right {
+  right: -20px;
+}
+#product-page-only .similar-track {
+  display: flex;
+  gap: 25px;
+  transition: transform 0.4s ease;
+}
+
+#product-page-only .sim-card {
+  flex: 0 0 calc(25% - 20px);
+}
+
+/* =========================================
+   ABOUT PAGE – INTRO TEXT ONLY
+   (Targets ONLY the About intro paragraph)
+========================================= */
+
+section > h2.section-title + p[style] {
+  line-height: 1.8;
+  font-size: 1.05rem;
+  color: var(--text-muted);
+}
+
+section > h2.section-title + p[style] br {
+  display: none;
+}
+/* =========================================
+   ABOUT PAGE – SECTION RHYTHM
+========================================= */
+
+section > h2.section-title {
+  margin-bottom: 2.5rem;
+}
+
+section > h2.section-title + p[style] {
+  margin-bottom: 3rem;
+}
+/* =========================================
+   ABOUT PAGE – TYPOGRAPHY HIERARCHY
+========================================= */
+
+section > h2.section-title {
+  font-size: clamp(1.8rem, 4vw, 2.2rem);
+  letter-spacing: 0.3px;
+}
+/* =========================================
+   ABOUT PAGE – MOBILE STABILITY
+========================================= */
+
+@media (max-width: 600px) {
+  section > h2.section-title + p[style] {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+/* =========================================
+   CART PAGE – LAYOUT & UX
+========================================= */
+
+#cart-items {
+  max-width: 1100px;
+  margin: auto;
+}
+
+/* Match Home product cards */
+.cart-card {
+  text-align: center;
+  padding: 1.4rem;
+}
+
+/* Quantity row */
+.cart-qty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin: 10px 0 14px;
+}
+
+.qty-value {
+  font-size: 1rem;
+  font-weight: 600;
+  min-width: 20px;
+  text-align: center;
+}
+
+.qty-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--primary-light);
+  color: #fff;
+  border: none;
+  font-size: 18px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background var(--transition), transform var(--transition);
+}
+
+.qty-btn:hover {
+  background: var(--primary);
+  transform: translateY(-1px);
+}
+
+
+
+.cart-qty span {
+  font-weight: 500;
+  min-width: 20px;
+  text-align: center;
+}
+
+
+.cart-qty span {
+  font-weight: 500;
+}
+
+.cart-qty button {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: var(--primary);
+  color: #fff;
+  font-size: 20px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+
+.cart-qty button:hover {
+  background: var(--primary-dark);
+}
+
+/* Cart actions */
+
+.cart-card .actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.cart-card .actions button {
+  background: transparent;
+  color: var(--primary);
+  border: 1px solid var(--border);
+}
+
+.cart-card .actions button:hover {
+  background: var(--primary);
+  color: #fff;
+}
+
+
+
+.cart-actions button:hover {
+  background: var(--primary);
+  color: #fff;
+}
+
+/* Total emphasis */
+
+#cart-total {
+  background: var(--card);
+  padding: 1.2rem 1.6rem;
+  border-radius: var(--radius);
+  text-align: right;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+}
+
+/* Mobile friendliness */
+@media (max-width: 600px) {
+  #cart-items {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  #home-page section {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+@media (max-width: 600px) {
+  .cart-card {
+    padding: 1rem;
+  }
+
+  .cart-card .actions {
+    gap: 8px;
+  }
+}
+/* =========================================
+   CART PAGE – IMAGE SPACE FIX
+========================================= */
+
+.cart-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: calc(var(--radius) - 4px);
+  margin-bottom: 0.6rem;
+}
+
+/* =========================================
+   CART PAGE – CARD INTENT
+========================================= */
+
+.cart-card {
+  padding: 1.2rem 1.2rem 1.4rem;
+}
+
+.cart-card h4 {
+  margin-top: 0.5rem;
+  margin-bottom: 0.2rem;
+}
+
+.cart-card p {
+  margin-bottom: 0.8rem;
+  font-weight: 600;
+}
+
+/* =========================================
+   ICON SAFETY FIX (GLOBAL)
+========================================= */
+
+/* Footer icons */
+.footer-social img {
+  width: 26px;
+  height: 26px;
+  max-width: 26px;
+  max-height: 26px;
+  object-fit: contain;
+}
+
+/* =========================================
+   CONTACT PAGE – ICON ALIGNMENT FIX
+========================================= */
+
+.contact-page .contact-card {
+  text-align: center;
+}
+
+.contact-page .contact-card img {
+  width: 28px;
+  height: 28px;
+  margin: 0 auto 0.8rem;
+  display: block;
+  object-fit: contain;
+}
+
+.contact-page .contact-card p,
+.contact-page .contact-card a {
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+img[src*="icons"] {
+  max-width: 32px;
+  max-height: 32px;
+}
+/* =========================================
+   GLOBAL FONT SYSTEM — VISIBLE CONFIRMATION
+========================================= */
+
+:root {
+  --font-main: system-ui, -apple-system, BlinkMacSystemFont,
+               "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Force override everywhere */
+html, body {
+  font-family: var(--font-main) !important;
+  font-size: 16px;
+  line-height: 1.7;
+  letter-spacing: 0.2px;
+}
+
+/* Headings — visibly cleaner */
+h1, h2, h3, h4 {
+  font-weight: 600;
+  letter-spacing: 0.4px;
+}
+
+/* Buttons & inputs */
+button, input, textarea, select {
+  font-family: var(--font-main) !important;
+  font-weight: 500;
+}
+/* =========================================
+   WISHLIST — MATCH CART CARD STYLE
+========================================= */
+
+.wishlist-card {
+  text-align: center;
+  padding: 1.2rem 1.2rem 1.4rem;
+}
+
+.wishlist-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: calc(var(--radius) - 4px);
+  margin-bottom: 0.6rem;
+}
+
+.wishlist-card h4 {
+  margin-top: 0.5rem;
+  margin-bottom: 0.2rem;
+}
+
+.wishlist-card p {
+  margin-bottom: 0.8rem;
+  font-weight: 600;
+}
+
+/* Wishlist actions */
+.wishlist-card .actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Primary action */
+.wishlist-card .btn-primary {
+  background: var(--primary);
+  color: #fff;
+}
+
+/* Secondary action */
+.wishlist-card .btn-secondary {
+  background: transparent;
+  color: var(--primary);
+  border: 1px solid var(--border);
+}
+
+.wishlist-card .btn-secondary:hover {
+  background: var(--primary);
+  color: #fff;
+}
+
+/* Subtle interaction */
+.wishlist-card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.wishlist-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+}
+/* =========================================
+   CART + WISHLIST — IMAGE SPACE FIX
+========================================= */
+
+.cart-card img,
+.wishlist-card img {
+  height: 260px;              /* more breathing room */
+  object-fit: cover;
+}
+
+/* =========================================
+   CONFIRMATION MODAL (CUSTOM)
+========================================= */
+
+.confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.confirm-box {
+  background: #fff;
+  padding: 1.8rem 2rem;
+  border-radius: var(--radius);
+  max-width: 360px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  animation: popIn 0.25s ease;
+}
+
+.confirm-box p {
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+  color: var(--text);
+}
+
+.confirm-actions {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+}
+
+.confirm-actions button {
+  min-width: 120px;
+}
+
+.confirm-cancel {
+  background: transparent;
+  color: var(--primary);
+  border: 1px solid var(--border);
+}
+
+.confirm-cancel:hover {
+  background: var(--primary);
+  color: #fff;
+}
+
+@keyframes popIn {
+  from { transform: scale(0.92); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+/* =====================================================
+   CATALOG PAGE — FULL CLEAN STYLING
+   (Standalone, Home-matching, backend-ready)
+===================================================== */
+
+#catalog-page section {
+  padding: clamp(3rem, 6vw, 5rem) clamp(1.2rem, 4vw, 2rem);
+}
+
+/* ---------- Title ---------- */
+
+#catalog-page .section-title {
+  font-size: clamp(1.8rem, 4vw, 2.2rem);
+  margin-bottom: 2.5rem;
+  text-align: center;
+  letter-spacing: 0.3px;
+}
+
+/* ---------- Filter Bar ---------- */
+
+#catalog-page .catalog-filters {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+}
+
+#catalog-page .catalog-filters select {
+  padding: 10px 16px;
+  font-size: 0.95rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  min-width: 200px;
+  cursor: pointer;
+}
+
+#catalog-page .catalog-filters select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(102, 11, 5, 0.15);
+}
+
+/* ---------- Product Grid ---------- */
+
+#catalog-page .grid {
+  max-width: 1100px;
+  margin: auto;
+  gap: 25px;
+}
+
+/* ---------- Product Card (MATCHES HOME) ---------- */
+
+#catalog-page .product-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 18px;
+  text-align: center;
+
+  /* Critical for consistency */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#catalog-page .product-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+#catalog-page .product-card h4 {
+  font-size: 17px;
+  margin: 6px 0;
+}
+
+#catalog-page .product-card p {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 14px;
+}
+
+/* ---------- Actions ---------- */
+
+#catalog-page .product-card .actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#catalog-page .product-card button {
+  border-radius: 22px;
+  padding: 8px 16px;
+  font-size: 14px;
+}
+
+/* Wishlist button subtle */
+#catalog-page .product-card button:last-child {
+  background: transparent;
+  color: var(--primary);
+  border: 1px solid var(--border);
+}
+
+#catalog-page .product-card button:last-child:hover {
+  background: var(--primary);
+  color: #fff;
+}
+/* =========================================
+   CATALOG — WISHLIST BUTTON SAME AS HOME
+========================================= */
+
+/* Remove special styling from wishlist button */
+#catalog-page .product-card .actions button {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+}
+
+/* Hover same as Home */
+#catalog-page .product-card .actions button:hover {
+  background: var(--primary-dark);
+}
+
+/* Ensure no button looks secondary */
+#catalog-page .product-card .actions button:last-child {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+}
+
+
+/* ---------- Hover ---------- */
+
+#catalog-page .product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
+
+/* ---------- Popup (Catalog scoped) ---------- */
+
+#catalog-page .popup {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: var(--primary);
+  color: #fff;
+  padding: 12px 18px;
+  border-radius: 8px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 1000;
+}
+
+#catalog-page .popup.show {
+  opacity: 1;
+}
+
+/* ---------- Mobile ---------- */
+
+@media (max-width: 600px) {
+  #catalog-page .catalog-filters {
+    gap: 12px;
+  }
+
+  #catalog-page .catalog-filters select {
+    width: 100%;
+    max-width: 320px;
+  }
+}
+/* =========================================
+   PRODUCT CARD — GLOBAL LAYOUT CONSISTENCY
+   (Catalog + Cart + Wishlist + Home)
+========================================= */
+
+.product-card {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 18px;
+  text-align: center;
+
+  /* CORE STRUCTURE */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Image consistency */
+.product-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+/* Title & price */
+.product-card h4 {
+  font-size: 17px;
+  margin: 6px 0;
+}
+
+.product-card p {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 14px;
+}
+
+/* Actions block */
+.product-card .actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Hover */
+.product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
+.cart-card img {
+  height: 220px; /* cart needs more visual weight */
+}
+
+.cart-card .cart-qty {
+  margin-bottom: 10px;
+}
+/* =========================================
+   WISHLIST — STRUCTURAL ALIGNMENT
+========================================= */
+
+.wishlist-card img {
+  height: 220px;
+}
+
+.wishlist-card .btn-primary {
+  background: var(--primary);
+  color: #fff;
+}
+
+.wishlist-card .btn-secondary {
+  background: var(--accent-soft);
+  color: var(--primary-dark);
+  border: 1px solid var(--accent);
+}
+
+.wishlist-card .btn-secondary:hover {
+  background: var(--primary);
+  color: #fff;
+}/* ================================
+   PRODUCT PAGE – MATCH HOME STRUCTURE
+================================ */
+
+#product-page section {
+  margin: 3rem auto;
+  max-width: 1100px;
+  padding: 0 1.5rem;
+}
+
+/* PRODUCT LAYOUT */
+.product-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+}
+
+.product-image img {
+  width: 100%;
+  border-radius: 16px;
+  object-fit: cover;
+}
+
+.product-details h1 {
+  margin-bottom: 0.4rem;
+}
+
+.product-price {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.product-description {
+  line-height: 1.6;
+  margin-bottom: 1.2rem;
+}
+
+/* ROWS */
+.product-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 1rem;
+}
+
+.product-row .label {
+  min-width: 70px;
+  font-weight: 500;
+}
+
+/* ACTIONS */
+.product-actions {
+  display: flex;
+  gap: 14px;
+  margin: 1.5rem 0;
+}
+
+/* SIZE CHART */
+.size-chart {
+  margin-top: 2rem;
+}
+
+.size-chart table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.size-chart th,
+.size-chart td {
+  border: 1px solid var(--border);
+  padding: 6px;
+  text-align: center;
+}
+
+/* SIMILAR PRODUCTS – SAME AS HOME */
+.carousel {
+  overflow: hidden;
+}
+
+.carousel-track {
+  display: flex;
+  gap: 24px;
+  transition: transform 0.4s ease;
+}
+
+.carousel-track .product-card {
+  flex: 0 0 calc(25% - 18px);
+}
+
+/* CONTROLS */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .product-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .carousel-track .product-card {
+    flex: 0 0 calc(50% - 12px);
+  }
+}
+
+@media (max-width: 500px) {
+  .carousel-track .product-card {
+    flex: 0 0 100%;
+  }
+}
+/* Size selection */
+.sizes button {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sizes button.selected {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+/* Similar products carousel buttons on sides */
+/* Similar products carousel */
+.carousel-wrapper {
+  position: relative;
+  max-width: 1100px;
+  margin: auto;
+}
+
+.carousel {
+  overflow: hidden;
+}
+
+.carousel-track {
+  display: flex;
+  gap: 24px;
+  transition: transform 0.4s ease;
+}
+
+/* 4 cards visible */
+.carousel-track .product-card {
+  flex: 0 0 calc(25% - 18px);
+}
+
+/* Carousel buttons */
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 5;
+}
+
+.carousel-btn.left {
+  left: -20px;
+}
+
+.carousel-btn.right {
+  right: -20px;
+}
+
+.carousel-btn:hover {
+  background: var(--primary-dark);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .carousel-track .product-card {
+    flex: 0 0 calc(50% - 12px);
+  }
+}
+
+@media (max-width: 500px) {
+  .carousel-track .product-card {
+    flex: 0 0 100%;
+  }
+}
+
+/* Product description section */
+.product-description-section {
+  max-width: 1100px;
+  margin: 3rem auto;
+  padding: 0 1.5rem;
+}
+
+.product-description-section p {
+  line-height: 1.7;
+  margin-bottom: 1rem;
+  color: var(--text);
+}
+/* ===============================
+   PRODUCT PAGE – SIZE SELECTION
+================================ */
+
+.sizes button {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sizes button.selected {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+  transform: scale(1.05);
+}
+
+/* 🔒 FINAL OVERRIDE – BUTTONS IN SAME LINE */
+.product-card .actions.horizontal-actions {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 10px;
+}
+
+.product-card .actions.horizontal-actions .add-cart-btn {
+  flex: 3 !important;
+}
+
+.product-card .actions.horizontal-actions .wishlist-btn {
+  flex: 1 !important;
+  text-align: center;
+}
+
+/* ABOUT + CONTACT CARDS — BORDER MATCHES TEXT COLOR */
+.flip-card,
+.faq-card {
+  border: 2px solid var(--primary);
+}
+
+/* HEADER SEARCH – CENTER SPACE */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-search {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.header-search input {
+  width: 280px;
+  padding: 9px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  outline: none;
+}
+
+/* ✅ CART + WISHLIST: FORCE 1 ITEM PER ROW (override grid-4) */
+/* =========================================
+   CART + WISHLIST — FINAL HORIZONTAL ROW CARDS
+   ✅ 1 item per row
+   ✅ name + price same line
+   ✅ image left, actions right
+========================================= */
+
+/* Force ONE card per row (override .grid-4) */
+#cart-items.grid.grid-4,
+#wishlist-items.grid.grid-4 {
+  grid-template-columns: 1fr !important;
+  gap: 18px !important;
+}
+
+/* Horizontal card layout (full width) */
+.product-card.cart-card,
+.product-card.wishlist-card {
+  width: 100% !important;
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 18px;
+  text-align: left;
+  align-items: center !important;
+}
+
+/* Image on the left */
+.product-card.cart-card img,
+.product-card.wishlist-card img {
+  width: 160px !important;
+  height: 160px !important;
+  object-fit: cover;
+  margin: 0 !important;
+  flex: 0 0 160px;
+  border-radius: calc(var(--radius) - 4px);
+}
+
+/* Keep title + price in the middle (do not stretch weirdly) */
+.product-card.cart-card h4,
+.product-card.wishlist-card h4,
+.product-card.cart-card p,
+.product-card.wishlist-card p {
+  margin: 0 !important;
+}
+
+/* ✅ Name + Price on SAME line */
+.product-card.cart-card h4,
+.product-card.wishlist-card h4 {
+  display: inline-block !important;
+  margin-right: 12px !important;
+  font-size: 1.05rem;
+  line-height: 1.35;
+}
+
+.product-card.cart-card p,
+.product-card.wishlist-card p {
+  display: inline-block !important;
+  font-size: 1.05rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Actions fixed on the right */
+.product-card.cart-card .actions,
+.product-card.wishlist-card .actions {
+  margin-left: auto !important;
+  width: 260px;
+  align-items: flex-start;
+  align-self: flex-start;
+}
+
+/* Quantity row align left (cart only) */
+.product-card.cart-card .cart-qty {
+  justify-content: flex-start;
+}
+
+/* Mobile: stack nicely */
+@media (max-width: 700px) {
+  .product-card.cart-card,
+  .product-card.wishlist-card {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  .product-card.cart-card img,
+  .product-card.wishlist-card img {
+    width: 100% !important;
+    height: 220px !important;
+    flex: none;
+  }
+
+  .product-card.cart-card .actions,
+  .product-card.wishlist-card .actions {
+    width: 100%;
+    margin-left: 0 !important;
+    align-items: stretch;
+    align-self: auto;
+  }
+
+  .product-card.cart-card .cart-qty {
+    justify-content: center;
+  }
+}
+
+/* PRODUCT CARD — SIZE DROPDOWN (CLEAN + ON-BRAND) */
+.card-size-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0 12px;
+}
+
+.card-size-label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+/* PRODUCT CARD — SIZE DROPDOWN (ARROW ADJUSTED) */
+.card-size-select {
+  flex: 1;
+  padding: 9px 36px 9px 12px; /* extra right padding */
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background-color: var(--card);
+  color: var(--text);
+  outline: none;
+  cursor: pointer;
+
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  /* custom arrow positioning */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23660b05' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center; /* ← arrow moved LEFT */
+}
+
+.card-size-select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(102, 11, 5, 0.12);
+}
+
+.item-size {
+  margin-top: 6px;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.card-mid {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}/* ===============================
+   AUTH PAGES
+================================ */
+
+#login-page,
+#register-page{
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:80vh;
+background:var(--bg);
+}
+
+.auth-box{
+width:100%;
+max-width:420px;
+background:#fff;
+padding:36px;
+border-radius:16px;
+box-shadow:0 12px 40px rgba(0,0,0,0.08);
+}
+
+.auth-box h2{
+text-align:center;
+margin-bottom:6px;
+}
+
+.auth-sub{
+text-align:center;
+font-size:14px;
+color:var(--text-muted);
+margin-bottom:22px;
+}
+
+.auth-form{
+display:flex;
+flex-direction:column;
+gap:14px;
+}
+
+.auth-form label{
+font-size:13px;
+color:var(--text-muted);
+}
+
+.auth-form input{
+width:100%;
+padding:12px;
+border-radius:8px;
+border:1px solid var(--border);
+font-size:14px;
+}
+
+.auth-form input:focus{
+outline:none;
+border-color:var(--primary);
+box-shadow:0 0 0 3px rgba(102,11,5,0.1);
+}
+
+.auth-extra{
+display:flex;
+justify-content:space-between;
+font-size:13px;
+margin-top:4px;
+}
+
+.auth-extra label{
+display:flex;
+align-items:center;
+gap:6px;
+}
+
+.auth-form button{
+margin-top:10px;
+padding:12px;
+font-size:15px;
+}
+
+.auth-switch{
+text-align:center;
+margin-top:16px;
+font-size:14px;
+}
+
+.auth-error{
+text-align:center;
+color:#c0392b;
+margin-top:10px;
+font-size:14px;
+}
