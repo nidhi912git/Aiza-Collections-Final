@@ -61,7 +61,8 @@ src="/aiza-collections-final/assets/<?= $p['image_path'] ?>">
 
 <div class="list-qty" onclick="event.stopPropagation();">
 
-<form method="post">
+<form method="post" action="list-handler.php"
+onsubmit="event.preventDefault(); confirmDecrease(<?= $qty ?>, this);">
 <input type="hidden" name="product_code" value="<?= $code ?>">
 <input type="hidden" name="size" value="<?= $size ?>">
 <input type="hidden" name="action" value="decrease">
@@ -70,7 +71,7 @@ src="/aiza-collections-final/assets/<?= $p['image_path'] ?>">
 
 <span class="qty-value"><?= $qty ?></span>
 
-<form method="post">
+<form method="post" action="list-handler.php">
 <input type="hidden" name="product_code" value="<?= $code ?>">
 <input type="hidden" name="size" value="<?= $size ?>">
 <input type="hidden" name="action" value="add">
@@ -117,6 +118,12 @@ onsubmit="event.preventDefault(); confirmAction('Move this item to wishlist?', t
 Total ₹<?= $total ?>
 </h3>
 
+<div style="text-align:center;margin-top:20px;">
+<a href="/aiza-collections-final/pages/checkout.php" class="btn">
+Proceed to Checkout
+</a>
+</div>
+
 <?php endif; ?>
 
 </section>
@@ -128,5 +135,17 @@ showPopup("<?= $_SESSION['popup'] ?>");
 </script>
 <?php unset($_SESSION['popup']); endif; ?>
 <div class="popup"></div>
+
+<script>
+function confirmDecrease(qty, form){
+
+if(qty == 1){
+confirmAction("This will remove the product from your cart. Continue?", form);
+}else{
+form.submit();
+}
+
+}
+</script>
 
 <?php include "../includes/footer.php"; ?>

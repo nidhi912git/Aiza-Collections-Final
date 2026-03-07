@@ -16,6 +16,31 @@ echo "added_cart";
 exit;
 }
 
+/* ADD QUANTITY INCREASE */
+if($action==='add'){
+$_SESSION['cart'][$key]=($_SESSION['cart'][$key]??0)+1;
+header("Location: cart.php");
+exit;
+}
+
+/* ADD QUANTITY DECREASE */
+if($action==='decrease'){
+
+if(isset($_SESSION['cart'][$key])){
+
+$_SESSION['cart'][$key]--;
+
+if($_SESSION['cart'][$key] <= 0){
+unset($_SESSION['cart'][$key]);
+$_SESSION['popup']="Item removed from cart";
+}
+
+}
+
+header("Location: cart.php");
+exit;
+}
+
 /* ADD TO WISHLIST */
 if($action==='add_wishlist'){
 $_SESSION['wishlist'][$key]=true;

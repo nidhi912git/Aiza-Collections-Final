@@ -75,6 +75,10 @@ Cart (<?= $cartCount ?>)
 Wishlist
 </a>
 
+<a href="/aiza-collections-final/pages/orders.php">
+My Orders
+</a>
+
 <?php if (is_admin()): ?>
 
 <a href="/aiza-collections-final/pages/admin/products.php">
