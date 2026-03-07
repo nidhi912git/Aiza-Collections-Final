@@ -35,7 +35,7 @@ Add Product
 
 <div class="admin-card">
 
-<img src="/aiza-collections/assets/<?= $p['image_path'] ?>">
+<img src="/aiza-collections-final/assets/<?= $p['image_path'] ?>">
 
 <h4><?= htmlspecialchars($p['product_name']) ?></h4>
 

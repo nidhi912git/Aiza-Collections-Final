@@ -4,10 +4,10 @@
     <div class="footer-col contact-info">
       <h3>Contact Us</h3>
 
-      <p><img src="/aiza-collections/assets/icons/phone.png" width="16"> +91 86182 60912</p>
-      <p><img src="/aiza-collections/assets/icons/phone.png" width="16"> +91 63618 47110</p>
-      <p><img src="/aiza-collections/assets/icons/email.png" width="16"> aizacollections14@gmail.com</p>
-      <p><img src="/aiza-collections/assets/icons/location.png" width="16"> Bengaluru, India</p>
+      <p><img src="/aiza-collections-final/assets/icons/phone.png" width="16"> +91 86182 60912</p>
+      <p><img src="/aiza-collections-final/assets/icons/phone.png" width="16"> +91 63618 47110</p>
+      <p><img src="/aiza-collections-final/assets/icons/email.png" width="16"> aizacollections14@gmail.com</p>
+      <p><img src="/aiza-collections-final/assets/icons/location.png" width="16"> Bengaluru, India</p>
     </div>
 
     <div class="footer-col footer-brand">
@@ -25,14 +25,14 @@
   <div class="social-item">
     <span>Follow us on Instagram</span>
     <a href="https://www.instagram.com/aiza_collections18/?hl=en" target="_blank">
-      <img src="/aiza-collections/assets/icons/instagram.png" alt="Instagram">
+      <img src="/aiza-collections-final/assets/icons/instagram.png" alt="Instagram">
     </a>
   </div>
 
   <div class="social-item">
     <span>Chat with us on WhatsApp</span>
     <a href="https://wa.me/918618260912" target="_blank">
-      <img src="/aiza-collections/assets/icons/whatsapp.jpeg" alt="WhatsApp">
+      <img src="/aiza-collections-final/assets/icons/whatsapp.jpeg" alt="WhatsApp">
     </a>
   </div>
 

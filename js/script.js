@@ -7,7 +7,7 @@ function showPopup(msg){
 }
 
 function viewProduct(code){
-  window.location.href="/aiza-collections/pages/product.php?code="+code;
+  window.location.href="/aiza-collections-final/pages/product.php?code="+code;
 }
 
 function addToCart(e,btn){
@@ -34,7 +34,7 @@ const code = btn.dataset.code;
 const size =
 document.querySelector(".sizes button.selected")?.textContent || "M";
 
-fetch("/aiza-collections/pages/list-handler.php",{
+fetch("/aiza-collections-final/pages/list-handler.php",{
 method:"POST",
 headers:{'Content-Type':'application/x-www-form-urlencoded'},
 body:`product_code=${code}&size=${size}&action=add_cart`
@@ -49,7 +49,7 @@ const code = btn.dataset.code;
 const size =
 document.querySelector(".sizes button.selected")?.textContent || "M";
 
-fetch("/aiza-collections/pages/list-handler.php",{
+fetch("/aiza-collections-final/pages/list-handler.php",{
 method:"POST",
 headers:{'Content-Type':'application/x-www-form-urlencoded'},
 body:`product_code=${code}&size=${size}&action=add_wishlist`
@@ -118,7 +118,7 @@ btn.onclick=()=>{
 
 const size = btn.dataset.size;
 
-fetch("/aiza-collections/pages/list-handler.php",{
+fetch("/aiza-collections-final/pages/list-handler.php",{
 method:"POST",
 headers:{'Content-Type':'application/x-www-form-urlencoded'},
 body:`product_code=${code}&size=${size}&action=${action==="cart"?"add_cart":"add_wishlist"}`

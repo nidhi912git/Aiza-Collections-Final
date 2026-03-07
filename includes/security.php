@@ -23,7 +23,7 @@ function is_logged_in() {
 
 function require_login() {
   if (!is_logged_in()) {
-    header("Location: /aiza-collections/pages/login.php");
+    header("Location: /aiza-collections-final/pages/login.php");
     exit;
   }
 }
@@ -34,7 +34,7 @@ function is_admin() {
 
 function require_admin(){
 if(!is_admin()){
-header("Location: /aiza-collections/pages/home.php");
+header("Location: /aiza-collections-final/pages/home.php");
 exit;
 }
 }
