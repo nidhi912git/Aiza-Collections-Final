@@ -13,7 +13,7 @@ $search = $_GET['q'] ?? '';
       Handpicked Indian traditional wear crafted for every occasion.
       Tradition meets modern elegance.
     </p>
-    <a href="/aiza-collections/pages/catalog.php" class="btn">Shop Now</a>
+    <a href="/aiza-collections-final/pages/catalog.php" class="btn">Shop Now</a>
   </div>
 </section>
 
@@ -58,7 +58,7 @@ if (!$result) {
 <div class="product-card"
      onclick="viewProduct('<?= $row['product_code'] ?>')">
 
-<img src="/aiza-collections/assets/<?= htmlspecialchars($row['image_path']) ?>"
+<img src="/aiza-collections-final/assets/<?= htmlspecialchars($row['image_path']) ?>"
      alt="<?= htmlspecialchars($row['product_name']) ?>">
 
 <h4><?= htmlspecialchars($row['product_name']) ?></h4>

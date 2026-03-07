@@ -11,7 +11,7 @@ $wishlist=$_SESSION['wishlist']??[];
 
 <p style="text-align:center;margin-bottom:20px;">
 Explore more styles you’ll love
-<a href="/aiza-collections/pages/catalog.php" class="btn" style="margin-left:10px;">
+<a href="/aiza-collections-final/pages/catalog.php" class="btn" style="margin-left:10px;">
 Go to Catalog
 </a>
 </p>
@@ -39,10 +39,10 @@ $p=mysqli_fetch_assoc($q);
 ?>
 
 <div class="list-card"
-onclick="window.location.href='/aiza-collections/pages/product.php?code=<?= $code ?>'">
+onclick="window.location.href='/aiza-collections-final/pages/product.php?code=<?= $code ?>'">
 
 <img class="list-img"
-src="/aiza-collections/assets/<?= $p['image_path'] ?>">
+src="/aiza-collections-final/assets/<?= $p['image_path'] ?>">
 
 <div class="list-info">
 

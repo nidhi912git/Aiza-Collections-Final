@@ -23,7 +23,7 @@ WHERE product_code='$code'
 
 $images = [];
 while ($i = mysqli_fetch_assoc($iq)) {
-  $images[] = "/aiza-collections/assets/" . $i['image_path'];
+  $images[] = "/aiza-collections-final/assets/" . $i['image_path'];
 }
 
 /* SIMILAR PRODUCTS */
@@ -215,7 +215,7 @@ onclick="addCurrentProductToWishlist(this)">
 <div class="product-card"
 onclick="viewProduct('<?= $s['product_code'] ?>')">
 
-<img src="/aiza-collections/assets/<?= $s['image_path'] ?>">
+<img src="/aiza-collections-final/assets/<?= $s['image_path'] ?>">
 
 <h4><?= $s['product_name'] ?></h4>
 

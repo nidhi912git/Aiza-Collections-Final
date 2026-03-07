@@ -74,7 +74,7 @@ $result = mysqli_query($conn, $sql);
   <div class="product-card"
        onclick="viewProduct('<?= $row['product_code'] ?>')">
 
-    <img src="/aiza-collections/assets/<?= $row['image_path'] ?>"
+    <img src="/aiza-collections-final/assets/<?= $row['image_path'] ?>"
          alt="<?= htmlspecialchars($row['product_name']) ?>">
 
     <h4><?= htmlspecialchars($row['product_name']) ?></h4>

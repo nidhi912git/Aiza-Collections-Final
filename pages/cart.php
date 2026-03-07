@@ -14,7 +14,7 @@ $total=0;
 
 <p class="cart-subtext" style="text-align:center;margin-bottom:20px;">
 Looking for more styles?
-<a href="/aiza-collections/pages/catalog.php" class="btn" style="margin-left:10px;">
+<a href="/aiza-collections-final/pages/catalog.php" class="btn" style="margin-left:10px;">
 Browse Catalog
 </a>
 </p>
@@ -45,10 +45,10 @@ $total+=$sub;
 ?>
 
 <div class="list-card"
-onclick="window.location.href='/aiza-collections/pages/product.php?code=<?= $code ?>'">
+onclick="window.location.href='/aiza-collections-final/pages/product.php?code=<?= $code ?>'">
 
 <img class="list-img"
-src="/aiza-collections/assets/<?= $p['image_path'] ?>">
+src="/aiza-collections-final/assets/<?= $p['image_path'] ?>">
 
 <div class="list-info">
 
