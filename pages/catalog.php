@@ -3,6 +3,7 @@ $page_id = "catalog-page";
 include "../includes/config.php";
 include "../includes/header.php";
 
+
 $search   = $_GET['q'] ?? '';
 $category = $_GET['category'] ?? 'all';
 $price    = $_GET['price'] ?? 'default';
@@ -45,7 +46,7 @@ $result = mysqli_query($conn, $sql);
 <section>
 <h2 class="section-title">Our Collection</h2>
 
-<form class="catalog-filters" method="get">
+<form class="catalog-filters" method="get" action="">
   <select name="category" onchange="this.form.submit()">
     <option value="all">All Categories</option>
     <option value="1" <?= $category==1?'selected':'' ?>>Anarkali Set</option>
@@ -55,6 +56,7 @@ $result = mysqli_query($conn, $sql);
     <option value="5" <?= $category==5?'selected':'' ?>>Straight Kurta Set</option>
     <option value="6" <?= $category==6?'selected':'' ?>>Sharara Set</option>
   </select>
+  <input type="hidden" name="q" value="<?= htmlspecialchars($search) ?>">
 
   <select name="price" onchange="this.form.submit()">
     <option value="default">Sort by Price</option>
@@ -86,7 +88,8 @@ $result = mysqli_query($conn, $sql);
     <div class="actions horizontal-actions"
          onclick="event.stopPropagation();">
 
-      <button class="add-cart-btn"
+     <button class="add-cart-btn"
+    <?= $row['stock_qty']<=0 ? 'disabled' : '' ?>
               data-code="<?= $row['product_code'] ?>"
               onclick="addToCart(event,this)">
         Add to Cart

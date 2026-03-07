@@ -14,32 +14,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $pass  = $_POST['password'];
 
   if (!$name || !$email || strlen($pass) < 6) {
-    $error = "Invalid input";
-  } else {
 
-    $hash = password_hash($pass, PASSWORD_DEFAULT);
+  $error = "Password must be at least 6 characters";
 
-    $stmt = mysqli_prepare($conn,
-      "INSERT INTO users (name,email,password_hash) VALUES (?,?,?)"
-    );
-
-    mysqli_stmt_bind_param($stmt,"sss",$name,$email,$hash);
-
-    if (!mysqli_stmt_execute($stmt)) {
-      $error="Email already exists";
-    } else {
-      header("Location: login.php");
-      exit;
-    }
-
-  }
 }
-if($_POST['password'] !== $_POST['confirm_password']){
-$error="Passwords do not match";
+elseif ($_POST['password'] !== $_POST['confirm_password']) {
+
+  $error = "Passwords do not match";
+
+}
+else {
+
+  $hash = password_hash($pass, PASSWORD_DEFAULT);
+
+  $stmt = mysqli_prepare($conn,
+    "INSERT INTO users (name,email,password_hash) VALUES (?,?,?)"
+  );
+
+  mysqli_stmt_bind_param($stmt,"sss",$name,$email,$hash);
+
+  if (!mysqli_stmt_execute($stmt)) {
+    $error = "Email already exists";
+  }
+  else {
+    header("Location: login.php");
+    exit;
+  }
+
+}
 }
 ?>
 
-<section>
+
 
 <div class="auth-box">
 
@@ -60,10 +66,19 @@ Register to save favourites and manage your cart
 <input type="email" name="email" required>
 
 <label>Password</label>
-<input type="password" name="password" required>
+<p class="password-hint">
+Minimum 6 characters. Use a mix of letters and numbers for stronger security.
+</p>
+<div class="password-field">
+<input type="password" name="password" id="regPassword" required>
+<span class="toggle-password" onclick="togglePassword('regPassword', this)">👁</span>
+</div>
 
 <label>Confirm Password</label>
-<input type="password" name="confirm_password" required>
+<div class="password-field">
+<input type="password" name="confirm_password" id="regConfirmPassword" required>
+<span class="toggle-password" onclick="togglePassword('regConfirmPassword', this)">👁</span>
+</div>
 
 <button class="btn">Create Account</button>
 
@@ -79,7 +94,5 @@ Already registered?
 </p>
 
 </div>
-
-</section>
 
 <?php include "../includes/footer.php"; ?>

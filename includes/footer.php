@@ -19,11 +19,24 @@
     </div>
 
     <div class="footer-col footer-social">
-      <h3>Follow us on Instagram</h3>
-      <a href="https://www.instagram.com/aiza_collections18/?hl=en" target="_blank">
-        <img src="/aiza-collections/assets/icons/instagram.png" width="36" alt="Instagram">
-      </a>
-    </div>
+
+  <h3>Reach Out</h3>
+
+  <div class="social-item">
+    <span>Follow us on Instagram</span>
+    <a href="https://www.instagram.com/aiza_collections18/?hl=en" target="_blank">
+      <img src="/aiza-collections/assets/icons/instagram.png" alt="Instagram">
+    </a>
+  </div>
+
+  <div class="social-item">
+    <span>Chat with us on WhatsApp</span>
+    <a href="https://wa.me/918618260912" target="_blank">
+      <img src="/aiza-collections/assets/icons/whatsapp.jpeg" alt="WhatsApp">
+    </a>
+  </div>
+
+</div>
 
   </div>
 
@@ -31,6 +44,7 @@
   <p class="footer-copy">
     &copy; 2025 Aiza Collections | All Rights Reserved
   </p>
+  <div class="popup"></div>
 </footer>
 
 </body>

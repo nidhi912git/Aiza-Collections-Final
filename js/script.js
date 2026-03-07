@@ -11,50 +11,51 @@ function viewProduct(code){
 }
 
 function addToCart(e,btn){
-  e.preventDefault();
-  e.stopPropagation();
-  const code=btn.dataset.code;
-  fetch("/aiza-collections/pages/cart.php",{
-    method:"POST",
-    headers:{'Content-Type':'application/x-www-form-urlencoded'},
-    body:`product_code=${code}&action=add`
-  }).then(()=>showPopup("✔ Added to cart"));
+e.preventDefault();
+e.stopPropagation();
+
+const code = btn.dataset.code;
+
+askSize("cart", code);
 }
 
 function addToWishlist(e,btn){
-  e.preventDefault();
-  e.stopPropagation();
-  const code=btn.dataset.code;
-  fetch("/aiza-collections/pages/wishlist.php",{
-    method:"POST",
-    headers:{'Content-Type':'application/x-www-form-urlencoded'},
-    body:`product_code=${code}`
-  }).then(()=>showPopup("♡ Added to wishlist"));
-}
+e.preventDefault();
+e.stopPropagation();
 
-function increaseQty(){
-  const q=document.getElementById("qty");
-  q.textContent=parseInt(q.textContent)+1;
-}
-function decreaseQty(){
-  const q=document.getElementById("qty");
-  if(parseInt(q.textContent)>1) q.textContent=parseInt(q.textContent)-1;
-}
+const code = btn.dataset.code;
 
+askSize("wishlist", code);
+}
 function addCurrentProductToCart(btn){
-  fetch("/aiza-collections/pages/cart.php",{
-    method:"POST",
-    headers:{'Content-Type':'application/x-www-form-urlencoded'},
-    body:`product_code=${btn.dataset.code}&action=add`
-  }).then(()=>showPopup("✔ Added to cart"));
-}
 
+const code = btn.dataset.code;
+
+const size =
+document.querySelector(".sizes button.selected")?.textContent || "M";
+
+fetch("/aiza-collections/pages/list-handler.php",{
+method:"POST",
+headers:{'Content-Type':'application/x-www-form-urlencoded'},
+body:`product_code=${code}&size=${size}&action=add_cart`
+})
+.then(()=>showPopup("✔ Added to cart"));
+
+}
 function addCurrentProductToWishlist(btn){
-  fetch("/aiza-collections/pages/wishlist.php",{
-    method:"POST",
-    headers:{'Content-Type':'application/x-www-form-urlencoded'},
-    body:`product_code=${btn.dataset.code}`
-  }).then(()=>showPopup("♡ Added to wishlist"));
+
+const code = btn.dataset.code;
+
+const size =
+document.querySelector(".sizes button.selected")?.textContent || "M";
+
+fetch("/aiza-collections/pages/list-handler.php",{
+method:"POST",
+headers:{'Content-Type':'application/x-www-form-urlencoded'},
+body:`product_code=${code}&size=${size}&action=add_wishlist`
+})
+.then(()=>showPopup("♡ Added to wishlist"));
+
 }
 
 function setMainImage(src){
@@ -79,4 +80,139 @@ document.body.appendChild(box);
 setTimeout(()=>{
 box.remove();
 },2000);
+}
+function askSize(action, code){
+
+const overlay=document.createElement("div");
+overlay.className="confirm-overlay";
+
+overlay.innerHTML=`
+<div class="confirm-box">
+
+<h3>Select Size</h3>
+
+<div class="size-options">
+<button data-size="S">S</button>
+<button data-size="M">M</button>
+<button data-size="L">L</button>
+<button data-size="XL">XL</button>
+<button data-size="XXL">XXL</button>
+</div>
+
+<div class="confirm-actions">
+<button class="confirm-cancel">Cancel</button>
+</div>
+
+</div>
+`;
+
+document.body.appendChild(overlay);
+
+overlay.querySelector(".confirm-cancel").onclick=()=>{
+overlay.remove();
+};
+
+overlay.querySelectorAll(".size-options button").forEach(btn=>{
+
+btn.onclick=()=>{
+
+const size = btn.dataset.size;
+
+fetch("/aiza-collections/pages/list-handler.php",{
+method:"POST",
+headers:{'Content-Type':'application/x-www-form-urlencoded'},
+body:`product_code=${code}&size=${size}&action=${action==="cart"?"add_cart":"add_wishlist"}`
+})
+.then(()=>{
+
+showPopup(
+action==="cart"
+? "✔ Added to cart"
+: "♡ Added to wishlist"
+);
+
+overlay.remove();
+
+});
+
+};
+
+});
+
+}
+document.addEventListener("DOMContentLoaded",function(){
+
+document.querySelectorAll(".sizes button").forEach(btn=>{
+btn.addEventListener("click",function(){
+
+document.querySelectorAll(".sizes button")
+.forEach(b=>b.classList.remove("selected"));
+
+this.classList.add("selected");
+
+});
+
+});
+
+});
+
+function confirmAction(message, form) {
+
+const overlay = document.createElement("div");
+overlay.className = "confirm-overlay";
+
+overlay.innerHTML = `
+<div class="confirm-box">
+<p>${message}</p>
+
+<div class="confirm-actions">
+<button type="button" class="btn confirm-yes">Yes</button>
+<button type="button" class="confirm-cancel">No</button>
+</div>
+
+</div>
+`;
+
+document.body.appendChild(overlay);
+
+overlay.querySelector(".confirm-cancel").onclick = () => {
+overlay.remove();
+};
+
+overlay.querySelector(".confirm-yes").onclick = () => {
+overlay.remove();
+form.submit();   // THIS is what actually submits the form
+};
+
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+
+const icon = document.getElementById("accountIcon");
+const menu = document.getElementById("accountMenu");
+
+if (!icon || !menu) return;
+
+icon.addEventListener("click", function (e) {
+    e.stopPropagation();
+    menu.classList.toggle("active");
+});
+
+document.addEventListener("click", function () {
+    menu.classList.remove("active");
+});
+
+});
+function togglePassword(id, icon){
+
+const input = document.getElementById(id);
+
+if(input.type === "password"){
+input.type = "text";
+icon.textContent = "🙈";
+}
+else{
+input.type = "password";
+icon.textContent = "👁";
+}
 }

@@ -18,49 +18,81 @@ $search = $_GET['q'] ?? '';
 </section>
 
 <section>
-  <h2 class="section-title">Featured Products</h2>
+<h2 class="section-title">Featured Products</h2>
 
-  <?php
-  $sql = "
-    SELECT p.product_code, p.product_name, p.price,
-           MIN(i.image_path) AS image_path
-    FROM products p
-    LEFT JOIN product_images i ON p.product_code = i.product_code
-    WHERE p.is_featured = 1
-      AND p.product_name LIKE '%$search%'
-    GROUP BY p.product_code
-    LIMIT 15
-  ";
+<?php
+$searchSafe = mysqli_real_escape_string($conn,$search);
 
-  $result = mysqli_query($conn, $sql);
+$where = "p.is_featured = 1";
 
-  if (!$result) {
-      echo '<p style="color:red;">DB Error: ' . mysqli_error($conn) . '</p>';
-  }
-  ?>
+if($searchSafe != ''){
+$where .= " AND p.product_name LIKE '%$searchSafe%'";
+}
 
-  <div class="grid grid-3" id="product-grid">
-    <?php while ($row = mysqli_fetch_assoc($result)): ?>
-      <div class="product-card"
-           data-code="<?= $row['product_code'] ?>">
+$sql = "
+SELECT
+p.product_code,
+p.product_name,
+p.price,
+p.stock_qty,
+MIN(i.image_path) AS image_path
+FROM products p
+LEFT JOIN product_images i
+ON p.product_code = i.product_code
+WHERE $where
+GROUP BY p.product_code
+LIMIT 15
+";
 
-        <img src="/aiza-collections/assets/<?= htmlspecialchars($row['image_path']) ?>"
+$result = mysqli_query($conn, $sql);
+
+if (!$result) {
+    echo '<p style="color:red;">DB Error: ' . mysqli_error($conn) . '</p>';
+}
+?>
+
+<div class="grid grid-3" id="product-grid">
+
+<?php while ($row = mysqli_fetch_assoc($result)): ?>
+
+<div class="product-card"
+     onclick="viewProduct('<?= $row['product_code'] ?>')">
+
+<img src="/aiza-collections/assets/<?= htmlspecialchars($row['image_path']) ?>"
      alt="<?= htmlspecialchars($row['product_name']) ?>">
-     <p style="font-size:12px;color:red;">
-  <?= $row['image_path'] ?>
+
+<h4><?= htmlspecialchars($row['product_name']) ?></h4>
+
+<p class="price">₹<?= number_format($row['price']) ?></p>
+
+<p class="stock">
+<?= $row['stock_qty'] > 0 ? "In Stock" : "Out of Stock" ?>
 </p>
 
-        <h4><?= htmlspecialchars($row['product_name']) ?></h4>
-        <p>₹<?= $row['price'] ?></p>
+<div class="actions horizontal-actions"
+     onclick="event.stopPropagation();">
 
-        <div class="actions horizontal-actions">
-          <button class="add-cart-btn">Add to Cart</button>
-          <button class="wishlist-btn">♡</button>
-        </div>
+<button class="add-cart-btn"
+        data-code="<?= $row['product_code'] ?>"
+        onclick="addToCart(event,this)"
+        <?= $row['stock_qty'] <= 0 ? "disabled" : "" ?>>
+Add to Cart
+</button>
 
-      </div>
-    <?php endwhile; ?>
-  </div>
+<button class="wishlist-btn"
+        data-code="<?= $row['product_code'] ?>"
+        onclick="addToWishlist(event,this)"
+        <?= $row['stock_qty'] <= 0 ? "disabled" : "" ?>>
+♡
+</button>
+
+</div>
+
+</div>
+
+<?php endwhile; ?>
+
+</div>
 </section>
 
 <div class="popup"></div>

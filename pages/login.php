@@ -29,6 +29,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       $_SESSION['user']=$u;
 
+if($u['role'] === 'admin'){
+header("Location: admin/products.php");
+exit;
+}
+
+header("Location: home.php");
+exit;
+      if(isset($_POST['remember'])){
+
+$token = bin2hex(random_bytes(32));
+
+setcookie(
+"remember_token",
+$token,
+time() + (86400 * 30), // 30 days
+"/"
+);
+
+$_SESSION['remember_token'] = $token;
+
+}
+
       header("Location: home.php");
       exit;
 
@@ -40,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<section>
+
 
 <div class="auth-box">
 
@@ -55,7 +77,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <input type="email" name="email" required>
 
 <label>Password</label>
-<input type="password" name="password" required>
+<div class="password-field">
+<input type="password" name="password" id="loginPassword" required>
+<span class="toggle-password" onclick="togglePassword('loginPassword', this)">👁</span>
+</div>
 
 <div class="auth-extra">
 
@@ -83,6 +108,5 @@ Don't have an account?
 
 </div>
 
-</section>
 
 <?php include "../includes/footer.php"; ?>

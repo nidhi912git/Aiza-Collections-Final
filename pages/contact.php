@@ -127,7 +127,7 @@ include "../includes/header.php";
   <h2 class="section-title">Get in Touch</h2>
 
   <form class="contact-form"
-        onsubmit="alert('Thank you for reaching out!'); return false;">
+        onsubmit="showPopup('Thank you for the message'); this.reset(); return false;">
 
     <div class="form-row">
       <input type="text" placeholder="First Name" required>

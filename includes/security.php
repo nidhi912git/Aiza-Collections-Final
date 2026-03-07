@@ -32,9 +32,9 @@ function is_admin() {
   return is_logged_in() && $_SESSION['user']['role'] === 'admin';
 }
 
-function require_admin() {
-  if (!is_admin()) {
-    http_response_code(403);
-    die("Access denied");
-  }
+function require_admin(){
+if(!is_admin()){
+header("Location: /aiza-collections/pages/home.php");
+exit;
+}
 }

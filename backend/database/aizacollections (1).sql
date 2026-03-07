@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 05, 2026 at 03:25 PM
+-- Generation Time: Mar 07, 2026 at 04:07 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -48,7 +48,7 @@ INSERT INTO `products` (`product_id`, `category_num`, `product_code`, `product_n
 (47, 5, '1', 'Black Heritage Handblock Kurta Set with Dupatta', 'This kurta set features a black base colour accented with off-white and olive floral handblock prints in an all-over booti pattern. Designed with a comfortable straight-fit silhouette, it comes paired with matching bottoms and a coordinated printed dupatta. A versatile ethnic ensemble suitable for everyday wear, office styling, and casual festive occasions.', 2000.00, 'Black', 10, 0, 1),
 (56, 5, '10', 'Rose Garden Floral Printed Kurta Set', 'This kurta set features a soft ivory base colour highlighted with bright pink and leafy green floral handblock prints arranged in a classic all-over pattern. Paired with matching printed bottoms and a coordinated dupatta finished with bold pink borders and floral detailing, the ensemble offers a vibrant yet graceful ethnic look, making it perfect for daytime wear, festive gatherings, and cheerful summer occasions.', 1500.00, 'White', 10, 0, 1),
 (57, 5, '11', 'Wine Booti Handblock Kurta Set', 'This kurta set features a deep wine base colour highlighted with off-white booti handblock prints arranged in a traditional all-over pattern. Paired with matching printed bottoms and a coordinated dupatta detailed with intricate motifs and contrasting border accents, the ensemble offers a rich, elegant ethnic look that is perfect for workwear, festive gatherings, and evening occasions.', 1500.00, 'Deep maroon', 10, 0, 1),
-(58, 5, '12', 'Rani Pink Floral Ethnic Kurta Set', 'This kurta set features a vibrant hot pink base colour highlighted with off-white floral handblock prints arranged in a bold all-over pattern. Paired with matching striped bottoms and a coordinated dupatta detailed with diagonal stripe accents and floral border detailing, the ensemble offers a lively yet graceful ethnic look, making it perfect for festive occasions, daytime celebrations, and cheerful summer wear.', 1500.00, 'Rani pink', 10, 0, 1),
+(58, 5, '12', 'Rani Pink Floral Ethnic Kurta Set', 'This kurta set features a vibrant hot pink base colour highlighted with off-white floral handblock prints arranged in a bold all-over pattern. Paired with matching striped bottoms and a coordinated dupatta detailed with diagonal stripe accents and floral border detailing, the ensemble offers a lively yet graceful ethnic look, making it perfect for festive occasions, daytime celebrations, and cheerful summer wear.', 1500.00, 'Rani pink', 10, 1, 1),
 (59, 5, '13', 'Beige Maroon Booti Handblock Kurta Set', 'This Angrakha-style V-neck kurta set features a soft beige base colour highlighted with deep maroon booti handblock prints arranged in a classic all-over pattern. Paired with matching printed bottoms and a coordinated dupatta detailed with intricate motifs and rich border accents, the ensemble offers a warm, elegant ethnic look, making it ideal for everyday wear, festive gatherings, and traditional occasions.', 1500.00, 'Baige', 10, 0, 1),
 (60, 5, '14', 'Beige Maroon Paisley Handblock Kurta Set', 'This kurta set features a soft beige base colour highlighted with deep maroon paisley handblock prints arranged in a traditional all-over pattern. Paired with matching printed bottoms and a coordinated dupatta showcasing geometric motifs and rich maroon border detailing, the ensemble offers a warm, classic ethnic look, making it suitable for everyday wear, cultural gatherings, and festive occasions.', 1500.00, 'Baige', 10, 0, 1),
 (61, 5, '15', 'Paisley Beige Kurta Set with Dupatta', 'This kurta set features a soft beige base colour highlighted with big deep maroon paisley handblock prints accented by fine dotted detailing. Paired with matching printed bottoms and a coordinated dupatta showcasing bold paisley motifs and rich border accents, the ensemble offers a refined and traditional ethnic look, making it ideal for everyday wear, cultural gatherings, and light festive occasions.', 1500.00, 'Baige', 10, 0, 1),
@@ -280,10 +280,12 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `name`, `email`, `password_hash`, `role`, `created_at`) VALUES
-(1, 'Nidhi', 'nidhibalaji219@gmail.com', 'aizasjuadmin', 'admin', '2026-03-04 17:58:53'),
-(2, 'Anitha', 'anithapatel1203@gmail.com', 'aizasjuadmin', 'admin', '2026-03-04 17:58:53'),
-(3, 'Aditi', 'adititupsakri@gmail.com', 'aizasjuadmin', 'admin', '2026-03-04 17:58:53'),
-(4, 'Aashika', 'aashikamenon2004@gmail.com', 'aizasjuadmin', 'admin', '2026-03-04 17:58:53');
+(1, 'Nidhi', 'nidhibalaji219@gmail.com', '$2y$10$I3olpnceg/KKiPlMSOSpz.6IoYdUdc6zjZfrpQyZUtGKJq7It4j/q', 'admin', '2026-03-04 17:58:53'),
+(2, 'Anitha', 'anithapatel1203@gmail.com', '$2y$10$I3olpnceg/KKiPlMSOSpz.6IoYdUdc6zjZfrpQyZUtGKJq7It4j/q', 'admin', '2026-03-04 17:58:53'),
+(3, 'Aditi', 'adititupsakri@gmail.com', '$2y$10$I3olpnceg/KKiPlMSOSpz.6IoYdUdc6zjZfrpQyZUtGKJq7It4j/q', 'admin', '2026-03-04 17:58:53'),
+(4, 'Aashika', 'aashikamenon2004@gmail.com', '$2y$10$I3olpnceg/KKiPlMSOSpz.6IoYdUdc6zjZfrpQyZUtGKJq7It4j/q', 'admin', '2026-03-04 17:58:53'),
+(6, 'Nidhi', 'nidhibalaji912@gmail.com', '$2y$10$8fI8WuQkle9T72gdarV4hOabGMgSwbtae744cey7U6FhD58sLk7aC', 'user', '2026-03-06 16:49:30'),
+(7, 'Aashika Menon', 'aashikasuresh61@gmail.com', '$2y$10$qYescft41fLTOtCtuLJyyuv/62Z5Bvst69Y5dTAo4KAOhYMlKMU0m', 'user', '2026-03-06 17:37:20');
 
 -- --------------------------------------------------------
 
@@ -378,7 +380,7 @@ ALTER TABLE `product_images`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables
