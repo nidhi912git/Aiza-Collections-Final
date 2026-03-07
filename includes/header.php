@@ -10,6 +10,7 @@ include_once __DIR__ . "/security.php";
 <title>Aiza Collections</title>
 
 <link rel="stylesheet" href="/aiza-collections-final/css/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 <script src="/aiza-collections-final/js/script.js" defer></script>
 </head>
 <body id="<?= $page_id ?? '' ?>" class="<?= $page_id ?? '' ?> <?= strpos($page_id,'admin')===0?'admin-page':'' ?>">
@@ -20,6 +21,9 @@ include_once __DIR__ . "/security.php";
 <a href="/aiza-collections-final/pages/home.php">
 <img src="/aiza-collections-final/assets/logo.jpeg" class="logo" alt="Aiza Collections">
 </a>
+
+<!-- SHOP NAME -->
+<span class="shop-name">AIZA COLLECTIONS</span>
 
 <!-- SEARCH -->
 <form class="header-search" action="/aiza-collections-final/pages/catalog.php" method="get">
@@ -70,6 +74,7 @@ Cart (<?= $cartCount ?>)
 <a href="/aiza-collections-final/pages/wishlist.php">
 Wishlist
 </a>
+
 <?php if (is_admin()): ?>
 
 <a href="/aiza-collections-final/pages/admin/products.php">
