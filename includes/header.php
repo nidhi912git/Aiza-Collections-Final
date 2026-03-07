@@ -18,7 +18,7 @@ include_once __DIR__ . "/security.php";
 <header class="site-header">
 
 <!-- LOGO -->
-<a href="/aiza-collections-final/pages/home.php">
+<a href="#">
 <img src="/aiza-collections-final/assets/logo.jpeg" class="logo" alt="Aiza Collections">
 </a>
 
