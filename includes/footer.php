@@ -31,7 +31,7 @@
 
   <div class="social-item">
     <span>Chat with us on WhatsApp</span>
-    <a href="https://wa.me/918618260912" target="_blank">
+    <a href="https://wa.me/916361847110" target="_blank">
       <img src="/aiza-collections-final/assets/icons/whatsapp.jpeg" alt="WhatsApp">
     </a>
   </div>
