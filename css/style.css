@@ -3549,8 +3549,12 @@ body.admin-page footer {
   display: none;
 }
 
+.mobile-only {
+  display: none;
+}
+
 @media (max-width: 991px) {
-  /* 1. CRITICAL OVERFLOW FIXES */
+  /* 1. CRITICAL OVERFLOW & UTILITY FIXES */
   html, body {
     overflow-x: hidden !important;
     width: 100%;
@@ -3564,10 +3568,18 @@ body.admin-page footer {
     box-sizing: border-box !important;
   }
 
+  .desktop-only {
+    display: none !important;
+  }
+  
+  .mobile-only {
+    display: block;
+  }
+
   /* 2. Header & Navigation */
   header {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-items: center;
     justify-content: space-between;
     padding: 10px 15px;
@@ -3593,15 +3605,9 @@ body.admin-page footer {
     align-items: center;
   }
   
-  .account-menu {
-    order: 2;
-    margin-left: auto;
-    margin-right: 20px;
-  }
-  
   /* Hamburger Menu Toggle */
   .menu-toggle {
-    order: 3;
+    order: 2;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -3637,25 +3643,37 @@ body.admin-page footer {
     position: fixed;
     top: 0;
     left: 0; 
-    width: 80%;
-    max-width: 300px;
+    width: 85%;
+    max-width: 320px;
     height: 100vh;
     background: var(--card);
     box-shadow: 2px 0 15px rgba(0,0,0,0.2);
-    padding: 80px 20px 20px;
+    padding: 70px 0 20px; /* adjusted padding for inner scrolling */
     z-index: 2000;
-    transform: translateX(-105%); /* Better for mobile performance than left: -100% */
+    transform: translateX(-105%); 
     transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     overflow-y: auto;
+    overflow-x: hidden;
   }
   
   .main-nav.active {
     transform: translateX(0); /* Slide in */
   }
 
+  /* Inside Mobile Pane Items */
+  .mobile-search {
+    padding: 0 15px 15px 15px;
+  }
+  .mobile-search input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+  }
+
   .main-nav a {
     margin: 0;
-    padding: 15px 10px;
+    padding: 15px 20px;
     font-size: 1.15rem;
     font-weight: 500;
     color: var(--text);
@@ -3669,8 +3687,16 @@ body.admin-page footer {
     background: rgba(0,0,0,0.02);
   }
 
-  .main-nav a:last-child {
-    border-bottom: none;
+  .main-nav hr {
+    border: 0;
+    height: 6px;
+    background: #f1f1f1;
+    margin: 0;
+  }
+
+  /* Mobile Account Links specifically */
+  .mobile-account-links a {
+    font-size: 1.05rem; /* slightly smaller than main links */
   }
 
   /* Menu Overlay Backdrop */
@@ -3695,17 +3721,6 @@ body.admin-page footer {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
-  }
-
-  /* Search Bar */
-  .header-search {
-    order: 4;
-    width: 100%;
-    margin-top: 15px;
-  }
-  
-  .header-search input {
-    width: 100%;
   }
   
   /* 4. Layout Spacing Fixes */

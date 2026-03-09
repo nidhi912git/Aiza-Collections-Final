@@ -25,8 +25,8 @@ include_once __DIR__ . "/security.php";
 <!-- SHOP NAME -->
 <span class="shop-name">AIZA COLLECTIONS</span>
 
-<!-- SEARCH -->
-<form class="header-search" action="/aiza-collections-final/pages/catalog.php" method="get">
+<!-- SEARCH (DESKTOP) -->
+<form class="header-search desktop-only" action="/aiza-collections-final/pages/catalog.php" method="get">
 <input type="search" name="q" placeholder="Search products...">
 </form>
 
@@ -37,18 +37,51 @@ include_once __DIR__ . "/security.php";
 <span></span>
 </div>
 
-<!-- NAV LINKS -->
+<!-- NAV LINKS (SLIDE-IN PANE ON MOBILE) -->
 <nav class="main-nav" id="main-nav">
 
-<a href="/aiza-collections-final/pages/home.php">Home</a>
-<a href="/aiza-collections-final/pages/catalog.php">Catalog</a>
-<a href="/aiza-collections-final/pages/about.php">About</a>
-<a href="/aiza-collections-final/pages/contact.php">Contact</a>
+  <!-- SEARCH (MOBILE INSIDE PANE) -->
+  <form class="mobile-search mobile-only" action="/aiza-collections-final/pages/catalog.php" method="get">
+    <input type="search" name="q" placeholder="Search products...">
+  </form>
+
+  <a href="/aiza-collections-final/pages/home.php">Home</a>
+  <a href="/aiza-collections-final/pages/catalog.php">Catalog</a>
+  <a href="/aiza-collections-final/pages/about.php">About</a>
+  <a href="/aiza-collections-final/pages/contact.php">Contact</a>
+
+  <!-- ACCOUNT LINKS (MOBILE INSIDE PANE) -->
+  <div class="mobile-account-links mobile-only">
+    <hr>
+    <?php if (!is_logged_in()): ?>
+      <a href="/aiza-collections-final/pages/login.php">Login</a>
+      <a href="/aiza-collections-final/pages/register.php">Register</a>
+    <?php else: ?>
+      <span class="account-name-mobile" style="padding: 15px 10px; display:block; font-weight:bold;">
+        Hello, <?= htmlspecialchars($_SESSION['user']['name']) ?>
+      </span>
+      <?php
+      $cartCount = 0;
+      if(isset($_SESSION['cart'])){
+      foreach($_SESSION['cart'] as $qty){
+      $cartCount += $qty;
+      }
+      }
+      ?>
+      <a href="/aiza-collections-final/pages/cart.php">Cart (<?= $cartCount ?>)</a>
+      <a href="/aiza-collections-final/pages/wishlist.php">Wishlist</a>
+      <a href="/aiza-collections-final/pages/orders.php">My Orders</a>
+      <?php if (is_admin()): ?>
+        <a href="/aiza-collections-final/pages/admin/products.php">Admin Panel</a>
+      <?php endif; ?>
+      <a href="/aiza-collections-final/pages/logout.php" style="color:var(--primary);">Logout</a>
+    <?php endif; ?>
+  </div>
 
 </nav>
 
-<!-- ACCOUNT MENU -->
-<div class="account-menu" id="accountMenu">
+<!-- ACCOUNT MENU (DESKTOP) -->
+<div class="account-menu desktop-only" id="accountMenu">
 
 <img src="/aiza-collections-final/assets/icons/user.png" class="account-icon" id="accountIcon">
 
