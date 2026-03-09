@@ -9,9 +9,9 @@ include_once __DIR__ . "/security.php";
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Aiza Collections</title>
 
-<link rel="stylesheet" href="/aiza-collections-final/css/style.css">
+<link rel="stylesheet" href="/aiza-collections-final/css/style.css?v=<?= time() ?>">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-<script src="/aiza-collections-final/js/script.js" defer></script>
+<script src="/aiza-collections-final/js/script.js?v=<?= time() ?>" defer></script>
 </head>
 <body id="<?= $page_id ?? '' ?>" class="<?= $page_id ?? '' ?> <?= strpos($page_id,'admin')===0?'admin-page':'' ?>">
 

@@ -3549,80 +3549,85 @@ body.admin-page footer {
   display: none;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 991px) {
   /* Header & Navigation */
   header {
     flex-wrap: wrap;
-    padding: 1rem;
-    position: relative;
+    padding: 0.8rem 1rem;
+    position: sticky;
+    top: 0;
+  }
+  
+  header img.logo {
+    height: 35px; /* Slightly smaller logo for mobile */
+  }
+  
+  .shop-name {
+    display: none; /* Hide heavy text banner */
   }
   
   header > a {
-    flex: 1; /* Pushes other items to the right */
+    flex: 1; /* Pushes the next items to right */
   }
   
   .account-menu {
     margin-right: 15px;
   }
   
+  /* Hamburger Menu Toggle */
   .menu-toggle {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    width: 28px;
-    height: 22px;
+    width: 26px;
+    height: 20px;
     cursor: pointer;
-    z-index: 101;
+    z-index: 2000;
   }
   
   .menu-toggle span {
     display: block;
     width: 100%;
-    height: 3px;
+    height: 2px;
     background: var(--primary);
-    border-radius: 3px;
+    border-radius: 2px;
     transition: var(--transition);
   }
   
-  /* Hamburger Animation */
   .menu-toggle.active span:nth-child(1) {
-    transform: translateY(9.5px) rotate(45deg);
+    transform: translateY(9px) rotate(45deg);
   }
   .menu-toggle.active span:nth-child(2) {
     opacity: 0;
   }
   .menu-toggle.active span:nth-child(3) {
-    transform: translateY(-9.5px) rotate(-45deg);
+    transform: translateY(-9px) rotate(-45deg);
   }
 
-  header img.logo {
-    height: 40px;
-  }
-
-  .shop-name {
-    display: none; /* Hide shop name on mobile if it clutters */
-  }
-
+  /* Slide-in Mobile Nav */
   .main-nav {
-    display: none;
+    display: flex !important;
     flex-direction: column;
-    width: 100%;
-    position: absolute;
-    top: 100%;
-    left: 0;
+    position: fixed;
+    top: 0;
+    left: -100%; /* Hidden by default */
+    width: 280px;
+    height: 100vh;
     background: var(--card);
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    padding: 0;
-    z-index: 100;
+    box-shadow: 4px 0 15px rgba(0,0,0,0.1);
+    padding: 80px 1.5rem 2rem;
+    z-index: 1000;
+    transition: left 0.3s ease;
   }
   
   .main-nav.active {
-    display: flex;
+    left: 0; /* Slide in */
   }
 
   .main-nav a {
-    margin: 0;
-    padding: 15px 2rem;
+    margin: 0 0 15px 0;
+    padding: 12px 15px;
+    font-size: 1.1rem;
     border-bottom: 1px solid var(--border);
     display: block;
     width: 100%;
@@ -3632,92 +3637,159 @@ body.admin-page footer {
     border-bottom: none;
   }
 
-  /* Header elements ordering */
+  /* Search Bar */
   .header-search {
     order: 4;
     width: 100%;
-    margin-top: 15px;
+    margin-top: 10px;
   }
   
-  /* Structural Fixes */
+  /* Layout Spacing Fixes (Remove excessive white space) */
   section {
-    padding: 2.5rem 1.25rem;
+    padding: 2rem 1rem !important;
   }
 
-  .grid, .grid-3, .grid-4, .contact-cards, .flip-grid, .faq-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
+  #home-page .hero {
+    min-height: auto;
+    padding: 3rem 1rem !important;
   }
 
   #home-page h1 {
-    font-size: 2.2rem;
+    font-size: 1.8rem;
   }
   
-  #home-page .hero {
-    min-height: auto;
-    padding: 4rem 1.5rem;
+  .grid, .grid-3, .grid-4, .contact-cards, .flip-grid, .faq-grid {
+    grid-template-columns: 1fr;
+    gap: 15px; /* Tighter grid gaps on mobile */
+  }
+
+  /* Buttons & Inputs */
+  button, .btn {
+    max-width: 100%; /* Prevent buttons from breaking container */
+    white-space: normal; /* Allow text to wrap if it's too long */
+    height: auto;
+    word-wrap: break-word;
+  }
+  
+  input, textarea {
+    max-width: 100%;
+  }
+
+  /* Product & Card adjustments */
+  .product-card, .card, .sim-card {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Better alignment for mobile cards */
+    text-align: center;
+  }
+  
+  .product-card img, .card img, .sim-card img {
+    height: 160px; /* Slightly smaller images to save vertical space */
+    width: 100%;
+    object-fit: contain;
   }
 
   /* Contact Page */
   .contact-page .contact-form-section {
-    padding: 2rem 1rem;
+    padding: 1.5rem 1rem !important;
   }
-
   .visit-store {
     flex-direction: column;
     text-align: center;
   }
-
   .visit-store img {
     max-width: 100%;
   }
 
-  /* Product Page */
+  /* Product Details Page */
+  #product-page-only {
+    margin: 30px auto;
+    padding: 0 15px;
+  }
   #product-page-only .product-layout {
     flex-direction: column;
+    align-items: center;
   }
-
   #product-page-only .product-image {
     flex: 0 0 100%;
     width: 100%;
+    text-align: center; /* Center product image */
   }
-
   #product-page-only .product-details {
     flex: 1;
     margin-left: 0;
-    margin-top: 30px;
-  }
-
-  /* Footer */
-  footer > div {
-    flex-direction: column;
-    gap: 2.5rem;
-    text-align: center;
-  }
-  
-  footer h2 + p {
-    margin: 0 auto;
-  }
-
-  /* List Container (Cart/Wishlist) */
-  .list-card {
-    flex-direction: column;
-    gap: 15px;
-    padding: 15px;
-  }
-  
-  .list-img {
+    margin-top: 20px;
     width: 100%;
-    height: auto;
-    aspect-ratio: 4/5;
   }
-  
-  .list-meta {
+  #product-page-only .sizes {
+    display: flex;
+    flex-wrap: wrap; /* Prevent size buttons from overflowing */
+    gap: 8px;
+  }
+  #product-page-only .sizes button {
+    margin-right: 0;
+  }
+  #product-page-only .product-actions {
+    display: flex;
     flex-direction: column;
     gap: 10px;
   }
+  #product-page-only .product-actions button {
+    width: 100%;
+  }
 
+  /* Cart List adjustments */
+  .list-card {
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px;
+    align-items: center;
+    text-align: center;
+  }
+  .list-img {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    aspect-ratio: 4/5;
+    margin: 0 auto;
+  }
+  .list-info {
+    width: 100%;
+  }
+  .list-meta {
+    flex-direction: column;
+    gap: 8px;
+  }
   .list-actions {
     width: 100%;
+  }
+  .list-actions .action-btn {
+    width: 100%;
+  }
+
+  /* Footer */
+  footer {
+    padding: 30px 15px;
+    margin-top: 30px;
+  }
+  footer > div {
+    flex-direction: column;
+    gap: 2rem;
+    text-align: center;
+  }
+  footer h2 + p {
+    margin: 0 auto;
+  }
+  
+  /* Popup Overlays */
+  .confirm-box {
+    width: 90% !important;
+    max-width: 400px;
+    padding: 20px;
+  }
+  .size-options {
+    flex-wrap: wrap;
+    justify-content: center;
   }
 }
