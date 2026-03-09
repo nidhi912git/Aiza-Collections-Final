@@ -104,8 +104,7 @@ name="phone"
 required
 pattern="[0-9]{10}"
 maxlength="10"
-title="Enter a valid 10 digit phone number"
-placeholder="9876543210">
+title="Enter a valid 10 digit phone number">
 
 <label>Password</label>
 <p class="password-hint">
