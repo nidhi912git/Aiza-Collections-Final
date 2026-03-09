@@ -54,7 +54,7 @@ $total += $p['price'] * $qty;
 /* CREATE ORDER */
 
 mysqli_query($conn,"
-INSERT INTO orders(user_id,total_price)
+INSERT INTO orders(user_id,order_total)
 VALUES('$user_id','$total')
 ");
 
@@ -76,27 +76,18 @@ WHERE product_code='$code'
 $p = mysqli_fetch_assoc($q);
 
 $price = $p['price'];
-
-
 /* INSERT ORDER ITEM */
-
 mysqli_query($conn,"
-INSERT INTO order_items
-(order_id,product_code,size,quantity,price)
-VALUES
-('$order_id','$code','$size','$qty','$price')
+INSERT INTO order_items(order_id,product_code,size,quantity,price)
+VALUES('$order_id','$code','$size','$qty','$price')
 ");
 
-
-/* REDUCE STOCK */
-
+/* REDUCE PRODUCT STOCK */
 mysqli_query($conn,"
 UPDATE products
 SET stock_qty = stock_qty - $qty
 WHERE product_code='$code'
 ");
-
-}
 
 
 /* CLEAR CART */

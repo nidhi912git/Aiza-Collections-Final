@@ -1,14 +1,28 @@
 <?php
-session_start();
+$page_id = "admin-page";
+
 include "../../includes/config.php";
+include "../../includes/security.php";
+
+require_admin();
+
 include "../../includes/header.php";
 
 /* GET ALL ORDERS */
-$q=mysqli_query($conn,"
-SELECT order_id,customer_name,order_date,order_total,order_status
-FROM orders
-ORDER BY order_date DESC
+
+$q = mysqli_query($conn,"
+SELECT
+o.order_id,
+o.order_total,
+o.order_status,
+o.created_at,
+u.name
+FROM orders o
+LEFT JOIN users u
+ON o.user_id = u.user_id
+ORDER BY o.created_at DESC
 ");
+
 ?>
 
 <section>
@@ -34,11 +48,11 @@ ORDER BY order_date DESC
 
 <td>#<?= $row['order_id'] ?></td>
 
-<td><?= $row['customer_name'] ?></td>
+<td><?= htmlspecialchars($row['name']) ?></td>
 
-<td><?= date("d M Y",strtotime($row['order_date'])) ?></td>
+<td><?= date("d M Y",strtotime($row['created_at'])) ?></td>
 
-<td>₹<?= $row['order_total'] ?></td>
+<td>₹<?= number_format($row['order_total']) ?></td>
 
 <td>
 <span class="status status-<?= strtolower($row['order_status']) ?>">

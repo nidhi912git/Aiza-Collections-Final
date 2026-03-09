@@ -1,23 +1,51 @@
 <?php
-session_start();
+$page_id="admin-page";
+
 include "../../includes/config.php";
+include "../../includes/security.php";
+
+require_admin();
+
 include "../../includes/header.php";
 
-$order_id = intval($_GET['id']);
+$order_id = intval($_GET['id'] ?? 0);
 
 /* GET ORDER DETAILS */
+
 $order_query = mysqli_query($conn,"
-SELECT * FROM orders WHERE order_id=$order_id
+SELECT 
+o.order_id,
+o.order_total,
+o.order_status,
+o.created_at,
+u.name
+FROM orders o
+LEFT JOIN users u
+ON o.user_id = u.user_id
+WHERE o.order_id = $order_id
 ");
 
 $order = mysqli_fetch_assoc($order_query);
 
+if(!$order){
+echo "<p>Order not found</p>";
+include "../../includes/footer.php";
+exit;
+}
+
 /* GET ORDER ITEMS */
+
 $items_query = mysqli_query($conn,"
-SELECT oi.*,p.product_name
+SELECT 
+oi.product_code,
+oi.size,
+oi.quantity,
+oi.price,
+p.product_name
 FROM order_items oi
-JOIN products p ON oi.product_id=p.product_id
-WHERE oi.order_id=$order_id
+JOIN products p
+ON oi.product_code = p.product_code
+WHERE oi.order_id = $order_id
 ");
 ?>
 
@@ -27,16 +55,23 @@ WHERE oi.order_id=$order_id
 
 <div class="order-info">
 
-<p><strong>Customer:</strong> <?= $order['customer_name'] ?></p>
-
-<p><strong>Date:</strong>
-<?= date("d M Y",strtotime($order['order_date'])) ?>
+<p>
+<strong>Customer:</strong>
+<?= htmlspecialchars($order['name']) ?>
 </p>
 
-<p><strong>Status:</strong>
+<p>
+<strong>Date:</strong>
+<?= date("d M Y",strtotime($order['created_at'])) ?>
+</p>
+
+<p>
+<strong>Status:</strong>
+
 <span class="status status-<?= strtolower($order['order_status']) ?>">
 <?= $order['order_status'] ?>
 </span>
+
 </p>
 
 </div>
@@ -57,15 +92,15 @@ WHERE oi.order_id=$order_id
 
 <tr>
 
-<td><?= $item['product_name'] ?></td>
+<td><?= htmlspecialchars($item['product_name']) ?></td>
 
-<td><?= $item['size'] ?></td>
+<td><?= htmlspecialchars($item['size']) ?></td>
 
 <td><?= $item['quantity'] ?></td>
 
-<td>₹<?= $item['price'] ?></td>
+<td>₹<?= number_format($item['price']) ?></td>
 
-<td>₹<?= $item['price'] * $item['quantity'] ?></td>
+<td>₹<?= number_format($item['price'] * $item['quantity']) ?></td>
 
 </tr>
 
@@ -74,7 +109,7 @@ WHERE oi.order_id=$order_id
 </table>
 
 <h3 style="margin-top:20px;">
-Total: ₹<?= $order['order_total'] ?>
+Total: ₹<?= number_format($order['order_total']) ?>
 </h3>
 
 <hr>
@@ -86,11 +121,8 @@ Total: ₹<?= $order['order_total'] ?>
 <select name="status">
 
 <option value="Pending">Pending</option>
-
 <option value="Processing">Processing</option>
-
 <option value="Shipped">Shipped</option>
-
 <option value="Completed">Completed</option>
 
 </select>
@@ -106,9 +138,10 @@ Update
 <?php
 
 /* UPDATE STATUS */
+
 if(isset($_POST['update_status'])){
 
-$status = $_POST['status'];
+$status = mysqli_real_escape_string($conn,$_POST['status']);
 
 mysqli_query($conn,"
 UPDATE orders
@@ -125,4 +158,4 @@ window.location='orders_panel.php';
 
 ?>
 
-<?php include "../../includes/footer.php"; ?>VIEW ORDER
+<?php include "../../includes/footer.php"; ?>

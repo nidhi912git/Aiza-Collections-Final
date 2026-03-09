@@ -1,26 +1,52 @@
 <?php
 $page_id = "admin-page";
+
 include "../../includes/config.php";
 include "../../includes/security.php";
 
 require_admin();
 verify_csrf();
 
-$code=$_POST['code'];
-$name=$_POST['name'];
-$price=$_POST['price'];
-$stock=$_POST['stock'];
-$desc=$_POST['desc'];
+/* GET FORM DATA */
 
-$stmt=mysqli_prepare($conn,
-"INSERT INTO products
-(product_code,product_name,price,stock_qty,description)
-VALUES(?,?,?,?,?)");
+$code     = $_POST['code'] ?? '';
+$category = $_POST['category'] ?? 0;
+$name     = $_POST['name'] ?? '';
+$price    = $_POST['price'] ?? 0;
+$stock    = $_POST['stock'] ?? 0;
+$color    = $_POST['color'] ?? '';
+$desc     = $_POST['desc'] ?? '';
+$featured = $_POST['featured'] ?? 0;
+$active   = $_POST['active'] ?? 1;
 
-mysqli_stmt_bind_param($stmt,
-"ssiss",$code,$name,$price,$stock,$desc);
+
+/* INSERT PRODUCT */
+
+$stmt = mysqli_prepare($conn,"
+INSERT INTO products
+(category_num, product_code, product_name, description, price, color, stock_qty, is_featured, is_active)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+");
+
+mysqli_stmt_bind_param(
+$stmt,
+"isssdsiii",
+$category,
+$code,
+$name,
+$desc,
+$price,
+$color,
+$stock,
+$featured,
+$active
+);
 
 mysqli_stmt_execute($stmt);
 
+
+/* REDIRECT */
+
 header("Location: products.php");
 exit;
+?>

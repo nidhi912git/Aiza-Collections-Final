@@ -1,20 +1,29 @@
 <?php
-session_start();
+$page_id = "admin-page";
+
 include "../../includes/config.php";
+include "../../includes/security.php";
+
+require_admin();
+
 include "../../includes/header.php";
 
-/* OUT OF STOCK */
+/* OUT OF STOCK PRODUCTS */
+
 $out_query = mysqli_query($conn,"
-SELECT product_code, product_name, stock
+SELECT product_code, product_name, stock_qty
 FROM products
-WHERE stock = 0
+WHERE stock_qty = 0
+ORDER BY product_name
 ");
 
-/* LOW STOCK */
+/* LOW STOCK PRODUCTS */
+
 $low_query = mysqli_query($conn,"
-SELECT product_code, product_name, stock
+SELECT product_code, product_name, stock_qty
 FROM products
-WHERE stock > 0 AND stock <= 5
+WHERE stock_qty > 0 AND stock_qty <= 5
+ORDER BY stock_qty ASC
 ");
 ?>
 
@@ -22,13 +31,14 @@ WHERE stock > 0 AND stock <= 5
 
 <h2 class="section-title">Stock Conflicts</h2>
 
+
 <!-- OUT OF STOCK -->
 
 <h3 style="margin-top:30px;">Out of Stock</h3>
 
 <?php if(mysqli_num_rows($out_query)==0): ?>
 
-<p>No products are out of stock.</p>
+<p>No products are currently out of stock.</p>
 
 <?php else: ?>
 
@@ -37,16 +47,16 @@ WHERE stock > 0 AND stock <= 5
 <tr>
 <th>Product Code</th>
 <th>Product Name</th>
-<th>Stock</th>
+<th>Status</th>
 </tr>
 
 <?php while($row=mysqli_fetch_assoc($out_query)): ?>
 
 <tr>
 
-<td><?= $row['product_code'] ?></td>
+<td><?= htmlspecialchars($row['product_code']) ?></td>
 
-<td><?= $row['product_name'] ?></td>
+<td><?= htmlspecialchars($row['product_name']) ?></td>
 
 <td style="color:red;font-weight:bold;">
 Out of Stock
@@ -83,12 +93,12 @@ Out of Stock
 
 <tr>
 
-<td><?= $row['product_code'] ?></td>
+<td><?= htmlspecialchars($row['product_code']) ?></td>
 
-<td><?= $row['product_name'] ?></td>
+<td><?= htmlspecialchars($row['product_name']) ?></td>
 
 <td style="color:#e67e22;font-weight:bold;">
-<?= $row['stock'] ?>
+<?= $row['stock_qty'] ?>
 </td>
 
 </tr>

@@ -35,18 +35,25 @@ ORDER BY created_at DESC
 
 <div class="order-card">
 
-<h3>Order #<?= $row['id'] ?></h3>
+<h3>Order #<?= $row['order_id'] ?></h3>
 
 <p>
-<strong>Total:</strong> ₹<?= $row['total_price'] ?>
+<strong>Total:</strong>
+₹<?= number_format($row['order_total']) ?>
 </p>
 
 <p>
-<strong>Date:</strong> <?= $row['created_at'] ?>
+<strong>Date:</strong>
+<?= date("d M Y",strtotime($row['created_at'])) ?>
+</p>
+
+<p>
+<strong>Status:</strong>
+<?= $row['order_status'] ?>
 </p>
 
 <a class="btn"
-href="/aiza-collections-final/pages/order_details.php?id=<?= $row['id'] ?>">
+href="/aiza-collections-final/pages/order_details.php?id=<?= $row['order_id'] ?>">
 View Details
 </a>
 
