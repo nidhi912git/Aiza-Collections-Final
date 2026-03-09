@@ -3579,7 +3579,7 @@ body.admin-page footer {
   /* 2. Header & Navigation */
   header {
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap; /* Allows wrapping the search bar down to the next row */
     align-items: center;
     justify-content: space-between;
     padding: 10px 15px;
@@ -3593,10 +3593,15 @@ body.admin-page footer {
   
   header img.logo {
     height: 32px; 
+    margin-right: 10px;
   }
   
   .shop-name {
-    display: none;
+    display: block !important; /* Force visible on mobile */
+    font-size: 16px;
+    margin: 0;
+    flex: 1; /* Pushes the hamburger to the far right */
+    white-space: nowrap; /* Prevent line breaks on small screens */
   }
   
   header > a {
@@ -3615,6 +3620,7 @@ body.admin-page footer {
     height: 20px;
     cursor: pointer;
     z-index: 2001; /* Above the overlay */
+    margin-left: 10px;
   }
   
   .menu-toggle span {
@@ -3634,6 +3640,22 @@ body.admin-page footer {
   }
   .menu-toggle.active span:nth-child(3) {
     transform: translateY(-9px) rotate(-45deg);
+  }
+
+  /* Search Bar (Mobile Header Layer) */
+  .header-search {
+    order: 3; /* Push down to second row */
+    width: 100%;
+    margin-top: 15px;
+    display: block !important; /* Override desktop-only rule if necessary */
+  }
+  
+  .header-search input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 14px;
   }
 
   /* 3. Filter-Type Pane Menu (Off-Canvas) */
@@ -3662,13 +3684,7 @@ body.admin-page footer {
 
   /* Inside Mobile Pane Items */
   .mobile-search {
-    padding: 0 15px 15px 15px;
-  }
-  .mobile-search input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid var(--border);
-    border-radius: 4px;
+    display: none; /* User requested it on the header, hiding from sidebar */
   }
 
   .main-nav a {
@@ -3869,13 +3885,22 @@ body.admin-page footer {
   footer > div {
     flex-direction: column;
     gap: 20px;
-    text-align: center;
+    text-align: left; /* Align everything to the left as requested */
     width: 100%;
     max-width: 100%;
   }
   footer .footer-col {
     min-width: 100% !important;
     width: 100%;
+    align-items: flex-start; /* Ensure inner elements also go left */
+  }
+  footer .footer-social {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  footer .social-item {
+    justify-content: flex-start; /* Prevent icons getting cut off on the right edge */
   }
   footer p {
     word-wrap: break-word;
