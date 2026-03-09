@@ -30,8 +30,15 @@ include_once __DIR__ . "/security.php";
 <input type="search" name="q" placeholder="Search products...">
 </form>
 
+<!-- MENU TOGGLE (MOBILE) -->
+<div class="menu-toggle" id="mobile-menu">
+<span></span>
+<span></span>
+<span></span>
+</div>
+
 <!-- NAV LINKS -->
-<nav class="main-nav">
+<nav class="main-nav" id="main-nav">
 
 <a href="/aiza-collections-final/pages/home.php">Home</a>
 <a href="/aiza-collections-final/pages/catalog.php">Catalog</a>

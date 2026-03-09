@@ -202,6 +202,24 @@ document.addEventListener("click", function () {
     menu.classList.remove("active");
 });
 
+const mobileMenu = document.getElementById("mobile-menu");
+const mainNav = document.getElementById("main-nav");
+
+if (mobileMenu && mainNav) {
+    mobileMenu.addEventListener("click", function(e) {
+        e.stopPropagation();
+        mobileMenu.classList.toggle("active");
+        mainNav.classList.toggle("active");
+    });
+
+    document.addEventListener("click", function(e) {
+        if (!mainNav.contains(e.target) && !mobileMenu.contains(e.target)) {
+            mobileMenu.classList.remove("active");
+            mainNav.classList.remove("active");
+        }
+    });
+}
+
 });
 function togglePassword(id, icon){
 
