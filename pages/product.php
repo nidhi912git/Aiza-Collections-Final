@@ -1,62 +1,85 @@
 <?php
 $page_id = "product-page";
+
 include "../includes/config.php";
 include "../includes/header.php";
 
-$code = mysqli_real_escape_string($conn, $_GET['code'] ?? '');
+$code = mysqli_real_escape_string($conn,$_GET['code'] ?? '');
 
 $pq = mysqli_query($conn,"
-SELECT * FROM products WHERE product_code='$code'
-");
-$product = mysqli_fetch_assoc($pq);
-
-if (!$product) {
-  echo "<p>Product not found</p>";
-  include "../includes/footer.php";
-  exit;
-}
-
-$iq = mysqli_query($conn,"
-SELECT image_path FROM product_images
+SELECT *
+FROM products
 WHERE product_code='$code'
 ");
 
-$images = [];
-while ($i = mysqli_fetch_assoc($iq)) {
-  $images[] = "/aiza-collections-final/assets/" . $i['image_path'];
+$product = mysqli_fetch_assoc($pq);
+
+if(!$product){
+echo "<p style='text-align:center;'>Product not found</p>";
+include "../includes/footer.php";
+exit;
 }
+
+
+/* GET PRODUCT IMAGES */
+
+$iq = mysqli_query($conn,"
+SELECT image_path
+FROM product_images
+WHERE product_code='$code'
+ORDER BY image_path
+");
+
+$images = [];
+
+while($i=mysqli_fetch_assoc($iq)){
+$images[] = imgPath($i['image_path']);
+}
+
 
 /* SIMILAR PRODUCTS */
 
-if (ctype_digit(substr($code,0,1))) {
-  $similarCond = "p.product_code REGEXP '^[0-9]+'";
-} else {
-  preg_match('/^[A-Za-z]+/', $code, $m);
-  $prefix = $m[0];
-  $similarCond = "p.product_code LIKE '$prefix%'";
-}
+$cat = $product['category_num'];
 
 $simQ = mysqli_query($conn,"
-SELECT p.product_code,p.product_name,p.price,
-       MIN(i.image_path) image_path
+SELECT
+p.product_code,
+p.product_name,
+p.price,
+p.stock_qty,
+MIN(i.image_path) AS image_path
 FROM products p
-LEFT JOIN product_images i ON p.product_code=i.product_code
-WHERE $similarCond AND p.product_code!='$code'
+LEFT JOIN product_images i
+ON p.product_code=i.product_code
+WHERE p.category_num='$cat'
+AND p.product_code!='$code'
 GROUP BY p.product_code
+LIMIT 10
 ");
+
 ?>
 
 <section>
 
 <div class="product-layout">
 
+
 <!-- PRODUCT IMAGE -->
+
 <div class="product-image">
-  <img id="prod-img" src="<?= $images[0] ?>">
+
+<img
+id="prod-img"
+src="<?= $images[0] ?>"
+alt="<?= htmlspecialchars($product['product_name']) ?>"
+>
+
 </div>
 
 
+
 <!-- PRODUCT DETAILS -->
+
 <div class="product-details">
 
 <h1><?= htmlspecialchars($product['product_name']) ?></h1>
@@ -71,54 +94,82 @@ GROUP BY p.product_code
 
 
 <!-- SIZE -->
+
 <div class="product-row size-row">
 
 <span class="label">Size:</span>
 
 <div class="sizes">
+
 <button type="button">S</button>
 <button type="button">M</button>
 <button type="button">L</button>
 <button type="button">XL</button>
 <button type="button">XXL</button>
+
 </div>
 
 </div>
+
 
 
 <!-- QUANTITY -->
+
 <div class="product-row">
 
 <span class="label">Quantity:</span>
 
 <div class="cart-qty">
+
 <button class="qty-btn" onclick="decreaseQty()">−</button>
+
 <span id="qty">1</span>
+
 <button class="qty-btn" onclick="increaseQty()">+</button>
+
 </div>
 
 </div>
+
 
 
 <!-- ACTION BUTTONS -->
+
 <div class="product-actions">
 
-<button class="add-cart-btn"
+<button
+class="add-cart-btn"
 data-code="<?= $code ?>"
-onclick="addCurrentProductToCart(this)">
+onclick="addCurrentProductToCart(this)"
+<?= $product['stock_qty'] <= 0 ? "disabled" : "" ?>
+>
 Add to Cart
 </button>
 
-<button class="wishlist-btn"
+
+<button
+class="wishlist-btn"
 data-code="<?= $code ?>"
-onclick="addCurrentProductToWishlist(this)">
-♡ 
+onclick="addCurrentProductToWishlist(this)"
+>
+♡
 </button>
 
 </div>
 
 
+<?php if($product['stock_qty'] <= 0): ?>
+
+<p class="stock out">
+Out of Stock
+</p>
+
+<?php endif; ?>
+
+
+
 <!-- SIZE CHART -->
+
 <div class="size-chart">
 
 <h4>Women’s Size Chart</h4>
@@ -127,9 +178,9 @@ onclick="addCurrentProductToWishlist(this)">
 
 <tr>
 <th>Size</th>
-<th>Bust (in)</th>
-<th>Waist (in)</th>
-<th>Hip (in)</th>
+<th>Bust</th>
+<th>Waist</th>
+<th>Hip</th>
 </tr>
 
 <tr>
@@ -172,12 +223,14 @@ onclick="addCurrentProductToWishlist(this)">
 </div>
 
 </div>
+
 </div>
 
 </section>
 
 
-<?php if (count($images) > 1): ?>
+
+<?php if(count($images) > 1): ?>
 
 <section>
 
@@ -185,9 +238,13 @@ onclick="addCurrentProductToWishlist(this)">
 
 <div class="grid grid-3">
 
-<?php foreach ($images as $img): ?>
+<?php foreach($images as $img): ?>
 
-<img src="<?= $img ?>" onclick="setMainImage('<?= $img ?>')">
+<img
+src="<?= $img ?>"
+onclick="setMainImage('<?= $img ?>')"
+style="cursor:pointer"
+>
 
 <?php endforeach; ?>
 
@@ -198,6 +255,7 @@ onclick="addCurrentProductToWishlist(this)">
 <?php endif; ?>
 
 
+
 <section>
 
 <h2 class="section-title">Similar Products</h2>
@@ -206,34 +264,46 @@ onclick="addCurrentProductToWishlist(this)">
 
 <button class="carousel-btn left" onclick="scrollSimilar(-1)">‹</button>
 
+
 <div class="carousel">
 
 <div class="carousel-track" id="similarTrack">
 
-<?php while ($s = mysqli_fetch_assoc($simQ)): ?>
+
+<?php while($s=mysqli_fetch_assoc($simQ)): ?>
 
 <div class="product-card"
 onclick="viewProduct('<?= $s['product_code'] ?>')">
 
-<img src="/aiza-collections-final/assets/<?= $s['image_path'] ?>">
+<img
+src="<?= imgPath($s['image_path']) ?>"
+alt="<?= htmlspecialchars($s['product_name']) ?>"
+>
 
-<h4><?= $s['product_name'] ?></h4>
+<h4><?= htmlspecialchars($s['product_name']) ?></h4>
 
-<p>₹<?= $s['price'] ?></p>
+<p>₹<?= number_format($s['price']) ?></p>
+
 
 <div class="actions horizontal-actions"
 onclick="event.stopPropagation();">
 
-<button class="add-cart-btn"
+<button
+class="add-cart-btn"
 data-code="<?= $s['product_code'] ?>"
-onclick="addCurrentProductToCart(this)">
+onclick="addCurrentProductToCart(this)"
+<?= $s['stock_qty'] <= 0 ? "disabled" : "" ?>
+>
 Add to Cart
 </button>
 
-<button class="wishlist-btn"
+
+<button
+class="wishlist-btn"
 data-code="<?= $s['product_code'] ?>"
-onclick="addCurrentProductToWishlist(this)">
-♡ 
+onclick="addCurrentProductToWishlist(this)"
+>
+♡
 </button>
 
 </div>
@@ -241,6 +311,7 @@ onclick="addCurrentProductToWishlist(this)">
 </div>
 
 <?php endwhile; ?>
+
 
 </div>
 

@@ -15,5 +15,7 @@ if(!$conn){
 
 /* charset AFTER connection */
 mysqli_set_charset($conn,"utf8mb4");
-
+function imgPath($path){
+    return "/aiza-collections-final/" . str_replace("assets/images","assets/categories",$path);
+}
 ?>

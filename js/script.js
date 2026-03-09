@@ -216,3 +216,62 @@ input.type = "password";
 icon.textContent = "👁";
 }
 }
+/* Home page slider */
+let currentSlide = 0;
+
+const slides = document.querySelector(".slides");
+const totalSlides = document.querySelectorAll(".slide").length;
+const dots = document.querySelectorAll(".dot");
+
+function showSlide(index){
+
+if(index >= totalSlides){
+currentSlide = 0;
+}
+else if(index < 0){
+currentSlide = totalSlides - 1;
+}
+else{
+currentSlide = index;
+}
+
+slides.style.transform = "translateX(-" + (currentSlide * 100) + "%)";
+
+dots.forEach(dot => dot.classList.remove("active"));
+dots[currentSlide].classList.add("active");
+}
+
+function nextSlide(){
+showSlide(currentSlide + 1);
+}
+
+function prevSlide(){
+showSlide(currentSlide - 1);
+}
+
+/* auto slide */
+
+setInterval(()=>{
+nextSlide();
+},5000);
+
+
+/* mobile swipe */
+
+let startX = 0;
+
+slides.addEventListener("touchstart",(e)=>{
+startX = e.touches[0].clientX;
+});
+
+slides.addEventListener("touchend",(e)=>{
+let endX = e.changedTouches[0].clientX;
+
+if(startX - endX > 50){
+nextSlide();
+}
+
+if(endX - startX > 50){
+prevSlide();
+}
+});
