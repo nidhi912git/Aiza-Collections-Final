@@ -3579,7 +3579,7 @@ body.admin-page footer {
   /* 2. Header & Navigation */
   header {
     display: flex;
-    flex-wrap: wrap; /* Allows wrapping the search bar down to the next row */
+    flex-wrap: nowrap; /* Don't wrap anymore since search is gone */
     align-items: center;
     justify-content: space-between;
     padding: 10px 15px;
@@ -3642,20 +3642,9 @@ body.admin-page footer {
     transform: translateY(-9px) rotate(-45deg);
   }
 
-  /* Search Bar (Mobile Header Layer) */
+  /* Search Bar (Mobile Header Layer) - HIDING THIS TO PUT IN PANE */
   .header-search {
-    order: 3; /* Push down to second row */
-    width: 100%;
-    margin-top: 15px;
-    display: block !important; /* Override desktop-only rule if necessary */
-  }
-  
-  .header-search input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    font-size: 14px;
+    display: none !important;
   }
 
   /* 3. Filter-Type Pane Menu (Off-Canvas) */
@@ -3682,9 +3671,17 @@ body.admin-page footer {
     transform: translateX(0); /* Slide in */
   }
 
-  /* Inside Mobile Pane Items */
+  /* Inside Mobile Pane Items - RE-ENABLING SEARCH HERE */
   .mobile-search {
-    display: none; /* User requested it on the header, hiding from sidebar */
+    display: block !important;
+    padding: 0 15px 15px 15px;
+  }
+  .mobile-search input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 14px;
   }
 
   .main-nav a {
@@ -3696,6 +3693,9 @@ body.admin-page footer {
     border-bottom: 1px solid var(--border);
     display: block;
     width: 100%;
+    position: relative;
+    z-index: 2005; /* Guarantee clickability over overlays */
+    pointer-events: auto; /* Ensure no pointer interference */
   }
 
   .main-nav a:hover {
@@ -3724,7 +3724,7 @@ body.admin-page footer {
     width: 100vw;
     height: 100vh;
     background: rgba(0, 0, 0, 0.5);
-    z-index: 1999;
+    z-index: 1005; /* Reduced so it sits BELOW the main-nav (2000) firmly */
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease;
@@ -3885,24 +3885,40 @@ body.admin-page footer {
   footer > div {
     flex-direction: column;
     gap: 20px;
-    text-align: left; /* Align everything to the left as requested */
+    text-align: center; 
     width: 100%;
     max-width: 100%;
+  }
+  footer .contact-info p {
+    display: flex; /* Align contact icons + text */
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+  footer .contact-info p img {
+    margin: 0; /* Remove old margin to let gap handle it perfectly */
   }
   footer .footer-col {
     min-width: 100% !important;
     width: 100%;
-    align-items: flex-start; /* Ensure inner elements also go left */
+    align-items: center; 
   }
   footer .footer-social {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
   }
   footer .social-item {
-    justify-content: flex-start; /* Prevent icons getting cut off on the right edge */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center; 
+    gap: 15px;
+    width: 100%;
+    margin-bottom: 12px;
   }
   footer p {
     word-wrap: break-word;
   }
 }
+
