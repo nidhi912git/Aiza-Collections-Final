@@ -1,0 +1,15 @@
+.stock {
+  font-size: 13px;
+  margin-bottom: 10px;
+  color: #666;
+}
+
+.stock:contains("Out") {
+  color: #c0392b;
+  font-weight: 500;
+}
+
+.stock:contains("In") {
+  color: #2ecc71;
+  font-weight: 500;
+}

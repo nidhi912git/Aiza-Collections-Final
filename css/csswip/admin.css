@@ -1,0 +1,287 @@
+/* ===============================
+   ADMIN PAGE LAYOUT
+================================ */
+
+body.admin-page{
+display:flex;
+flex-direction:column;
+min-height:100vh;
+background:#f6f7fb;
+}
+
+/* header always on top */
+body.admin-page header{
+width:100%;
+flex-shrink:0;
+}
+
+/* main content */
+body.admin-page section{
+width:100%;
+max-width:1100px;
+margin:40px auto;
+padding:0 20px;
+flex:1;
+}
+
+/* footer stays at bottom */
+body.admin-page footer{
+width:100%;
+flex-shrink:0;
+}
+
+/* ===============================
+   ADMIN HEADER
+================================ */
+
+.admin-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:35px;
+max-width:1100px;
+margin-left:auto;
+margin-right:auto;
+}
+.admin-header .btn{
+height:38px;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:0 16px;
+}
+
+/* ===============================
+   ADMIN PRODUCT GRID
+================================ */
+
+.admin-products{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+gap:30px;
+max-width:1100px;
+margin:auto;
+}
+/* ===============================
+   ADMIN PRODUCT CARD
+================================ */
+
+.admin-card{
+background:#fff;
+border:1px solid #eee;
+border-radius:8px;
+padding:15px;
+box-shadow:0 2px 6px rgba(0,0,0,0.05);
+display:flex;
+flex-direction:column;
+gap:10px;
+transition:transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-card:hover{
+transform:translateY(-3px);
+box-shadow:0 6px 14px rgba(0,0,0,0.08);
+}
+
+.admin-card img{
+width:100%;
+height:200px;
+object-fit:cover;
+border-radius:6px;
+}
+
+.admin-card h4{
+margin:6px 0;
+font-size:16px;
+font-weight:600;
+}
+
+.admin-card p{
+font-size:14px;
+color:#444;
+margin:0;
+}
+
+/* ===============================
+   ADMIN ACTION BUTTONS
+================================ */
+
+.admin-actions{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:8px;
+margin-top:10px;
+}
+
+.admin-actions form{
+margin:0;
+}
+
+.admin-actions button,
+.admin-actions a{
+display:flex;
+align-items:center;
+justify-content:center;
+height:32px;
+font-size:13px;
+border:none;
+border-radius:5px;
+cursor:pointer;
+text-decoration:none;
+transition:0.2s;
+}
+
+/* Default button */
+.admin-actions .btn{
+background:#660B05;
+color:white;
+}
+
+.admin-actions .btn:hover{
+background:#660B05;
+}
+
+/* Delete button */
+.admin-actions form button{
+background:#660B05;
+color:white;
+}
+
+.admin-actions form button:hover{
+background:#660B05;
+}
+
+/* ===============================
+   ADMIN FORMS
+================================ */
+
+.admin-form{
+max-width:520px;
+margin:auto;
+display:flex;
+flex-direction:column;
+gap:14px;
+background:#fff;
+padding:25px;
+border-radius:8px;
+border:1px solid #eee;
+box-shadow:0 2px 8px rgba(0,0,0,0.05);
+}
+
+.admin-form label{
+font-size:14px;
+font-weight:500;
+}
+
+.admin-form input,
+.admin-form textarea{
+padding:10px;
+border:1px solid #ddd;
+border-radius:6px;
+font-size:14px;
+width:100%;
+}
+
+.admin-form textarea{
+min-height:130px;
+resize:vertical;
+}
+
+.admin-form button{
+margin-top:10px;
+height:38px;
+}
+
+/* ===============================
+   ADMIN TITLES
+================================ */
+
+.admin-page h2{
+margin-bottom:20px;
+}
+
+.admin-form{
+max-width:750px;
+margin:auto;
+display:flex;
+flex-direction:column;
+gap:14px;
+background:#fff;
+padding:30px;
+border-radius:8px;
+border:1px solid #eee;
+box-shadow:0 2px 10px rgba(0,0,0,0.05);
+}
+
+.admin-form input,
+.admin-form textarea{
+padding:12px;
+border:1px solid #ddd;
+border-radius:6px;
+font-size:15px;
+width:100%;
+}
+
+.admin-form textarea{
+min-height:150px;
+resize:vertical;
+}
+.admin-products{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+gap:25px;
+}
+
+.admin-card{
+background:#fff;
+border:1px solid #eee;
+border-radius:10px;
+padding:16px;
+box-shadow:0 3px 8px rgba(0,0,0,0.06);
+
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+
+height:100%;
+min-height:360px;
+}
+
+.admin-card img{
+width:100%;
+height:200px;
+object-fit:cover;
+border-radius:6px;
+}
+
+.admin-actions{
+display:grid;
+grid-template-columns:1fr 1fr 1fr;
+gap:8px;
+margin-top:auto;
+}
+
+.admin-actions button,
+.admin-actions a{
+display:flex;
+align-items:center;
+justify-content:center;
+
+height:36px;
+width:100%;
+
+font-size:13px;
+border-radius:6px;
+text-decoration:none;
+
+background:#660B05;
+color:#fff;
+
+border:none;
+cursor:pointer;
+}
+.admin-card h4{
+font-size:16px;
+margin:8px 0 4px;
+min-height:42px;
+}

@@ -1,0 +1,177 @@
+/* =========================================
+   FOOTER — CLEAN EXTERNAL STYLING
+   (Replaces inline styles exactly)
+========================================= */
+
+footer {
+  background: #f8f8f8;
+  padding: 45px 20px;
+  margin-top: 40px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: #1a1a1a;
+}
+
+/* Main footer row */
+footer>div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  max-width: 1000px;
+  margin: auto;
+  gap: 2.5rem;
+}
+
+/* Columns */
+footer>div>div {
+  flex: 1;
+  min-width: 220px;
+}
+
+/* ---------------- CONTACT INFO ---------------- */
+
+footer h3 {
+  margin-bottom: 12px;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+footer p {
+  margin: 4px 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #444;
+}
+
+footer p img {
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+/* ---------------- BRAND SECTION ---------------- */
+
+footer h2 {
+  margin-bottom: 12px;
+  font-size: 1.6rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+footer h2+p {
+  line-height: 1.6;
+  margin: 0;
+  max-width: 420px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  color: #555;
+}
+
+/* ---------------- INSTAGRAM ---------------- */
+
+footer a img {
+  width: 36px;
+  height: 36px;
+  margin-top: 4px;
+  opacity: 0.85;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+footer a img:hover {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+footer>div>div:last-child {
+  text-align: center;
+}
+
+/* Center the Instagram link & icon */
+footer>div>div:last-child a {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+/* ---------------- DIVIDER ---------------- */
+
+footer hr {
+  margin: 30px auto 20px;
+  width: 80%;
+  opacity: 0.3;
+  border: none;
+  border-top: 1px solid #ccc;
+}
+
+/* ---------------- COPYRIGHT ---------------- */
+
+footer>p {
+  text-align: center;
+  font-size: 14px;
+  margin: 0;
+  color: #666;
+}
+
+/* =========================================
+   ICON SAFETY FIX (GLOBAL)
+========================================= */
+
+/* Footer icons */
+.footer-social img {
+  width: 26px;
+  height: 26px;
+  max-width: 26px;
+  max-height: 26px;
+  object-fit: contain;
+}
+
+.footer-social h3 {
+  font-weight: bold;
+  margin-bottom: 14px;
+}
+
+.social-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  /* THIS creates space between text and icon */
+  margin-bottom: 12px;
+  /* space between Instagram and WhatsApp */
+}
+
+.social-item img {
+  width: 22px;
+  height: 22px;
+}
+
+.nav-user {
+  margin-right: 10px;
+  font-weight: 500;
+}
+
+nav a {
+  margin-left: 14px;
+}
+
+.footer-social {
+  margin-left: 30px;
+  /* moves the whole Reach Out section right */
+}
+
+.social-item {
+  display: grid;
+  grid-template-columns: auto 30px;
+  align-items: center;
+  column-gap: 1px;
+  /* space between text and icon */
+  margin-bottom: 12px;
+}
+
+.social-item img {
+  width: 22px;
+  height: 22px;
+}

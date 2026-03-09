@@ -1,0 +1,337 @@
+/* =========================================
+   CART + WISHLIST — IMAGE SPACE FIX
+========================================= */
+
+.cart-card img,
+.wishlist-card img {
+  height: 260px;
+  /* more breathing room */
+  object-fit: cover;
+}
+
+/* ✅ CART + WISHLIST: FORCE 1 ITEM PER ROW (override grid-4) */
+/* =========================================
+   CART + WISHLIST — FINAL HORIZONTAL ROW CARDS
+   ✅ 1 item per row
+   ✅ name + price same line
+   ✅ image left, actions right
+========================================= */
+
+/* Force ONE card per row (override .grid-4) */
+#cart-items.grid.grid-4,
+#wishlist-items.grid.grid-4 {
+  grid-template-columns: 1fr !important;
+  gap: 18px !important;
+}
+
+/* Horizontal card layout (full width) */
+.product-card.cart-card,
+.product-card.wishlist-card {
+  width: 100% !important;
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 18px;
+  text-align: left;
+  align-items: center !important;
+}
+
+/* Image on the left */
+.product-card.cart-card img,
+.product-card.wishlist-card img {
+  width: 160px !important;
+  height: 160px !important;
+  object-fit: cover;
+  margin: 0 !important;
+  flex: 0 0 160px;
+  border-radius: calc(var(--radius) - 4px);
+}
+
+/* Keep title + price in the middle (do not stretch weirdly) */
+.product-card.cart-card h4,
+.product-card.wishlist-card h4,
+.product-card.cart-card p,
+.product-card.wishlist-card p {
+  margin: 0 !important;
+}
+
+/* ✅ Name + Price on SAME line */
+.product-card.cart-card h4,
+.product-card.wishlist-card h4 {
+  display: inline-block !important;
+  margin-right: 12px !important;
+  font-size: 1.05rem;
+  line-height: 1.35;
+}
+
+.product-card.cart-card p,
+.product-card.wishlist-card p {
+  display: inline-block !important;
+  font-size: 1.05rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Actions fixed on the right */
+.product-card.cart-card .actions,
+.product-card.wishlist-card .actions {
+  margin-left: auto !important;
+  width: 260px;
+  align-items: flex-start;
+  align-self: flex-start;
+}
+
+/* Quantity row align left (cart only) */
+.product-card.cart-card .cart-qty {
+  justify-content: flex-start;
+}
+
+/* ======================================================
+   CART + WISHLIST — COMPLETE LAYOUT OVERRIDE
+   Forces horizontal ecommerce style cards
+====================================================== */
+
+/* container */
+
+#cart-items,
+#wishlist-items {
+  max-width: 1100px;
+  margin: 40px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+/* card */
+
+.cart-card,
+.wishlist-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+
+  background: #ffffff;
+  padding: 22px;
+  border-radius: 14px;
+
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+/* product image */
+
+.cart-card img,
+.wishlist-card img {
+  width: 140px;
+  height: 170px;
+  object-fit: cover;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+/* middle product info */
+
+.card-mid {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* product title row */
+
+.product-line {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.product-line h4 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.product-line .price {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.product-line .item-size {
+  font-size: 14px;
+  color: #666;
+}
+
+/* quantity */
+
+.cart-qty {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.qty-btn {
+  width: 34px;
+  height: 34px;
+
+  border-radius: 50%;
+  border: 2px solid #660B05;
+
+  background: white;
+  color: #660B05;
+
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qty-btn:hover {
+  background: #660B05;
+  color: white;
+}
+
+.qty-value {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+/* subtotal */
+
+.subtotal {
+  font-weight: 600;
+  margin-top: 6px;
+}
+
+/* action buttons */
+
+.actions,
+.cart-actions,
+.wishlist-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-left: auto;
+}
+
+/* button styling */
+
+.actions button,
+.cart-actions button,
+.wishlist-actions button {
+  background: transparent;
+
+  color: #660B05;
+  border: 2px solid #660B05;
+
+  padding: 8px 16px;
+  border-radius: 8px;
+
+  font-size: 14px;
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.actions button:hover,
+.cart-actions button:hover,
+.wishlist-actions button:hover {
+  background: #660B05;
+  color: white;
+}
+
+/* cart total */
+
+#cart-total {
+  max-width: 1100px;
+  margin: 30px auto 0;
+  text-align: right;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* CART + WISHLIST CARD */
+
+.list-container{
+max-width:1100px;
+margin:auto;
+display:flex;
+flex-direction:column;
+gap:20px;
+}
+
+.list-card{
+display:flex;
+align-items:center;
+gap:20px;
+background:#fff;
+padding:18px;
+border-radius:14px;
+cursor:pointer;
+transition:box-shadow .2s ease;
+}
+
+.list-card:hover{
+box-shadow:0 10px 25px rgba(0,0,0,0.12);
+}
+
+.list-img{
+width:140px;
+height:140px;
+object-fit:cover;
+border-radius:10px;
+}
+
+.list-info{
+flex:1;
+}
+
+.list-meta{
+display:flex;
+align-items:center;
+gap:20px;
+margin-top:6px;
+}
+
+.price{
+font-weight:600;
+}
+
+.item-size{
+color:#666;
+}
+
+.list-actions{
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+
+.action-btn{
+padding:8px 14px;
+border-radius:8px;
+border:none;
+cursor:pointer;
+background:#660B05;
+color:white;
+}
+
+.qty-btn{
+width:28px;
+height:28px;
+border-radius:50%;
+border:none;
+background:#660B05;
+color:white;
+cursor:pointer;
+}
+
+.list-qty{
+display:flex;
+align-items:center;
+gap:10px;
+margin-top:8px;
+}

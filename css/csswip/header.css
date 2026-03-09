@@ -1,0 +1,160 @@
+/* ===============================
+   HEADER
+================================ */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: var(--card);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+header img.logo {
+  height: 50px;
+}
+
+nav a {
+  margin-left: 1.5rem;
+  font-weight: 500;
+}
+
+/* HEADER SEARCH – CENTER SPACE */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-search {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.header-search input {
+  width: 280px;
+  padding: 9px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  outline: none;
+}
+
+/* HEADER LAYOUT */
+
+.site-header{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:20px;
+padding:14px 24px;
+background:#fff;
+box-shadow:0 2px 6px rgba(0,0,0,0.05);
+}
+
+/* LOGO */
+
+.logo{
+height:48px;
+}
+
+/* NAV */
+
+.main-nav{
+display:flex;
+gap:18px;
+align-items:center;
+}
+
+.main-nav a{
+text-decoration:none;
+color:var(--text);
+font-weight:500;
+}
+
+/* ACCOUNT MENU */
+
+.account-menu{
+position:relative;
+cursor:pointer;
+}
+.account-icon{
+width:28px;
+height:28px;
+object-fit:contain;
+cursor:pointer;
+background:none;
+}
+
+.account-icon:hover{
+background:var(--accent-soft);
+}
+
+/* DROPDOWN */
+
+.account-dropdown{
+position:absolute;
+top:45px;
+right:0;
+background:#fff;
+border-radius:12px;
+box-shadow:0 12px 30px rgba(0,0,0,0.15);
+padding:10px 0;
+display:none;
+min-width:200px;
+z-index:1000;
+}
+
+/* DROPDOWN ITEMS */
+
+.account-dropdown a,
+.account-name{
+display:block;
+padding:10px 16px;
+font-size:14px;
+text-decoration:none;
+color:var(--text);
+}
+
+.account-dropdown a:hover{
+background:#f5f5f5;
+}
+
+
+/* USER NAME */
+
+.account-name{
+font-weight:600;
+border-bottom:1px solid var(--border);
+margin-bottom:6px;
+}
+
+/* SHOW DROPDOWN */
+
+.account-dropdown{
+position:absolute;
+top:45px;
+right:0;
+background:#fff;
+border-radius:12px;
+box-shadow:0 12px 30px rgba(0,0,0,0.15);
+padding:10px 0;
+display:none;
+min-width:200px;
+z-index:1000;
+}
+
+.shop-name{
+font-family: 'Playfair Display', serif;
+font-size: 22px;
+font-weight: 700;
+letter-spacing: 2px;
+margin-left: 14px;
+margin-right: 28px;
+color: #111;
+text-transform: uppercase;
+}

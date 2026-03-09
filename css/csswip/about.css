@@ -1,0 +1,36 @@
+/* =========================================
+   ABOUT PAGE – INTRO TEXT ONLY
+   (Targets ONLY the About intro paragraph)
+========================================= */
+
+section>h2.section-title+p[style] {
+  line-height: 1.8;
+  font-size: 1.05rem;
+  color: var(--text-muted);
+}
+
+section>h2.section-title+p[style] br {
+  display: none;
+}
+
+/* =========================================
+   ABOUT PAGE – SECTION RHYTHM
+========================================= */
+
+section>h2.section-title {
+  margin-bottom: 2.5rem;
+}
+
+section>h2.section-title+p[style] {
+  margin-bottom: 3rem;
+}
+
+/* =========================================
+   ABOUT PAGE – TYPOGRAPHY HIERARCHY
+========================================= */
+
+section>h2.section-title {
+  font-size: clamp(1.8rem, 4vw, 2.2rem);
+  letter-spacing: 0.3px;
+}
+
