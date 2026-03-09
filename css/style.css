@@ -3550,39 +3550,65 @@ body.admin-page footer {
 }
 
 @media (max-width: 991px) {
-  /* Header & Navigation */
+  /* 1. CRITICAL OVERFLOW FIXES */
+  html, body {
+    overflow-x: hidden !important;
+    width: 100%;
+    max-width: 100vw;
+    position: relative;
+    margin: 0;
+    padding: 0;
+  }
+  
+  *, *::before, *::after {
+    box-sizing: border-box !important;
+  }
+
+  /* 2. Header & Navigation */
   header {
+    display: flex;
     flex-wrap: wrap;
-    padding: 0.8rem 1rem;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 15px;
     position: sticky;
     top: 0;
+    width: 100%; 
+    max-width: 100vw;
+    background: var(--card);
+    z-index: 1000;
   }
   
   header img.logo {
-    height: 35px; /* Slightly smaller logo for mobile */
+    height: 32px; 
   }
   
   .shop-name {
-    display: none; /* Hide heavy text banner */
+    display: none;
   }
   
   header > a {
-    flex: 1; /* Pushes the next items to right */
+    order: 1;
+    display: flex;
+    align-items: center;
   }
   
   .account-menu {
-    margin-right: 15px;
+    order: 2;
+    margin-left: auto;
+    margin-right: 20px;
   }
   
   /* Hamburger Menu Toggle */
   .menu-toggle {
+    order: 3;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    width: 26px;
+    width: 24px;
     height: 20px;
     cursor: pointer;
-    z-index: 2000;
+    z-index: 2001; /* Above the overlay */
   }
   
   .menu-toggle span {
@@ -3604,69 +3630,110 @@ body.admin-page footer {
     transform: translateY(-9px) rotate(-45deg);
   }
 
-  /* Slide-in Mobile Nav */
+  /* 3. Filter-Type Pane Menu (Off-Canvas) */
   .main-nav {
     display: flex !important;
     flex-direction: column;
     position: fixed;
     top: 0;
-    left: -100%; /* Hidden by default */
-    width: 280px;
+    left: 0; 
+    width: 80%;
+    max-width: 300px;
     height: 100vh;
     background: var(--card);
-    box-shadow: 4px 0 15px rgba(0,0,0,0.1);
-    padding: 80px 1.5rem 2rem;
-    z-index: 1000;
-    transition: left 0.3s ease;
+    box-shadow: 2px 0 15px rgba(0,0,0,0.2);
+    padding: 80px 20px 20px;
+    z-index: 2000;
+    transform: translateX(-105%); /* Better for mobile performance than left: -100% */
+    transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    overflow-y: auto;
   }
   
   .main-nav.active {
-    left: 0; /* Slide in */
+    transform: translateX(0); /* Slide in */
   }
 
   .main-nav a {
-    margin: 0 0 15px 0;
-    padding: 12px 15px;
-    font-size: 1.1rem;
+    margin: 0;
+    padding: 15px 10px;
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: var(--text);
     border-bottom: 1px solid var(--border);
     display: block;
     width: 100%;
+  }
+
+  .main-nav a:hover {
+    color: var(--primary);
+    background: rgba(0,0,0,0.02);
   }
 
   .main-nav a:last-child {
     border-bottom: none;
   }
 
+  /* Menu Overlay Backdrop */
+  body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+  body.menu-open {
+    overflow: hidden !important; /* Stop body scrolling when menu open */
+  }
+  body.menu-open::after {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
   /* Search Bar */
   .header-search {
     order: 4;
     width: 100%;
-    margin-top: 10px;
+    margin-top: 15px;
   }
   
-  /* Layout Spacing Fixes (Remove excessive white space) */
+  .header-search input {
+    width: 100%;
+  }
+  
+  /* 4. Layout Spacing Fixes */
   section {
-    padding: 2rem 1rem !important;
+    padding: 30px 15px !important;
+    width: 100%;
+    max-width: 100vw;
   }
 
   #home-page .hero {
     min-height: auto;
-    padding: 3rem 1rem !important;
+    padding: 40px 15px !important;
   }
 
   #home-page h1 {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
   }
   
   .grid, .grid-3, .grid-4, .contact-cards, .flip-grid, .faq-grid {
     grid-template-columns: 1fr;
-    gap: 15px; /* Tighter grid gaps on mobile */
+    gap: 15px; 
+    width: 100%;
   }
 
   /* Buttons & Inputs */
   button, .btn {
-    max-width: 100%; /* Prevent buttons from breaking container */
-    white-space: normal; /* Allow text to wrap if it's too long */
+    max-width: 100%; 
+    white-space: normal; 
     height: auto;
     word-wrap: break-word;
   }
@@ -3677,26 +3744,29 @@ body.admin-page footer {
 
   /* Product & Card adjustments */
   .product-card, .card, .sim-card {
-    padding: 15px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Better alignment for mobile cards */
+    align-items: center; 
     text-align: center;
+    width: 100%;
   }
   
   .product-card img, .card img, .sim-card img {
-    height: 160px; /* Slightly smaller images to save vertical space */
+    height: 180px; 
     width: 100%;
     object-fit: contain;
+    margin-bottom: 15px;
   }
 
   /* Contact Page */
   .contact-page .contact-form-section {
-    padding: 1.5rem 1rem !important;
+    padding: 20px 15px !important;
   }
   .visit-store {
     flex-direction: column;
     text-align: center;
+    width: 100%;
   }
   .visit-store img {
     max-width: 100%;
@@ -3704,36 +3774,40 @@ body.admin-page footer {
 
   /* Product Details Page */
   #product-page-only {
-    margin: 30px auto;
+    margin: 20px auto;
     padding: 0 15px;
+    width: 100%;
   }
   #product-page-only .product-layout {
     flex-direction: column;
     align-items: center;
+    width: 100%;
   }
   #product-page-only .product-image {
     flex: 0 0 100%;
     width: 100%;
-    text-align: center; /* Center product image */
+    text-align: center; 
   }
   #product-page-only .product-details {
     flex: 1;
     margin-left: 0;
-    margin-top: 20px;
+    margin-top: 25px;
     width: 100%;
   }
   #product-page-only .sizes {
     display: flex;
-    flex-wrap: wrap; /* Prevent size buttons from overflowing */
-    gap: 8px;
+    flex-wrap: wrap; 
+    gap: 10px;
   }
   #product-page-only .sizes button {
     margin-right: 0;
+    flex: 1;
+    min-width: 45px;
   }
   #product-page-only .product-actions {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
   }
   #product-page-only .product-actions button {
     width: 100%;
@@ -3742,14 +3816,15 @@ body.admin-page footer {
   /* Cart List adjustments */
   .list-card {
     flex-direction: column;
-    gap: 12px;
-    padding: 12px;
+    gap: 15px;
+    padding: 15px;
     align-items: center;
     text-align: center;
+    width: 100%;
   }
   .list-img {
     width: 100%;
-    max-width: 200px;
+    max-width: 180px;
     height: auto;
     aspect-ratio: 4/5;
     margin: 0 auto;
@@ -3768,28 +3843,26 @@ body.admin-page footer {
     width: 100%;
   }
 
-  /* Footer */
+  /* 5. Footer Strict Constraints */
   footer {
     padding: 30px 15px;
-    margin-top: 30px;
+    margin-top: 20px;
+    width: 100%;
+    max-width: 100vw;
+    overflow: hidden;
   }
   footer > div {
     flex-direction: column;
-    gap: 2rem;
+    gap: 20px;
     text-align: center;
+    width: 100%;
+    max-width: 100%;
   }
-  footer h2 + p {
-    margin: 0 auto;
+  footer .footer-col {
+    min-width: 100% !important;
+    width: 100%;
   }
-  
-  /* Popup Overlays */
-  .confirm-box {
-    width: 90% !important;
-    max-width: 400px;
-    padding: 20px;
-  }
-  .size-options {
-    flex-wrap: wrap;
-    justify-content: center;
+  footer p {
+    word-wrap: break-word;
   }
 }

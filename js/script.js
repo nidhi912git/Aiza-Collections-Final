@@ -210,13 +210,25 @@ if (mobileMenu && mainNav) {
         e.stopPropagation();
         mobileMenu.classList.toggle("active");
         mainNav.classList.toggle("active");
+        document.body.classList.toggle("menu-open");
     });
 
     document.addEventListener("click", function(e) {
         if (!mainNav.contains(e.target) && !mobileMenu.contains(e.target)) {
             mobileMenu.classList.remove("active");
             mainNav.classList.remove("active");
+            document.body.classList.remove("menu-open");
         }
+    });
+
+    // Close menu when clicking on a link
+    const navLinks = mainNav.querySelectorAll("a");
+    navLinks.forEach(link => {
+        link.addEventListener("click", () => {
+            mobileMenu.classList.remove("active");
+            mainNav.classList.remove("active");
+            document.body.classList.remove("menu-open");
+        });
     });
 }
 
