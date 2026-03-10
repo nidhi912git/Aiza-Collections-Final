@@ -72,10 +72,13 @@ body:`product_code=${code}&size=${size}&action=add_wishlist`
 
 function setMainImage(src){
 
-document.getElementById("prod-img").src = src;
+const img = document.getElementById("prod-img");
+if(!img) return;
+
+img.src = src;
 
 if(typeof productImages !== "undefined"){
-currentImgIndex = productImages.indexOf(src);
+currentImage = productImages.indexOf(src);
 }
 
 }
@@ -324,24 +327,33 @@ prevSlide();
 }
 });
 /* PRODUCT IMAGE SLIDER */
+/* PRODUCT IMAGE SLIDER */
 
-let currentImgIndex = 0;
+let currentImage = 0;
 
-function changeImage(dir){
+function changeImage(direction){
 
-if(typeof productImages === "undefined") return;
-
-currentImgIndex += dir;
-
-if(currentImgIndex < 0){
-currentImgIndex = productImages.length - 1;
+if(typeof productImages === "undefined"){
+console.log("No product images found");
+return;
 }
 
-if(currentImgIndex >= productImages.length){
-currentImgIndex = 0;
+if(productImages.length === 0) return;
+
+currentImage += direction;
+
+if(currentImage < 0){
+currentImage = productImages.length - 1;
 }
 
-document.getElementById("prod-img").src =
-productImages[currentImgIndex];
+if(currentImage >= productImages.length){
+currentImage = 0;
+}
+
+const img = document.getElementById("prod-img");
+
+if(img){
+img.src = productImages[currentImage];
+}
 
 }

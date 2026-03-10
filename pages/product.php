@@ -10,6 +10,7 @@ $pq = mysqli_query($conn,"
 SELECT *
 FROM products
 WHERE product_code='$code'
+AND product_code NOT LIKE '%-%'
 ");
 
 $product = mysqli_fetch_assoc($pq);
@@ -20,7 +21,6 @@ include "../includes/footer.php";
 exit;
 }
 
-
 /* GET PRODUCT IMAGES */
 
 $iq = mysqli_query($conn,"
@@ -28,17 +28,18 @@ SELECT image_path
 FROM product_images
 WHERE product_code='$code'
 OR product_code LIKE '$code-%'
-ORDER BY image_path
+ORDER BY LENGTH(image_path), image_path
 ");
-
-
 $images = [];
 
 while($i=mysqli_fetch_assoc($iq)){
 $images[] = imgPath($i['image_path']);
 }
-echo "<script>var productImages = ".json_encode($images).";</script>";
 
+/* make images available to JS slider */
+echo "<script>
+window.productImages = ".json_encode($images).";
+</script>";
 
 /* SIMILAR PRODUCTS */
 
@@ -60,13 +61,11 @@ AND p.product_code NOT LIKE '%-%'
 GROUP BY p.product_code
 LIMIT 10
 ");
-
 ?>
 
 <section>
 
 <div class="product-layout">
-
 
 <!-- PRODUCT IMAGE SLIDER -->
 
@@ -82,27 +81,7 @@ alt="<?= htmlspecialchars($product['product_name']) ?>"
 
 <button class="img-nav next" onclick="changeImage(1)">❯</button>
 
-
-<?php if(count($images) > 1): ?>
-
-<div class="product-thumbs">
-
-<?php foreach($images as $img): ?>
-
-<img
-src="<?= $img ?>"
-onclick="setMainImage('<?= $img ?>')"
-class="thumb-img"
->
-
-<?php endforeach; ?>
-
 </div>
-
-<?php endif; ?>
-
-</div>
-
 
 
 <!-- PRODUCT DETAILS -->
@@ -139,7 +118,6 @@ class="thumb-img"
 </div>
 
 
-
 <!-- QUANTITY -->
 
 <div class="product-row">
@@ -159,7 +137,6 @@ class="thumb-img"
 </div>
 
 
-
 <!-- ACTION BUTTONS -->
 
 <div class="product-actions">
@@ -172,7 +149,6 @@ onclick="addCurrentProductToCart(this)"
 >
 Add to Cart
 </button>
-
 
 <button
 class="wishlist-btn"
@@ -192,7 +168,6 @@ Out of Stock
 </p>
 
 <?php endif; ?>
-
 
 
 <!-- SIZE CHART -->
@@ -256,7 +231,6 @@ Out of Stock
 </section>
 
 
-
 <section>
 
 <h2 class="section-title">Similar Products</h2>
@@ -265,11 +239,9 @@ Out of Stock
 
 <button class="carousel-btn left" onclick="scrollSimilar(-1)">‹</button>
 
-
 <div class="carousel">
 
 <div class="carousel-track" id="similarTrack">
-
 
 <?php while($s=mysqli_fetch_assoc($simQ)): ?>
 
@@ -284,7 +256,6 @@ alt="<?= htmlspecialchars($s['product_name']) ?>"
 <h4><?= htmlspecialchars($s['product_name']) ?></h4>
 
 <p>₹<?= number_format($s['price']) ?></p>
-
 
 <div class="actions horizontal-actions"
 onclick="event.stopPropagation();">
@@ -311,7 +282,6 @@ onclick="addToWishlist(event,this)"
 </div>
 
 <?php endwhile; ?>
-
 
 </div>
 
