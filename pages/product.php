@@ -106,11 +106,32 @@ alt="<?= htmlspecialchars($product['product_name']) ?>"
 
 <div class="sizes">
 
-<button type="button">S</button>
-<button type="button">M</button>
-<button type="button">L</button>
-<button type="button">XL</button>
-<button type="button">XXL</button>
+<?php
+
+$sizes = mysqli_query($conn,"
+SELECT size,stock_qty
+FROM product_stock
+WHERE product_code='$code'
+ORDER BY FIELD(size,'S','M','L','XL','XXL')
+");
+
+?>
+
+<div class="sizes">
+
+<?php while($s=mysqli_fetch_assoc($sizes)): ?>
+
+<button
+type="button"
+data-size="<?= $s['size'] ?>"
+<?= $s['stock_qty']<=0 ? "disabled" : "" ?>
+>
+<?= $s['size'] ?>
+</button>
+
+<?php endwhile; ?>
+
+</div>
 
 </div>
 

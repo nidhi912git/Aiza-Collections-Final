@@ -39,14 +39,15 @@ SELECT
 p.product_code,
 p.product_name,
 p.price,
-p.stock_qty,
-MIN(i.image_path) AS image_path
+SUM(ps.stock_qty) AS stock_qty,
+MIN(i.image_path) image_path
 FROM products p
+LEFT JOIN product_stock ps
+ON p.product_code=ps.product_code
 LEFT JOIN product_images i
-ON p.product_code = i.product_code
-$whereSql
+ON p.product_code=i.product_code
+WHERE p.product_code NOT LIKE '%-%'
 GROUP BY p.product_code
-$orderSql
 ";
 
 $result = mysqli_query($conn,$sql);

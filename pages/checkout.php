@@ -11,24 +11,30 @@ header("Location: /aiza-collections-final/pages/login.php");
 exit;
 }
 
-
 /* GET CART */
 
 $cart = $_SESSION['cart'] ?? [];
 
 if(!$cart){
 
-echo "<p style='text-align:center;'>Your cart is empty.</p>";
+echo "
+<div style='text-align:center;margin-top:40px;'>
+
+<p>Your cart is empty.</p>
+
+<a href='/aiza-collections-final/pages/catalog.php'
+class='btn'>
+Browse Products
+</a>
+
+</div>";
 
 include "../includes/footer.php";
-
 exit;
 
 }
 
-
 $user_id = $_SESSION['user']['user_id'];
-
 $total = 0;
 
 
@@ -46,7 +52,9 @@ WHERE product_code='$code'
 
 $p = mysqli_fetch_assoc($q);
 
+if($p){
 $total += $p['price'] * $qty;
+}
 
 }
 
@@ -64,8 +72,7 @@ $order_id = mysqli_insert_id($conn);
 /* INSERT ORDER ITEMS + REDUCE STOCK */
 
 foreach($cart as $key=>$qty){
-
-list($code,$size) = explode("_",$key);
+$code = explode("_",$key)[0];
 
 $q = mysqli_query($conn,"
 SELECT price
@@ -75,21 +82,42 @@ WHERE product_code='$code'
 
 $p = mysqli_fetch_assoc($q);
 
+if(!$p) continue;
+
 $price = $p['price'];
+
 /* INSERT ORDER ITEM */
+
 mysqli_query($conn,"
-INSERT INTO order_items(order_id,product_code,size,quantity,price)
-VALUES('$order_id','$code','$size','$qty','$price')
+INSERT INTO order_items(order_id,product_code,quantity,price)
+VALUES('$order_id','$code','$qty','$price')
 ");
 
+/*stock check before placing order*/
+$checkStock = mysqli_query($conn,"
+SELECT stock_qty
+FROM product_stock
+WHERE product_code='$code'
+AND size='$size'
+");
+
+$stock = mysqli_fetch_assoc($checkStock)['stock_qty'];
+
+if($stock < $qty){
+die("Not enough stock available.");
+}
+
 /* REDUCE PRODUCT STOCK */
+
 mysqli_query($conn,"
-UPDATE products
+UPDATE product_stock
 SET stock_qty = stock_qty - $qty
 WHERE product_code='$code'
+AND size='$size'
 ");
 
 }
+
 
 /* CLEAR CART */
 
@@ -101,10 +129,9 @@ unset($_SESSION['cart']);
 $_SESSION['popup'] = "Order placed successfully!";
 
 
-/* REDIRECT */
+/* REDIRECT TO ORDERS PAGE */
 
 header("Location: /aiza-collections-final/pages/orders.php");
-
 exit;
 
 ?>

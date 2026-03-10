@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 09, 2026 at 04:12 PM
+-- Generation Time: Mar 10, 2026 at 06:42 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -35,6 +35,16 @@ CREATE TABLE `orders` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`order_id`, `user_id`, `order_total`, `order_status`, `created_at`) VALUES
+(1, 14, 2000.00, 'Pending', '2026-03-09 18:31:08'),
+(2, 14, 3700.00, 'Pending', '2026-03-10 16:51:36'),
+(3, 14, 3700.00, 'Pending', '2026-03-10 16:57:07'),
+(4, 14, 7500.00, 'Pending', '2026-03-10 17:01:12');
+
 -- --------------------------------------------------------
 
 --
@@ -46,8 +56,22 @@ CREATE TABLE `order_items` (
   `order_id` int(11) NOT NULL,
   `product_code` varchar(50) NOT NULL,
   `quantity` int(11) NOT NULL,
-  `price` decimal(10,2) NOT NULL
+  `price` decimal(10,2) NOT NULL,
+  `size` varchar(10) DEFAULT NULL,
+  `item_status` varchar(20) DEFAULT 'Placed'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `order_items`
+--
+
+INSERT INTO `order_items` (`item_id`, `order_id`, `product_code`, `quantity`, `price`, `size`, `item_status`) VALUES
+(1, 3, 'A2', 1, 2000.00, NULL, 'Placed'),
+(2, 3, 'A7', 1, 700.00, NULL, 'Placed'),
+(3, 3, 'C6', 1, 1000.00, NULL, 'Placed'),
+(4, 4, 'D13', 1, 2500.00, NULL, 'Placed'),
+(5, 4, 'D7', 1, 3000.00, NULL, 'Placed'),
+(6, 4, 'S15', 1, 2000.00, NULL, 'Placed');
 
 -- --------------------------------------------------------
 
@@ -75,7 +99,7 @@ INSERT INTO `products` (`category_num`, `product_code`, `product_name`, `descrip
 (1, 'A1', 'Olive Garden Elegance', 'An ivory kurta with olive and mustard floral prints, featuring delicate embroidery on the neckline and lace-detailed sleeves. Paired with a matching dupatta, it offers a soft, elegant look perfect for festive or daytime wear.', 2500.00, NULL, 9, 0, 1),
 (1, 'A1-1', 'Olive Garden Elegance', 'An ivory kurta with olive and mustard floral prints, featuring delicate embroidery on the neckline and lace-detailed sleeves. Paired with a matching dupatta, it offers a soft, elegant look perfect for festive or daytime wear.', 2500.00, NULL, 10, 0, 1),
 (1, 'A1-2', 'Olive Garden Elegance', 'An ivory kurta with olive and mustard floral prints, featuring delicate embroidery on the neckline and lace-detailed sleeves. Paired with a matching dupatta, it offers a soft, elegant look perfect for festive or daytime wear.', 2500.00, NULL, 10, 0, 1),
-(1, 'A2', 'Misty Blue Grace', 'A soft blue floral printed kurta set featuring delicate traditional patterns and elegant detailing on the neckline. Paired with a beautifully coordinated dupatta and matching bottoms, the outfit creates a graceful and timeless look, perfect for festive gatherings, casual celebrations, or elegant daywear.', 2000.00, NULL, 10, 0, 1),
+(1, 'A2', 'Misty Blue Grace', 'A soft blue floral printed kurta set featuring delicate traditional patterns and elegant detailing on the neckline. Paired with a beautifully coordinated dupatta and matching bottoms, the outfit creates a graceful and timeless look, perfect for festive gatherings, casual celebrations, or elegant daywear.', 2000.00, NULL, 9, 0, 1),
 (1, 'A2-1', 'Misty Blue Grace', 'A soft blue floral printed kurta set featuring delicate traditional patterns and elegant detailing on the neckline. Paired with a beautifully coordinated dupatta and matching bottoms, the outfit creates a graceful and timeless look, perfect for festive gatherings, casual celebrations, or elegant daywear.', 2000.00, NULL, 10, 0, 1),
 (1, 'A3', 'Sunshine Bloom', 'A vibrant mustard-yellow kurta set featuring delicate floral prints and a comfortable, elegant silhouette. Paired with striped bottoms and a beautifully patterned dupatta with floral borders, this outfit brings a bright and cheerful charm, perfect for festive gatherings or everyday ethnic wear.', 2150.00, NULL, 10, 0, 1),
 (1, 'A3-1', 'Sunshine Bloom', 'A vibrant mustard-yellow kurta set featuring delicate floral prints and a comfortable, elegant silhouette. Paired with striped bottoms and a beautifully patterned dupatta with floral borders, this outfit brings a bright and cheerful charm, perfect for festive gatherings or everyday ethnic wear.', 2150.00, NULL, 10, 0, 1),
@@ -89,7 +113,7 @@ INSERT INTO `products` (`category_num`, `product_code`, `product_name`, `descrip
 (1, 'A6', 'Pink Petal Grace', 'A charming pink and white kurta set featuring delicate floral and geometric prints. Paired with a beautifully patterned dupatta and subtle neckline detailing, this outfit creates a soft, elegant look perfect for festive gatherings or daytime occasions.', 700.00, NULL, 10, 0, 1),
 (1, 'A6-1', 'Pink Petal Grace', 'A charming pink and white kurta set featuring delicate floral and geometric prints. Paired with a beautifully patterned dupatta and subtle neckline detailing, this outfit creates a soft, elegant look perfect for festive gatherings or daytime occasions.', 700.00, NULL, 10, 0, 1),
 (1, 'A6-2', 'Pink Petal Grace', 'A charming pink and white kurta set featuring delicate floral and geometric prints. Paired with a beautifully patterned dupatta and subtle neckline detailing, this outfit creates a soft, elegant look perfect for festive gatherings or daytime occasions.', 700.00, NULL, 10, 0, 1),
-(1, 'A7', 'Royal Festive Flair', 'A stunning multicolored lehenga set featuring vibrant traditional prints and intricate patterns. Paired with a matching dupatta and detailed borders, this outfit creates a rich and festive look, perfect for weddings, celebrations, and special occasions.', 700.00, NULL, 10, 1, 1),
+(1, 'A7', 'Royal Festive Flair', 'A stunning multicolored lehenga set featuring vibrant traditional prints and intricate patterns. Paired with a matching dupatta and detailed borders, this outfit creates a rich and festive look, perfect for weddings, celebrations, and special occasions.', 700.00, NULL, 9, 1, 1),
 (1, 'A7-1', 'Royal Festive Flair', 'A stunning multicolored lehenga set featuring vibrant traditional prints and intricate patterns. Paired with a matching dupatta and detailed borders, this outfit creates a rich and festive look, perfect for weddings, celebrations, and special occasions.', 700.00, NULL, 10, 0, 1),
 (1, 'A7-2', 'Royal Festive Flair', 'A stunning multicolored lehenga set featuring vibrant traditional prints and intricate patterns. Paired with a matching dupatta and detailed borders, this outfit creates a rich and festive look, perfect for weddings, celebrations, and special occasions.', 700.00, NULL, 10, 0, 1),
 (1, 'A8', 'Rust Elegance', 'A graceful rust-orange kurta set featuring delicate embroidery on the bodice and soft gathered detailing for a flowing silhouette. Paired with matching bottoms and a dupatta, this outfit offers a sophisticated and festive look perfect for celebrations or special occasions.', 2100.00, NULL, 10, 0, 1),
@@ -113,7 +137,7 @@ INSERT INTO `products` (`category_num`, `product_code`, `product_name`, `descrip
 (2, 'C5', 'Scarlet Bloom Charm', 'A vibrant scarlet red kurta adorned with intricate white floral embroidery on the neckline, sleeves, and hem. Paired with elegant off-white bottoms, this outfit offers a striking yet graceful ethnic look perfect for festive gatherings or stylish everyday wear.', 1000.00, NULL, 10, 1, 1),
 (2, 'C5-1', 'Scarlet Bloom Charm', 'A vibrant scarlet red kurta adorned with intricate white floral embroidery on the neckline, sleeves, and hem. Paired with elegant off-white bottoms, this outfit offers a striking yet graceful ethnic look perfect for festive gatherings or stylish everyday wear.', 1000.00, NULL, 10, 0, 1),
 (2, 'C5-2', 'Scarlet Bloom Charm', 'A vibrant scarlet red kurta adorned with intricate white floral embroidery on the neckline, sleeves, and hem. Paired with elegant off-white bottoms, this outfit offers a striking yet graceful ethnic look perfect for festive gatherings or stylish everyday wear.', 1000.00, NULL, 10, 0, 1),
-(2, 'C6', 'Midnight Ivory Elegance', 'A classic black kurta adorned with intricate white floral embroidery on the neckline, sleeves, and borders. Paired with elegant white bottoms, this outfit creates a timeless and sophisticated ethnic look perfect for both casual and festive occasions.', 1000.00, NULL, 10, 0, 1),
+(2, 'C6', 'Midnight Ivory Elegance', 'A classic black kurta adorned with intricate white floral embroidery on the neckline, sleeves, and borders. Paired with elegant white bottoms, this outfit creates a timeless and sophisticated ethnic look perfect for both casual and festive occasions.', 1000.00, NULL, 9, 0, 1),
 (2, 'C6-1', 'Midnight Ivory Elegance', 'A classic black kurta adorned with intricate white floral embroidery on the neckline, sleeves, and borders. Paired with elegant white bottoms, this outfit creates a timeless and sophisticated ethnic look perfect for both casual and festive occasions.', 1000.00, NULL, 10, 0, 1),
 (2, 'C6-2', 'Midnight Ivory Elegance', 'A classic black kurta adorned with intricate white floral embroidery on the neckline, sleeves, and borders. Paired with elegant white bottoms, this outfit creates a timeless and sophisticated ethnic look perfect for both casual and festive occasions.', 1000.00, NULL, 10, 0, 1),
 (2, 'C7', 'Royal Indigo Grace', 'A beautiful indigo-blue kurta featuring intricate white floral embroidery on the neckline, sleeves, and hem. Paired with elegant white bottoms, this outfit offers a refined and timeless ethnic look perfect for casual outings and festive daytime occasions.', 1000.00, NULL, 10, 0, 1),
@@ -149,7 +173,7 @@ INSERT INTO `products` (`category_num`, `product_code`, `product_name`, `descrip
 (4, 'D12', 'Ivory Grace Embroidered', 'An elegant ivory unstitched dress material adorned with delicate embroidery and subtle traditional motifs in pink and green. Paired with a matching bottom and a beautifully detailed dupatta, this set offers a refined and graceful look perfect for festive occasions and daytime celebrations.', 3000.00, NULL, 10, 0, 1),
 (4, 'D12-1', 'Ivory Grace Embroidered', 'An elegant ivory unstitched dress material adorned with delicate embroidery and subtle traditional motifs in pink and green. Paired with a matching bottom and a beautifully detailed dupatta, this set offers a refined and graceful look perfect for festive occasions and daytime celebrations.', 3000.00, NULL, 10, 0, 1),
 (4, 'D12-2', 'Ivory Grace Embroidered', 'An elegant ivory unstitched dress material adorned with delicate embroidery and subtle traditional motifs in pink and green. Paired with a matching bottom and a beautifully detailed dupatta, this set offers a refined and graceful look perfect for festive occasions and daytime celebrations.', 3000.00, NULL, 10, 0, 1),
-(4, 'D13', 'Festive Multicolor Embroidered', 'A vibrant unstitched dress material featuring colorful floral embroidery on a soft ivory base. Paired with a matching bottom and a bright multicolor patterned dupatta with tassel detailing, this set creates a lively and festive look perfect for celebrations and traditional occasions.', 2500.00, NULL, 10, 1, 1),
+(4, 'D13', 'Festive Multicolor Embroidered', 'A vibrant unstitched dress material featuring colorful floral embroidery on a soft ivory base. Paired with a matching bottom and a bright multicolor patterned dupatta with tassel detailing, this set creates a lively and festive look perfect for celebrations and traditional occasions.', 2500.00, NULL, 9, 1, 1),
 (4, 'D13-1', 'Festive Multicolor Embroidered', 'A vibrant unstitched dress material featuring colorful floral embroidery on a soft ivory base. Paired with a matching bottom and a bright multicolor patterned dupatta with tassel detailing, this set creates a lively and festive look perfect for celebrations and traditional occasions.', 2500.00, NULL, 10, 0, 1),
 (4, 'D13-2', 'Festive Multicolor Embroidered', 'A vibrant unstitched dress material featuring colorful floral embroidery on a soft ivory base. Paired with a matching bottom and a bright multicolor patterned dupatta with tassel detailing, this set creates a lively and festive look perfect for celebrations and traditional occasions.', 2500.00, NULL, 10, 0, 1),
 (4, 'D14', 'Sunset Glow', 'A striking unstitched dress material featuring a vibrant orange kurta fabric adorned with subtle sequin detailing. Paired with a matching bottom and a contrasting olive green dupatta with delicate shimmer accents, this set creates a bold yet elegant look perfect for festive gatherings and special occasions.', 2000.00, NULL, 10, 0, 1),
@@ -170,7 +194,7 @@ INSERT INTO `products` (`category_num`, `product_code`, `product_name`, `descrip
 (4, 'D6', 'Midnight Blush', 'A stylish navy-blue dress material featuring elegant geometric motifs and delicate button detailing on the front panel. Paired with a soft blush-pink printed dupatta and matching fabric for the bottom, this unstitched set creates a chic and modern ethnic look perfect for casual or festive wear.', 3000.00, NULL, 10, 0, 1),
 (4, 'D6-1', 'Midnight Blush', 'A stylish navy-blue dress material featuring elegant geometric motifs and delicate button detailing on the front panel. Paired with a soft blush-pink printed dupatta and matching fabric for the bottom, this unstitched set creates a chic and modern ethnic look perfect for casual or festive wear.', 3000.00, NULL, 10, 0, 1),
 (4, 'D6-2', 'Midnight Blush', 'A stylish navy-blue dress material featuring elegant geometric motifs and delicate button detailing on the front panel. Paired with a soft blush-pink printed dupatta and matching fabric for the bottom, this unstitched set creates a chic and modern ethnic look perfect for casual or festive wear.', 3000.00, NULL, 10, 0, 1),
-(4, 'D7', 'Sandstone Floral', 'An elegant sandstone-beige dress material featuring delicate floral and paisley prints with subtle earthy tones. Paired with a soft shimmering dupatta and a coordinated printed top fabric, this unstitched set creates a graceful and sophisticated look perfect for festive and semi-formal occasions.', 3000.00, NULL, 10, 0, 1),
+(4, 'D7', 'Sandstone Floral', 'An elegant sandstone-beige dress material featuring delicate floral and paisley prints with subtle earthy tones. Paired with a soft shimmering dupatta and a coordinated printed top fabric, this unstitched set creates a graceful and sophisticated look perfect for festive and semi-formal occasions.', 3000.00, NULL, 9, 0, 1),
 (4, 'D7-1', 'Sandstone Floral', 'An elegant sandstone-beige dress material featuring delicate floral and paisley prints with subtle earthy tones. Paired with a soft shimmering dupatta and a coordinated printed top fabric, this unstitched set creates a graceful and sophisticated look perfect for festive and semi-formal occasions.', 3000.00, NULL, 10, 0, 1),
 (4, 'D7-2', 'Sandstone Floral', 'An elegant sandstone-beige dress material featuring delicate floral and paisley prints with subtle earthy tones. Paired with a soft shimmering dupatta and a coordinated printed top fabric, this unstitched set creates a graceful and sophisticated look perfect for festive and semi-formal occasions.', 3000.00, NULL, 10, 0, 1),
 (4, 'D8', 'Aqua Blossom', 'A refreshing aqua-blue dress material featuring intricate white floral embroidery on the neckline and sleeves. Paired with a matching bottom and a beautifully embroidered dupatta, this unstitched set offers a graceful and elegant look perfect for festive occasions or daytime celebrations.', 3200.00, NULL, 10, 0, 1),
@@ -197,7 +221,7 @@ INSERT INTO `products` (`category_num`, `product_code`, `product_name`, `descrip
 (6, 'S14', 'Beige Rust', 'An elegant beige suit set featuring delicate traditional prints with rust-toned accents. Paired with matching bottoms and a beautifully patterned dupatta, it offers a graceful and comfortable look for everyday wear and casual occasions.', 1200.00, NULL, 10, 0, 1),
 (6, 'S14-1', 'Beige Rust', 'An elegant beige suit set featuring delicate traditional prints with rust-toned accents. Paired with matching bottoms and a beautifully patterned dupatta, it offers a graceful and comfortable look for everyday wear and casual occasions.', 1200.00, NULL, 10, 0, 1),
 (6, 'S14-2', 'Beige Rust', 'An elegant beige suit set featuring delicate traditional prints with rust-toned accents. Paired with matching bottoms and a beautifully patterned dupatta, it offers a graceful and comfortable look for everyday wear and casual occasions.', 1200.00, NULL, 10, 0, 1),
-(6, 'S15', 'Rust Charm', 'A vibrant rust-colored suit set featuring elegant traditional prints. Paired with matching bottoms and a coordinated dupatta, it offers a stylish and comfortable look for everyday wear and casual occasions.', 2000.00, NULL, 10, 1, 1),
+(6, 'S15', 'Rust Charm', 'A vibrant rust-colored suit set featuring elegant traditional prints. Paired with matching bottoms and a coordinated dupatta, it offers a stylish and comfortable look for everyday wear and casual occasions.', 2000.00, NULL, 9, 1, 1),
 (6, 'S15-1', 'Rust Charm', 'A vibrant rust-colored suit set featuring elegant traditional prints. Paired with matching bottoms and a coordinated dupatta, it offers a stylish and comfortable look for everyday wear and casual occasions.', 2000.00, NULL, 10, 0, 1),
 (6, 'S15-2', 'Rust Charm', 'A vibrant rust-colored suit set featuring elegant traditional prints. Paired with matching bottoms and a coordinated dupatta, it offers a stylish and comfortable look for everyday wear and casual occasions.', 2000.00, NULL, 10, 0, 1),
 (6, 'S16', 'Crimson Bloom', 'A stunning crimson suit set featuring elegant floral prints and traditional detailing. Paired with matching bottoms and a coordinated dupatta, it creates a graceful look perfect for casual outings and festive wear.', 1500.00, NULL, 10, 0, 1),
@@ -229,9 +253,9 @@ INSERT INTO `products` (`category_num`, `product_code`, `product_name`, `descrip
 (6, 'S23-2', 'Midnight Indigo', 'A graceful indigo suit set featuring elegant traditional prints and intricate neckline detailing. Paired with matching bottoms and a coordinated dupatta, it offers a stylish and comfortable look perfect for everyday wear and casual occasions.', 1000.00, NULL, 10, 0, 1),
 (6, 'S24', 'Noir Ruby', 'A stylish black suit set featuring rich ruby-red traditional prints and detailed neckline work. Paired with matching bottoms and a beautifully patterned dupatta, it creates a graceful look perfect for casual and festive occasions.', 1500.00, NULL, 10, 0, 1),
 (6, 'S24-1', 'Noir Ruby', 'A stylish black suit set featuring rich ruby-red traditional prints and detailed neckline work. Paired with matching bottoms and a beautifully patterned dupatta, it creates a graceful look perfect for casual and festive occasions.', 1500.00, NULL, 10, 0, 1),
-(6, 'S24-2', 'Noir Ruby', 'A stylish black suit set featuring rich ruby-red traditional prints and detailed neckline work. Paired with matching bottoms and a beautifully patterned dupatta, it creates a graceful look perfect for casual and festive occasions.', 1500.00, NULL, 10, 0, 1);
+(6, 'S24-2', 'Noir Ruby', 'A stylish black suit set featuring rich ruby-red traditional prints and detailed neckline work. Paired with matching bottoms and a beautifully patterned dupatta, it creates a graceful look perfect for casual and festive occasions.', 1500.00, NULL, 10, 0, 1),
+(6, 'S25', 'Maroon Royal', 'A rich maroon suit set featuring elegant traditional prints and detailed neckline work. Paired with matching bottoms and a beautifully patterned dupatta, it creates a graceful look perfect for festive and special occasions.', 1500.00, NULL, 10, 1, 1);
 INSERT INTO `products` (`category_num`, `product_code`, `product_name`, `description`, `price`, `color`, `stock_qty`, `is_featured`, `is_active`) VALUES
-(6, 'S25', 'Maroon Royal', 'A rich maroon suit set featuring elegant traditional prints and detailed neckline work. Paired with matching bottoms and a beautifully patterned dupatta, it creates a graceful look perfect for festive and special occasions.', 1500.00, NULL, 10, 1, 1),
 (6, 'S25-1', 'Maroon Royal', 'A rich maroon suit set featuring elegant traditional prints and detailed neckline work. Paired with matching bottoms and a beautifully patterned dupatta, it creates a graceful look perfect for festive and special occasions.', 1500.00, NULL, 10, 0, 1),
 (6, 'S25-2', 'Maroon Royal', 'A rich maroon suit set featuring elegant traditional prints and detailed neckline work. Paired with matching bottoms and a beautifully patterned dupatta, it creates a graceful look perfect for festive and special occasions.', 1500.00, NULL, 10, 0, 1),
 (6, 'S26', 'Midnight Royal', 'A sophisticated black suit set featuring elegant traditional patterns and detailed neckline work. Paired with matching bottoms and a richly patterned dupatta, it creates a graceful look perfect for festive and evening occasions.', 1200.00, NULL, 10, 0, 1),
@@ -544,6 +568,405 @@ INSERT INTO `product_images` (`image_id`, `product_code`, `image_path`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `product_stock`
+--
+
+CREATE TABLE `product_stock` (
+  `stock_id` int(11) NOT NULL,
+  `product_code` varchar(50) NOT NULL,
+  `size` varchar(10) NOT NULL,
+  `stock_qty` int(11) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `product_stock`
+--
+
+INSERT INTO `product_stock` (`stock_id`, `product_code`, `size`, `stock_qty`) VALUES
+(1, 'A1', 'S', 15),
+(2, 'A1', 'M', 15),
+(3, 'A1', 'L', 15),
+(4, 'A1', 'XL', 15),
+(5, 'A1', 'XXL', 15),
+(6, 'A2', 'S', 15),
+(7, 'A2', 'M', 15),
+(8, 'A2', 'L', 15),
+(9, 'A2', 'XL', 15),
+(10, 'A2', 'XXL', 15),
+(11, 'A3', 'S', 15),
+(12, 'A3', 'M', 15),
+(13, 'A3', 'L', 15),
+(14, 'A3', 'XL', 15),
+(15, 'A3', 'XXL', 15),
+(16, 'A4', 'S', 15),
+(17, 'A4', 'M', 15),
+(18, 'A4', 'L', 15),
+(19, 'A4', 'XL', 15),
+(20, 'A4', 'XXL', 15),
+(21, 'A5', 'S', 15),
+(22, 'A5', 'M', 15),
+(23, 'A5', 'L', 15),
+(24, 'A5', 'XL', 15),
+(25, 'A5', 'XXL', 15),
+(26, 'A6', 'S', 15),
+(27, 'A6', 'M', 15),
+(28, 'A6', 'L', 15),
+(29, 'A6', 'XL', 15),
+(30, 'A6', 'XXL', 15),
+(31, 'A7', 'S', 15),
+(32, 'A7', 'M', 15),
+(33, 'A7', 'L', 15),
+(34, 'A7', 'XL', 15),
+(35, 'A7', 'XXL', 15),
+(36, 'A8', 'S', 15),
+(37, 'A8', 'M', 15),
+(38, 'A8', 'L', 15),
+(39, 'A8', 'XL', 15),
+(40, 'A8', 'XXL', 15),
+(41, 'A9', 'S', 15),
+(42, 'A9', 'M', 15),
+(43, 'A9', 'L', 15),
+(44, 'A9', 'XL', 15),
+(45, 'A9', 'XXL', 15),
+(46, 'C1', 'S', 15),
+(47, 'C1', 'M', 15),
+(48, 'C1', 'L', 15),
+(49, 'C1', 'XL', 15),
+(50, 'C1', 'XXL', 15),
+(51, 'C2', 'S', 15),
+(52, 'C2', 'M', 15),
+(53, 'C2', 'L', 15),
+(54, 'C2', 'XL', 15),
+(55, 'C2', 'XXL', 15),
+(56, 'C3', 'S', 15),
+(57, 'C3', 'M', 15),
+(58, 'C3', 'L', 15),
+(59, 'C3', 'XL', 15),
+(60, 'C3', 'XXL', 15),
+(61, 'C4', 'S', 15),
+(62, 'C4', 'M', 15),
+(63, 'C4', 'L', 15),
+(64, 'C4', 'XL', 15),
+(65, 'C4', 'XXL', 15),
+(66, 'C5', 'S', 15),
+(67, 'C5', 'M', 15),
+(68, 'C5', 'L', 15),
+(69, 'C5', 'XL', 15),
+(70, 'C5', 'XXL', 15),
+(71, 'C6', 'S', 15),
+(72, 'C6', 'M', 15),
+(73, 'C6', 'L', 15),
+(74, 'C6', 'XL', 15),
+(75, 'C6', 'XXL', 15),
+(76, 'C7', 'S', 15),
+(77, 'C7', 'M', 15),
+(78, 'C7', 'L', 15),
+(79, 'C7', 'XL', 15),
+(80, 'C7', 'XXL', 15),
+(81, 'C8', 'S', 15),
+(82, 'C8', 'M', 15),
+(83, 'C8', 'L', 15),
+(84, 'C8', 'XL', 15),
+(85, 'C8', 'XXL', 15),
+(86, 'CO1', 'S', 15),
+(87, 'CO1', 'M', 15),
+(88, 'CO1', 'L', 15),
+(89, 'CO1', 'XL', 15),
+(90, 'CO1', 'XXL', 15),
+(91, 'CO2', 'S', 15),
+(92, 'CO2', 'M', 15),
+(93, 'CO2', 'L', 15),
+(94, 'CO2', 'XL', 15),
+(95, 'CO2', 'XXL', 15),
+(96, 'CO3', 'S', 15),
+(97, 'CO3', 'M', 15),
+(98, 'CO3', 'L', 15),
+(99, 'CO3', 'XL', 15),
+(100, 'CO3', 'XXL', 15),
+(101, 'CO4', 'S', 15),
+(102, 'CO4', 'M', 15),
+(103, 'CO4', 'L', 15),
+(104, 'CO4', 'XL', 15),
+(105, 'CO4', 'XXL', 15),
+(106, 'CO5', 'S', 15),
+(107, 'CO5', 'M', 15),
+(108, 'CO5', 'L', 15),
+(109, 'CO5', 'XL', 15),
+(110, 'CO5', 'XXL', 15),
+(111, 'D1', 'S', 15),
+(112, 'D1', 'M', 15),
+(113, 'D1', 'L', 15),
+(114, 'D1', 'XL', 15),
+(115, 'D1', 'XXL', 15),
+(116, 'D2', 'S', 15),
+(117, 'D2', 'M', 15),
+(118, 'D2', 'L', 15),
+(119, 'D2', 'XL', 15),
+(120, 'D2', 'XXL', 15),
+(121, 'D3', 'S', 15),
+(122, 'D3', 'M', 15),
+(123, 'D3', 'L', 15),
+(124, 'D3', 'XL', 15),
+(125, 'D3', 'XXL', 15),
+(126, 'D4', 'S', 15),
+(127, 'D4', 'M', 15),
+(128, 'D4', 'L', 15),
+(129, 'D4', 'XL', 15),
+(130, 'D4', 'XXL', 15),
+(131, 'D5', 'S', 15),
+(132, 'D5', 'M', 15),
+(133, 'D5', 'L', 15),
+(134, 'D5', 'XL', 15),
+(135, 'D5', 'XXL', 15),
+(136, 'D6', 'S', 15),
+(137, 'D6', 'M', 15),
+(138, 'D6', 'L', 15),
+(139, 'D6', 'XL', 15),
+(140, 'D6', 'XXL', 15),
+(141, 'D7', 'S', 15),
+(142, 'D7', 'M', 15),
+(143, 'D7', 'L', 15),
+(144, 'D7', 'XL', 15),
+(145, 'D7', 'XXL', 15),
+(146, 'D8', 'S', 15),
+(147, 'D8', 'M', 15),
+(148, 'D8', 'L', 15),
+(149, 'D8', 'XL', 15),
+(150, 'D8', 'XXL', 15),
+(151, 'D9', 'S', 15),
+(152, 'D9', 'M', 15),
+(153, 'D9', 'L', 15),
+(154, 'D9', 'XL', 15),
+(155, 'D9', 'XXL', 15),
+(156, 'D10', 'S', 15),
+(157, 'D10', 'M', 15),
+(158, 'D10', 'L', 15),
+(159, 'D10', 'XL', 15),
+(160, 'D10', 'XXL', 15),
+(161, 'D11', 'S', 15),
+(162, 'D11', 'M', 15),
+(163, 'D11', 'L', 15),
+(164, 'D11', 'XL', 15),
+(165, 'D11', 'XXL', 15),
+(166, 'D12', 'S', 15),
+(167, 'D12', 'M', 15),
+(168, 'D12', 'L', 15),
+(169, 'D12', 'XL', 15),
+(170, 'D12', 'XXL', 15),
+(171, 'D13', 'S', 15),
+(172, 'D13', 'M', 15),
+(173, 'D13', 'L', 15),
+(174, 'D13', 'XL', 15),
+(175, 'D13', 'XXL', 15),
+(176, 'D14', 'S', 15),
+(177, 'D14', 'M', 15),
+(178, 'D14', 'L', 15),
+(179, 'D14', 'XL', 15),
+(180, 'D14', 'XXL', 15),
+(181, 'SH1', 'S', 15),
+(182, 'SH1', 'M', 15),
+(183, 'SH1', 'L', 15),
+(184, 'SH1', 'XL', 15),
+(185, 'SH1', 'XXL', 15),
+(186, 'SH2', 'S', 15),
+(187, 'SH2', 'M', 15),
+(188, 'SH2', 'L', 15),
+(189, 'SH2', 'XL', 15),
+(190, 'SH2', 'XXL', 15),
+(191, 'SH3', 'S', 15),
+(192, 'SH3', 'M', 15),
+(193, 'SH3', 'L', 15),
+(194, 'SH3', 'XL', 15),
+(195, 'SH3', 'XXL', 15),
+(196, 'SH4', 'S', 15),
+(197, 'SH4', 'M', 15),
+(198, 'SH4', 'L', 15),
+(199, 'SH4', 'XL', 15),
+(200, 'SH4', 'XXL', 15),
+(201, 'SH5', 'S', 15),
+(202, 'SH5', 'M', 15),
+(203, 'SH5', 'L', 15),
+(204, 'SH5', 'XL', 15),
+(205, 'SH5', 'XXL', 15),
+(206, 'SH6', 'S', 15),
+(207, 'SH6', 'M', 15),
+(208, 'SH6', 'L', 15),
+(209, 'SH6', 'XL', 15),
+(210, 'SH6', 'XXL', 15),
+(211, 'S1', 'S', 15),
+(212, 'S1', 'M', 15),
+(213, 'S1', 'L', 15),
+(214, 'S1', 'XL', 15),
+(215, 'S1', 'XXL', 15),
+(216, 'S2', 'S', 15),
+(217, 'S2', 'M', 15),
+(218, 'S2', 'L', 15),
+(219, 'S2', 'XL', 15),
+(220, 'S2', 'XXL', 15),
+(221, 'S3', 'S', 15),
+(222, 'S3', 'M', 15),
+(223, 'S3', 'L', 15),
+(224, 'S3', 'XL', 15),
+(225, 'S3', 'XXL', 15),
+(226, 'S4', 'S', 15),
+(227, 'S4', 'M', 15),
+(228, 'S4', 'L', 15),
+(229, 'S4', 'XL', 15),
+(230, 'S4', 'XXL', 15),
+(231, 'S5', 'S', 15),
+(232, 'S5', 'M', 15),
+(233, 'S5', 'L', 15),
+(234, 'S5', 'XL', 15),
+(235, 'S5', 'XXL', 15),
+(236, 'S6', 'S', 15),
+(237, 'S6', 'M', 15),
+(238, 'S6', 'L', 15),
+(239, 'S6', 'XL', 15),
+(240, 'S6', 'XXL', 15),
+(241, 'S7', 'S', 15),
+(242, 'S7', 'M', 15),
+(243, 'S7', 'L', 15),
+(244, 'S7', 'XL', 15),
+(245, 'S7', 'XXL', 15),
+(246, 'S8', 'S', 15),
+(247, 'S8', 'M', 15),
+(248, 'S8', 'L', 15),
+(249, 'S8', 'XL', 15),
+(250, 'S8', 'XXL', 15),
+(251, 'S9', 'S', 15),
+(252, 'S9', 'M', 15),
+(253, 'S9', 'L', 15),
+(254, 'S9', 'XL', 15),
+(255, 'S9', 'XXL', 15),
+(256, 'S10', 'S', 15),
+(257, 'S10', 'M', 15),
+(258, 'S10', 'L', 15),
+(259, 'S10', 'XL', 15),
+(260, 'S10', 'XXL', 15),
+(261, 'S11', 'S', 15),
+(262, 'S11', 'M', 15),
+(263, 'S11', 'L', 15),
+(264, 'S11', 'XL', 15),
+(265, 'S11', 'XXL', 15),
+(266, 'S12', 'S', 15),
+(267, 'S12', 'M', 15),
+(268, 'S12', 'L', 15),
+(269, 'S12', 'XL', 15),
+(270, 'S12', 'XXL', 15),
+(271, 'S13', 'S', 15),
+(272, 'S13', 'M', 15),
+(273, 'S13', 'L', 15),
+(274, 'S13', 'XL', 15),
+(275, 'S13', 'XXL', 15),
+(276, 'S14', 'S', 15),
+(277, 'S14', 'M', 15),
+(278, 'S14', 'L', 15),
+(279, 'S14', 'XL', 15),
+(280, 'S14', 'XXL', 15),
+(281, 'S15', 'S', 15),
+(282, 'S15', 'M', 15),
+(283, 'S15', 'L', 15),
+(284, 'S15', 'XL', 15),
+(285, 'S15', 'XXL', 15),
+(286, 'S16', 'S', 15),
+(287, 'S16', 'M', 15),
+(288, 'S16', 'L', 15),
+(289, 'S16', 'XL', 15),
+(290, 'S16', 'XXL', 15),
+(291, 'S17', 'S', 15),
+(292, 'S17', 'M', 15),
+(293, 'S17', 'L', 15),
+(294, 'S17', 'XL', 15),
+(295, 'S17', 'XXL', 15),
+(296, 'S18', 'S', 15),
+(297, 'S18', 'M', 15),
+(298, 'S18', 'L', 15),
+(299, 'S18', 'XL', 15),
+(300, 'S18', 'XXL', 15),
+(301, 'S19', 'S', 15),
+(302, 'S19', 'M', 15),
+(303, 'S19', 'L', 15),
+(304, 'S19', 'XL', 15),
+(305, 'S19', 'XXL', 15),
+(306, 'S20', 'S', 15),
+(307, 'S20', 'M', 15),
+(308, 'S20', 'L', 15),
+(309, 'S20', 'XL', 15),
+(310, 'S20', 'XXL', 15),
+(311, 'S21', 'S', 15),
+(312, 'S21', 'M', 15),
+(313, 'S21', 'L', 15),
+(314, 'S21', 'XL', 15),
+(315, 'S21', 'XXL', 15),
+(316, 'S22', 'S', 15),
+(317, 'S22', 'M', 15),
+(318, 'S22', 'L', 15),
+(319, 'S22', 'XL', 15),
+(320, 'S22', 'XXL', 15),
+(321, 'S23', 'S', 15),
+(322, 'S23', 'M', 15),
+(323, 'S23', 'L', 15),
+(324, 'S23', 'XL', 15),
+(325, 'S23', 'XXL', 15),
+(326, 'S24', 'S', 15),
+(327, 'S24', 'M', 15),
+(328, 'S24', 'L', 15),
+(329, 'S24', 'XL', 15),
+(330, 'S24', 'XXL', 15),
+(331, 'S25', 'S', 15),
+(332, 'S25', 'M', 15),
+(333, 'S25', 'L', 15),
+(334, 'S25', 'XL', 15),
+(335, 'S25', 'XXL', 15),
+(336, 'S26', 'S', 15),
+(337, 'S26', 'M', 15),
+(338, 'S26', 'L', 15),
+(339, 'S26', 'XL', 15),
+(340, 'S26', 'XXL', 15),
+(341, 'S27', 'S', 15),
+(342, 'S27', 'M', 15),
+(343, 'S27', 'L', 15),
+(344, 'S27', 'XL', 15),
+(345, 'S27', 'XXL', 15),
+(346, 'S28', 'S', 15),
+(347, 'S28', 'M', 15),
+(348, 'S28', 'L', 15),
+(349, 'S28', 'XL', 15),
+(350, 'S28', 'XXL', 15),
+(351, 'S29', 'S', 15),
+(352, 'S29', 'M', 15),
+(353, 'S29', 'L', 15),
+(354, 'S29', 'XL', 15),
+(355, 'S29', 'XXL', 15),
+(356, 'S30', 'S', 15),
+(357, 'S30', 'M', 15),
+(358, 'S30', 'L', 15),
+(359, 'S30', 'XL', 15),
+(360, 'S30', 'XXL', 15),
+(361, 'S31', 'S', 15),
+(362, 'S31', 'M', 15),
+(363, 'S31', 'L', 15),
+(364, 'S31', 'XL', 15),
+(365, 'S31', 'XXL', 15),
+(366, 'S32', 'S', 15),
+(367, 'S32', 'M', 15),
+(368, 'S32', 'L', 15),
+(369, 'S32', 'XL', 15),
+(370, 'S32', 'XXL', 15),
+(371, 'S33', 'S', 15),
+(372, 'S33', 'M', 15),
+(373, 'S33', 'L', 15),
+(374, 'S33', 'XL', 15),
+(375, 'S33', 'XXL', 15),
+(376, 'S34', 'S', 15),
+(377, 'S34', 'M', 15),
+(378, 'S34', 'L', 15),
+(379, 'S34', 'XL', 15),
+(380, 'S34', 'XXL', 15);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -554,18 +977,20 @@ CREATE TABLE `users` (
   `phone_number` varchar(15) DEFAULT NULL,
   `password_hash` varchar(255) NOT NULL,
   `role` enum('user','staff','manager') DEFAULT 'user',
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `remember_token` varchar(64) DEFAULT NULL
 ) ;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_id`, `name`, `email`, `phone_number`, `password_hash`, `role`, `created_at`) VALUES
-(10, 'Nidhi Balaji', 'nidhibalaji219@gmail.com', '7676528462', '$2y$10$mB/KOy8mcjMzoLjxnUWPRO46bza8vp1MrjZrjGCuBBqgN6V10WaDK', 'manager', '2026-03-09 15:05:42'),
-(11, 'Aashika Menon', 'aashikamenon2004@gmail.com', '7411437721', '$2y$10$mGLUKvfEtXQRGeQAISoDPufkxht/813GlreUq7PhUeUq5Lak92Ite', 'manager', '2026-03-09 15:07:08'),
-(12, 'Anitha Patel', 'anithapatel1203@gmail.com', '8618247172', '$2y$10$p4Dg7gc5Eu8H9yceC/kcDe02MlBm5e0p5/w/UzGY/ieSuKQI8FzjO', 'manager', '2026-03-09 15:07:54'),
-(13, 'Aditi Tupsakri', 'adititupsakri@gmail.com', '9108893232', '$2y$10$PPi.XVd2B2BC9aOQ3/XjVelQwKCWliIFCNq3Bd8AVtAGyhdyNFKG6', 'manager', '2026-03-09 15:08:35');
+INSERT INTO `users` (`user_id`, `name`, `email`, `phone_number`, `password_hash`, `role`, `created_at`, `remember_token`) VALUES
+(10, 'Nidhi Balaji', 'nidhibalaji219@gmail.com', '7676528462', '$2y$10$mB/KOy8mcjMzoLjxnUWPRO46bza8vp1MrjZrjGCuBBqgN6V10WaDK', 'manager', '2026-03-09 15:05:42', NULL),
+(11, 'Aashika Menon', 'aashikamenon2004@gmail.com', '7411437721', '$2y$10$mGLUKvfEtXQRGeQAISoDPufkxht/813GlreUq7PhUeUq5Lak92Ite', 'manager', '2026-03-09 15:07:08', NULL),
+(12, 'Anitha Patel', 'anithapatel1203@gmail.com', '8618247172', '$2y$10$p4Dg7gc5Eu8H9yceC/kcDe02MlBm5e0p5/w/UzGY/ieSuKQI8FzjO', 'manager', '2026-03-09 15:07:54', NULL),
+(13, 'Aditi Tupsakri', 'adititupsakri@gmail.com', '9108893232', '$2y$10$PPi.XVd2B2BC9aOQ3/XjVelQwKCWliIFCNq3Bd8AVtAGyhdyNFKG6', 'manager', '2026-03-09 15:08:35', NULL),
+(14, 'Kaushik', 'svkaushik2210@gmail.com', '9538003807', '$2y$10$8HtmB4ftp5ugp1sid/sEI.dPR02MjrCiKfYz/gwvD2NClkmqpqGZ2', 'user', '2026-03-09 18:06:13', NULL);
 
 -- --------------------------------------------------------
 
@@ -612,15 +1037,15 @@ CREATE TABLE `user_wishlist` (
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`order_id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD KEY `idx_orders_user` (`user_id`);
 
 --
 -- Indexes for table `order_items`
 --
 ALTER TABLE `order_items`
   ADD PRIMARY KEY (`item_id`),
-  ADD KEY `order_id` (`order_id`),
-  ADD KEY `product_code` (`product_code`);
+  ADD KEY `fk_order_items_product` (`product_code`),
+  ADD KEY `idx_order_items_order` (`order_id`);
 
 --
 -- Indexes for table `products`
@@ -629,14 +1054,23 @@ ALTER TABLE `products`
   ADD PRIMARY KEY (`product_code`),
   ADD KEY `idx_category` (`category_num`),
   ADD KEY `idx_featured` (`is_featured`),
-  ADD KEY `idx_active` (`is_active`);
+  ADD KEY `idx_active` (`is_active`),
+  ADD KEY `idx_product_category` (`category_num`);
 
 --
 -- Indexes for table `product_images`
 --
 ALTER TABLE `product_images`
   ADD PRIMARY KEY (`image_id`),
-  ADD KEY `fk_product_code` (`product_code`);
+  ADD KEY `idx_product_images` (`product_code`);
+
+--
+-- Indexes for table `product_stock`
+--
+ALTER TABLE `product_stock`
+  ADD PRIMARY KEY (`stock_id`),
+  ADD UNIQUE KEY `product_code` (`product_code`,`size`),
+  ADD KEY `idx_product_stock` (`product_code`,`size`);
 
 --
 -- Indexes for table `users`
@@ -674,19 +1108,25 @@ ALTER TABLE `user_wishlist`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `product_images`
 --
 ALTER TABLE `product_images`
-  MODIFY `image_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=383;
+  MODIFY `image_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=352;
+
+--
+-- AUTO_INCREMENT for table `product_stock`
+--
+ALTER TABLE `product_stock`
+  MODIFY `stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=381;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -702,12 +1142,15 @@ ALTER TABLE `users`
 -- Constraints for table `orders`
 --
 ALTER TABLE `orders`
+  ADD CONSTRAINT `fk_orders_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `order_items`
 --
 ALTER TABLE `order_items`
+  ADD CONSTRAINT `fk_order_items_order` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_order_items_product` FOREIGN KEY (`product_code`) REFERENCES `products` (`product_code`) ON DELETE CASCADE,
   ADD CONSTRAINT `order_items_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `order_items_ibfk_2` FOREIGN KEY (`product_code`) REFERENCES `products` (`product_code`) ON DELETE CASCADE;
 
@@ -716,6 +1159,12 @@ ALTER TABLE `order_items`
 --
 ALTER TABLE `product_images`
   ADD CONSTRAINT `fk_product_code` FOREIGN KEY (`product_code`) REFERENCES `products` (`product_code`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `product_stock`
+--
+ALTER TABLE `product_stock`
+  ADD CONSTRAINT `fk_stock_product` FOREIGN KEY (`product_code`) REFERENCES `products` (`product_code`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `user_sessions`
