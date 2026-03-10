@@ -2886,10 +2886,11 @@ body.admin-page section {
 /* PRODUCT IMAGE SLIDER */
 
 .product-image{
-position:relative;
 max-width:500px;
 margin:auto;
 overflow:hidden;
+position:relative;
+z-index:1;
 border-radius:12px;
 }
 
@@ -2898,7 +2899,12 @@ width:100%;
 height:auto;
 display:block;
 border-radius:12px;
-transition:opacity 0.3s ease;
+
+opacity:1;
+transition:opacity 0.35s ease-in-out;
+}
+.product-image img.fade-out{
+opacity:0;
 }
 
 /* arrows */
@@ -2932,4 +2938,13 @@ left:12px;
 
 .img-nav.next{
 right:12px;
+}
+.img-nav{
+position:absolute;
+top:50%;
+transform:translateY(-50%);
+z-index:10;
+cursor:pointer;
+z-index:50;
+pointer-events:auto;
 }

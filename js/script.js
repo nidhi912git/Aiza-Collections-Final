@@ -311,6 +311,8 @@ nextSlide();
 
 let startX = 0;
 
+if(slides){
+
 slides.addEventListener("touchstart",(e)=>{
 startX = e.touches[0].clientX;
 });
@@ -325,19 +327,17 @@ nextSlide();
 if(endX - startX > 50){
 prevSlide();
 }
+
 });
-/* PRODUCT IMAGE SLIDER */
+
+}
 /* PRODUCT IMAGE SLIDER */
 
 let currentImage = 0;
 
 function changeImage(direction){
 
-if(typeof productImages === "undefined"){
-console.log("No product images found");
-return;
-}
-
+if(typeof productImages === "undefined") return;
 if(productImages.length === 0) return;
 
 currentImage += direction;
@@ -351,9 +351,31 @@ currentImage = 0;
 }
 
 const img = document.getElementById("prod-img");
+if(!img) return;
 
-if(img){
+/* fade out */
+
+img.classList.add("fade-out");
+
+setTimeout(()=>{
+
 img.src = productImages[currentImage];
-}
+
+/* fade in */
+
+img.classList.remove("fade-out");
+
+},180);
 
 }
+document.addEventListener("keydown",(e)=>{
+
+if(e.key === "ArrowRight"){
+changeImage(1);
+}
+
+if(e.key === "ArrowLeft"){
+changeImage(-1);
+}
+
+});

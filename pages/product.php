@@ -30,6 +30,7 @@ WHERE product_code='$code'
 OR product_code LIKE '$code-%'
 ORDER BY LENGTH(image_path), image_path
 ");
+
 $images = [];
 
 while($i=mysqli_fetch_assoc($iq)){
@@ -37,9 +38,7 @@ $images[] = imgPath($i['image_path']);
 }
 
 /* make images available to JS slider */
-echo "<script>
-window.productImages = ".json_encode($images).";
-</script>";
+echo "<script>window.productImages = ".json_encode($images).";</script>";
 
 /* SIMILAR PRODUCTS */
 
