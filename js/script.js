@@ -71,7 +71,13 @@ body:`product_code=${code}&size=${size}&action=add_wishlist`
 }
 
 function setMainImage(src){
-  document.getElementById("prod-img").src=src;
+
+document.getElementById("prod-img").src = src;
+
+if(typeof productImages !== "undefined"){
+currentImgIndex = productImages.indexOf(src);
+}
+
 }
 
 let simIndex=0;
@@ -317,3 +323,25 @@ if(endX - startX > 50){
 prevSlide();
 }
 });
+/* PRODUCT IMAGE SLIDER */
+
+let currentImgIndex = 0;
+
+function changeImage(dir){
+
+if(typeof productImages === "undefined") return;
+
+currentImgIndex += dir;
+
+if(currentImgIndex < 0){
+currentImgIndex = productImages.length - 1;
+}
+
+if(currentImgIndex >= productImages.length){
+currentImgIndex = 0;
+}
+
+document.getElementById("prod-img").src =
+productImages[currentImgIndex];
+
+}

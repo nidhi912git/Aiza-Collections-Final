@@ -14,8 +14,16 @@ if(!$conn){
 }
 
 /* charset AFTER connection */
-mysqli_set_charset($conn,"utf8mb4");
 function imgPath($path){
-    return "/aiza-collections-final/" . str_replace("assets/images","assets/categories",$path);
+
+    if(!$path){
+        return "/aiza-collections-final/assets/images/no-image.jpg";
+    }
+
+    if(str_starts_with($path,"assets/")){
+        return "/aiza-collections-final/" . $path;
+    }
+
+    return "/aiza-collections-final/assets/images/" . $path;
 }
 ?>

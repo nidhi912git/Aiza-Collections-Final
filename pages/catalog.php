@@ -10,17 +10,19 @@ $price    = $_GET['price'] ?? 'default';
 
 $where = [];
 
+$where[] = "p.product_code NOT LIKE '%-%'";
+
 if ($search !== '') {
     $safe = mysqli_real_escape_string($conn,$search);
     $where[] = "p.product_name LIKE '%$safe%'";
 }
 
+
 if ($category !== 'all') {
     $safeCat = (int)$category;
     $where[] = "p.category_num = $safeCat";
 }
-
-$whereSql = $where ? "WHERE " . implode(" AND ",$where) : "";
+$whereSql = "WHERE " . implode(" AND ", $where);
 
 $orderSql = "";
 

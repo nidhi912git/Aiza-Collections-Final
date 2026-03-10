@@ -35,7 +35,7 @@ FROM order_items oi
 LEFT JOIN products p ON oi.product_code=p.product_code
 LEFT JOIN product_images i ON p.product_code=i.product_code
 WHERE oi.order_id='$order_id'
-GROUP BY oi.id
+GROUP BY oi.item_id
 ");
 
 $total = 0;
@@ -56,7 +56,7 @@ $total += $sub;
 <div class="order-item">
 
 <img
-src="/aiza-collections-final/assets/<?= $item['image_path'] ?>"
+src="<?= imgPath($item['image_path']) ?>"
 class="order-img">
 
 <div class="order-info">

@@ -111,7 +111,6 @@ $where = "p.is_featured = 1";
 if($searchSafe != ''){
 $where .= " AND p.product_name LIKE '%$searchSafe%'";
 }
-
 $sql = "
 SELECT
 p.product_code,
@@ -123,6 +122,7 @@ FROM products p
 LEFT JOIN product_images i
 ON p.product_code = i.product_code
 WHERE $where
+AND p.product_code NOT LIKE '%-%'
 GROUP BY p.product_code
 LIMIT 15
 ";
@@ -142,7 +142,7 @@ echo "<p>Database Error</p>";
 <div class="product-card"
 onclick="viewProduct('<?= $row['product_code'] ?>')">
 
-<img src="<?= imgPath($row['image_path']) ?>"
+<img src="<?= imgPath($row['image_path'] ?? 'no-image.jpg') ?>">
 alt="<?= htmlspecialchars($row['product_name']) ?>">
 
 <h4><?= htmlspecialchars($row['product_name']) ?></h4>

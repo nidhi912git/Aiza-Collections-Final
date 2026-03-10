@@ -27,14 +27,17 @@ $iq = mysqli_query($conn,"
 SELECT image_path
 FROM product_images
 WHERE product_code='$code'
+OR product_code LIKE '$code-%'
 ORDER BY image_path
 ");
+
 
 $images = [];
 
 while($i=mysqli_fetch_assoc($iq)){
 $images[] = imgPath($i['image_path']);
 }
+echo "<script>var productImages = ".json_encode($images).";</script>";
 
 
 /* SIMILAR PRODUCTS */
@@ -53,6 +56,7 @@ LEFT JOIN product_images i
 ON p.product_code=i.product_code
 WHERE p.category_num='$cat'
 AND p.product_code!='$code'
+AND p.product_code NOT LIKE '%-%'
 GROUP BY p.product_code
 LIMIT 10
 ");
@@ -64,15 +68,38 @@ LIMIT 10
 <div class="product-layout">
 
 
-<!-- PRODUCT IMAGE -->
+<!-- PRODUCT IMAGE SLIDER -->
 
 <div class="product-image">
 
+<button class="img-nav prev" onclick="changeImage(-1)">❮</button>
+
 <img
 id="prod-img"
-src="<?= $images[0] ?>"
+src="<?= $images[0] ?? '/aiza-collections-final/assets/no-image.jpg' ?>"
 alt="<?= htmlspecialchars($product['product_name']) ?>"
 >
+
+<button class="img-nav next" onclick="changeImage(1)">❯</button>
+
+
+<?php if(count($images) > 1): ?>
+
+<div class="product-thumbs">
+
+<?php foreach($images as $img): ?>
+
+<img
+src="<?= $img ?>"
+onclick="setMainImage('<?= $img ?>')"
+class="thumb-img"
+>
+
+<?php endforeach; ?>
+
+</div>
+
+<?php endif; ?>
 
 </div>
 
@@ -227,32 +254,6 @@ Out of Stock
 </div>
 
 </section>
-
-
-
-<?php if(count($images) > 1): ?>
-
-<section>
-
-<h2 class="section-title">More Images</h2>
-
-<div class="grid grid-3">
-
-<?php foreach($images as $img): ?>
-
-<img
-src="<?= $img ?>"
-onclick="setMainImage('<?= $img ?>')"
-style="cursor:pointer"
->
-
-<?php endforeach; ?>
-
-</div>
-
-</section>
-
-<?php endif; ?>
 
 
 
