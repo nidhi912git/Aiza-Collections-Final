@@ -89,6 +89,7 @@ SET stock_qty = stock_qty - $qty
 WHERE product_code='$code'
 ");
 
+}
 
 /* CLEAR CART */
 

@@ -12,11 +12,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $email = trim($_POST['email']);
   $pass  = $_POST['password'];
 
-  if(!$email || !$pass){
-$error = "Please enter email and password";
-}
-else {
-
   $stmt = mysqli_prepare($conn,
     "SELECT user_id,name,password_hash,role FROM users WHERE email=?"
   );
@@ -28,25 +23,11 @@ else {
 
   if ($u = mysqli_fetch_assoc($res)) {
 
-if (password_verify($pass,$u['password_hash'])) {
+    if (password_verify($pass,$u['password_hash'])) {
 
-session_regenerate_id(true);
-$_SESSION['user']=$u;
+      session_regenerate_id(true);
 
-if(isset($_POST['remember'])){
-
-$token = bin2hex(random_bytes(32));
-
-setcookie(
-"remember_token",
-$token,
-time() + (86400 * 30),
-"/"
-);
-
-$_SESSION['remember_token'] = $token;
-
-}
+      $_SESSION['user']=$u;
 
 if($u['role'] === 'manager'){
 header("Location: admin/products.php");
@@ -55,13 +36,29 @@ exit;
 
 header("Location: home.php");
 exit;
+      if(isset($_POST['remember'])){
+
+$token = bin2hex(random_bytes(32));
+
+setcookie(
+"remember_token",
+$token,
+time() + (86400 * 30), // 30 days
+"/"
+);
+
+$_SESSION['remember_token'] = $token;
 
 }
 
-}
+      header("Location: home.php");
+      exit;
+
+    }
+
+  }
 
   $error="Invalid email or password";
-}
 }
 ?>
 
@@ -77,12 +74,7 @@ exit;
 <input type="hidden" name="csrf" value="<?= csrf_token() ?>">
 
 <label>Email address</label>
-<input 
-type="email"
-name="email"
-required
-pattern="[A-Za-z][A-Za-z0-9._%+-]*@[A-Za-z0-9.-]+\.[A-Za-z]{2,}"
-title="Enter a valid email address">
+<input type="email" name="email" required>
 
 <label>Password</label>
 <div class="password-field">

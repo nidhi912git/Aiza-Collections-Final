@@ -291,17 +291,16 @@ onclick="event.stopPropagation();">
 <button
 class="add-cart-btn"
 data-code="<?= $s['product_code'] ?>"
-onclick="addCurrentProductToCart(this)"
+onclick="addToCart(event,this)"
 <?= $s['stock_qty'] <= 0 ? "disabled" : "" ?>
 >
 Add to Cart
 </button>
 
-
 <button
 class="wishlist-btn"
 data-code="<?= $s['product_code'] ?>"
-onclick="addCurrentProductToWishlist(this)"
+onclick="addToWishlist(event,this)"
 >
 ♡
 </button>

@@ -31,8 +31,14 @@ function addCurrentProductToCart(btn){
 
 const code = btn.dataset.code;
 
-const size =
-document.querySelector(".sizes button.selected")?.textContent || "M";
+const sizeBtn = document.querySelector(".sizes button.selected");
+
+if(!sizeBtn){
+showPopup("Please select a size");
+return;
+}
+
+const size = sizeBtn.textContent;
 
 fetch("/aiza-collections-final/pages/list-handler.php",{
 method:"POST",
@@ -46,8 +52,14 @@ function addCurrentProductToWishlist(btn){
 
 const code = btn.dataset.code;
 
-const size =
-document.querySelector(".sizes button.selected")?.textContent || "M";
+const sizeBtn = document.querySelector(".sizes button.selected");
+
+if(!sizeBtn){
+showPopup("Please select a size");
+return;
+}
+
+const size = sizeBtn.textContent;
 
 fetch("/aiza-collections-final/pages/list-handler.php",{
 method:"POST",

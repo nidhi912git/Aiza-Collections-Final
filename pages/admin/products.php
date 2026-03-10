@@ -131,7 +131,8 @@ Edit
 </a>
 
 
-<form method="post" action="delete_product.php">
+<form method="post" action="delete_product.php"
+onsubmit="return confirm('Are you sure you want to delete this product?');">
 
 <input type="hidden" name="code" value="<?= $p['product_code'] ?>">
 <input type="hidden" name="csrf" value="<?= csrf_token() ?>">
@@ -143,7 +144,8 @@ Delete
 </form>
 
 
-<form method="post" action="toggle_featured.php">
+<form method="post" action="toggle_featured.php"
+onsubmit="return confirm('Are you sure you want to change the featured status of this product?');">
 
 <input type="hidden" name="code" value="<?= $p['product_code'] ?>">
 <input type="hidden" name="csrf" value="<?= csrf_token() ?>">
