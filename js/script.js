@@ -462,3 +462,25 @@ reviewSlider.addEventListener("mouseenter",stopReviewSlider);
 reviewSlider.addEventListener("mouseleave",startReviewSlider);
 
 }
+
+const dropdown = document.querySelector(".dropdown-selected");
+const menu = document.querySelector(".dropdown-menu");
+const items = document.querySelectorAll(".dropdown-item");
+
+dropdown.addEventListener("click", ()=>{
+menu.style.display = menu.style.display === "block" ? "none" : "block";
+});
+
+items.forEach(item=>{
+item.addEventListener("click", ()=>{
+dropdown.innerText = item.innerText;
+document.getElementById("statusInput").value = item.innerText;
+menu.style.display = "none";
+});
+});
+
+document.addEventListener("click", function(e){
+if(!e.target.closest(".custom-dropdown")){
+menu.style.display="none";
+}
+});

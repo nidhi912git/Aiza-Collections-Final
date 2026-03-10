@@ -6,9 +6,28 @@ include "../../includes/security.php";
 
 require_admin();
 
-include "../../includes/header.php";
-
 $order_id = intval($_GET['id'] ?? 0);
+
+/* UPDATE STATUS */
+
+if(isset($_POST['update_status'])){
+
+verify_csrf();
+
+$status = mysqli_real_escape_string($conn,$_POST['status']);
+
+mysqli_query($conn,"
+UPDATE orders
+SET order_status='$status'
+WHERE order_id='$order_id'
+");
+
+header("Location: orders_panel.php");
+exit;
+
+}
+
+include "../../includes/header.php";
 
 /* GET ORDER DETAILS */
 
@@ -22,15 +41,17 @@ u.name
 FROM orders o
 LEFT JOIN users u
 ON o.user_id = u.user_id
-WHERE o.order_id = $order_id
+WHERE o.order_id = '$order_id'
 ");
 
 $order = mysqli_fetch_assoc($order_query);
 
 if(!$order){
-echo "<p>Order not found</p>";
+
+echo "<p style='text-align:center;'>Order not found</p>";
 include "../../includes/footer.php";
 exit;
+
 }
 
 /* GET ORDER ITEMS */
@@ -45,40 +66,26 @@ p.product_name
 FROM order_items oi
 JOIN products p
 ON oi.product_code = p.product_code
-WHERE oi.order_id = $order_id
+WHERE oi.order_id = '$order_id'
 ");
 ?>
 
-<section>
+<section class="order-view-container">
 
 <h2 class="section-title">Order #<?= $order_id ?></h2>
 
 <div class="order-info">
 
-<p>
-<strong>Customer:</strong>
-<?= htmlspecialchars($order['name']) ?>
-</p>
-
-<p>
-<strong>Date:</strong>
-<?= date("d M Y",strtotime($order['created_at'])) ?>
-</p>
-
-<p>
-<strong>Status:</strong>
-
-<span class="status status-<?= strtolower($order['order_status']) ?>">
-<?= $order['order_status'] ?>
-</span>
-
-</p>
+<p><strong>Customer:</strong> <?= htmlspecialchars($order['name']) ?></p>
+<p><strong>Date:</strong> <?= date("d M Y",strtotime($order['created_at'])) ?></p>
+<p><strong>Status:</strong> <?= $order['order_status'] ?></p>
 
 </div>
 
+
 <h3>Items Ordered</h3>
 
-<table class="admin-table">
+<table class="order-items-table">
 
 <tr>
 <th>Product</th>
@@ -94,7 +101,7 @@ WHERE oi.order_id = $order_id
 
 <td><?= htmlspecialchars($item['product_name']) ?></td>
 
-<td><?= htmlspecialchars($item['size']) ?></td>
+<td><?= htmlspecialchars($item['size'] ?? '-') ?></td>
 
 <td><?= $item['quantity'] ?></td>
 
@@ -108,54 +115,39 @@ WHERE oi.order_id = $order_id
 
 </table>
 
-<h3 style="margin-top:20px;">
+
+<p class="order-total">
 Total: ₹<?= number_format($order['order_total']) ?>
-</h3>
+</p>
 
 <hr>
 
+<div class="order-status-update">
+
 <h3>Update Order Status</h3>
 
-<form method="POST">
+<div class="custom-dropdown">
 
-<select name="status">
+<div class="dropdown-selected">
+Select Status
+</div>
 
-<option value="Pending">Pending</option>
-<option value="Processing">Processing</option>
-<option value="Shipped">Shipped</option>
-<option value="Completed">Completed</option>
+<div class="dropdown-menu">
+<div class="dropdown-item">Placed</div>
+<div class="dropdown-item">Processing</div>
+<div class="dropdown-item">Shipped</div>
+<div class="dropdown-item">Delivered</div>
+<div class="dropdown-item">Cancelled</div>
+</div>
 
-</select>
+<input type="hidden" name="status" id="statusInput">
 
-<button class="btn" name="update_status">
-Update
-</button>
+</div>
 
-</form>
+<button class="btn">Update Status</button>
+
+</div>
 
 </section>
-
-<?php
-
-/* UPDATE STATUS */
-
-if(isset($_POST['update_status'])){
-
-$status = mysqli_real_escape_string($conn,$_POST['status']);
-
-mysqli_query($conn,"
-UPDATE orders
-SET order_status='$status'
-WHERE order_id=$order_id
-");
-
-echo "<script>
-alert('Status Updated');
-window.location='orders_panel.php';
-</script>";
-
-}
-
-?>
 
 <?php include "../../includes/footer.php"; ?>

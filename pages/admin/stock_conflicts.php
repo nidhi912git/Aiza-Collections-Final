@@ -11,19 +11,29 @@ include "../../includes/header.php";
 /* OUT OF STOCK PRODUCTS */
 
 $out_query = mysqli_query($conn,"
-SELECT product_code, product_name, stock_qty
-FROM products
-WHERE stock_qty = 0
-ORDER BY product_name
+SELECT 
+p.product_code,
+p.product_name,
+SUM(ps.stock_qty) stock
+FROM products p
+LEFT JOIN product_stock ps
+ON p.product_code=ps.product_code
+GROUP BY p.product_code
+HAVING stock <=5
 ");
 
 /* LOW STOCK PRODUCTS */
 
 $low_query = mysqli_query($conn,"
-SELECT product_code, product_name, stock_qty
-FROM products
-WHERE stock_qty > 0 AND stock_qty <= 5
-ORDER BY stock_qty ASC
+SELECT 
+p.product_code,
+p.product_name,
+SUM(ps.stock_qty) stock
+FROM products p
+LEFT JOIN product_stock ps
+ON p.product_code=ps.product_code
+GROUP BY p.product_code
+HAVING stock <=5
 ");
 ?>
 

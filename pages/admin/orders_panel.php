@@ -29,7 +29,7 @@ ORDER BY o.created_at DESC
 
 <h2 class="section-title">Orders Panel</h2>
 
-<div class="admin-table-wrap">
+<div class="orders-table-container">
 
 <table class="admin-table">
 

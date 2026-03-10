@@ -1,5 +1,4 @@
 <?php
-$page_id = "admin-page";
 
 include "../../includes/config.php";
 include "../../includes/security.php";
@@ -7,46 +6,35 @@ include "../../includes/security.php";
 require_admin();
 verify_csrf();
 
-/* GET FORM DATA */
+$code=$_POST['code'];
+$category=$_POST['category'];
+$name=$_POST['name'];
+$price=$_POST['price'];
+$color=$_POST['color'];
+$desc=$_POST['desc'];
+$featured=$_POST['featured'];
+$active=$_POST['active'];
+$stock=$_POST['stock'];
 
-$code     = $_POST['code'] ?? '';
-$category = $_POST['category'] ?? 0;
-$name     = $_POST['name'] ?? '';
-$price    = $_POST['price'] ?? 0;
-$stock    = $_POST['stock'] ?? 0;
-$color    = $_POST['color'] ?? '';
-$desc     = $_POST['desc'] ?? '';
-$featured = $_POST['featured'] ?? 0;
-$active   = $_POST['active'] ?? 1;
-
-
-/* INSERT PRODUCT */
-
-$stmt = mysqli_prepare($conn,"
+mysqli_query($conn,"
 INSERT INTO products
-(category_num, product_code, product_name, description, price, color, stock_qty, is_featured, is_active)
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+(product_code,category_num,product_name,description,price,color,is_featured,is_active)
+VALUES
+('$code','$category','$name','$desc','$price','$color','$featured','$active')
 ");
 
-mysqli_stmt_bind_param(
-$stmt,
-"isssdsiii",
-$category,
-$code,
-$name,
-$desc,
-$price,
-$color,
-$stock,
-$featured,
-$active
-);
+/* CREATE SIZE STOCK */
 
-mysqli_stmt_execute($stmt);
+$sizes=['S','M','L','XL','XXL'];
 
+foreach($sizes as $s){
 
-/* REDIRECT */
+mysqli_query($conn,"
+INSERT INTO product_stock(product_code,size,stock_qty)
+VALUES('$code','$s','$stock')
+");
+
+}
 
 header("Location: products.php");
 exit;
-?>

@@ -53,9 +53,9 @@ mysqli_stmt_execute($stmt);
 /* ROLE REDIRECT */
 
 if($u['role'] === 'manager'){
-header("Location: ../admin/products.php");
+header("Location: /aiza-collections-final/pages/admin/products.php");
 }else{
-header("Location: home.php");
+header("Location: /aiza-collections-final/pages/home.php");
 }
 
 exit;

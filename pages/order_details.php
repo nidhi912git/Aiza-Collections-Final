@@ -121,7 +121,7 @@ Status:
 <form
 method="POST"
 action="/aiza-collections-final/pages/cancel_item.php"
-onsubmit="return confirmCancel()"
+class="cancel-form"
 >
 
 <input
@@ -166,12 +166,71 @@ Back to Orders
 </div>
 
 </section>
-<script id="x6yprl">
-function confirmCancel(){
 
-return confirm(
-"Are you sure you want to cancel this order item?\n\nYou cannot undo this change."
-);
+<div id="cancelModal" class="modal-overlay">
+
+<div class="modal-box">
+
+<h3>Cancel Item</h3>
+
+<p>Are you sure you want to cancel this order item?</p>
+
+<p class="modal-warning">
+You cannot undo this change.
+</p>
+
+<div class="modal-actions">
+
+<button
+type="button"
+class="btn modal-cancel"
+onclick="closeCancelModal()"
+>
+No
+</button>
+
+<button
+type="button"
+class="btn modal-confirm"
+onclick="confirmCancelSubmit()"
+>
+Yes, Cancel
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+let cancelForm = null;
+
+document.querySelectorAll(".cancel-form").forEach(form => {
+
+form.addEventListener("submit", function(e){
+
+e.preventDefault();
+
+cancelForm = this;
+
+document.getElementById("cancelModal").style.display="flex";
+
+});
+
+});
+
+function closeCancelModal(){
+
+document.getElementById("cancelModal").style.display="none";
+
+}
+
+function confirmCancelSubmit(){
+
+if(cancelForm){
+cancelForm.submit();
+}
 
 }
 </script>

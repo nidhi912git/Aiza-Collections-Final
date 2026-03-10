@@ -1,5 +1,5 @@
 <?php
-$page_id = "admin-page";
+$page_id="admin-page";
 
 include "../../includes/config.php";
 include "../../includes/security.php";
@@ -9,31 +9,43 @@ require_admin();
 include "../../includes/header.php";
 
 /* TOTAL PRODUCTS */
-$q1 = mysqli_query($conn,"SELECT COUNT(*) total FROM products");
-$products = mysqli_fetch_assoc($q1)['total'];
+
+$q1=mysqli_query($conn,"SELECT COUNT(*) total FROM products");
+$products=mysqli_fetch_assoc($q1)['total'];
 
 /* TOTAL ORDERS */
-$q2 = mysqli_query($conn,"SELECT COUNT(*) total FROM orders");
-$orders = mysqli_fetch_assoc($q2)['total'];
+
+$q2=mysqli_query($conn,"SELECT COUNT(*) total FROM orders");
+$orders=mysqli_fetch_assoc($q2)['total'];
 
 /* PENDING ORDERS */
-$q3 = mysqli_query($conn,"
+
+$q3=mysqli_query($conn,"
 SELECT COUNT(*) total
 FROM orders
-WHERE order_status='Pending'
+WHERE order_status='Placed'
 ");
-$pending = mysqli_fetch_assoc($q3)['total'];
 
-/* LOW STOCK PRODUCTS */
-$lowStock = mysqli_query($conn,"
-SELECT product_code, product_name, stock_qty
-FROM products
-WHERE stock_qty <= 5
+$pending=mysqli_fetch_assoc($q3)['total'];
+
+/* LOW STOCK (SIZE BASED) */
+
+$lowStock=mysqli_query($conn,"
+SELECT 
+p.product_code,
+p.product_name,
+SUM(ps.stock_qty) total_stock
+FROM products p
+LEFT JOIN product_stock ps
+ON p.product_code=ps.product_code
+GROUP BY p.product_code
+HAVING total_stock <=5
 LIMIT 5
 ");
 
 /* RECENT ORDERS */
-$recent = mysqli_query($conn,"
+
+$recent=mysqli_query($conn,"
 SELECT o.order_id,o.order_total,o.created_at,u.name
 FROM orders o
 LEFT JOIN users u
@@ -45,29 +57,30 @@ LIMIT 5
 
 <section>
 
-<h2 class="section-title">Admin Dashboard</h2>
+<h2 class="section-title">Store Operations Dashboard</h2>
 
-<div class="admin-stats">
+<div class="dashboard-layout">
 
-<div class="stat-card">
+<div class="dashboard-stats">
+
+<div class="dash-item">
+<span>Total Products</span>
 <h3><?= $products ?></h3>
-<p>Total Products</p>
 </div>
 
-<div class="stat-card">
+<div class="dash-item">
+<span>Total Orders</span>
 <h3><?= $orders ?></h3>
-<p>Total Orders</p>
 </div>
 
-<div class="stat-card">
+<div class="dash-item">
+<span>Pending Orders</span>
 <h3><?= $pending ?></h3>
-<p>Pending Orders</p>
 </div>
 
 </div>
 
-
-<div class="admin-links">
+<div class="dashboard-actions">
 
 <a href="products.php" class="btn">Manage Products</a>
 
@@ -79,65 +92,22 @@ LIMIT 5
 
 </div>
 
+</div>
 
-<!-- LOW STOCK -->
-
-<h3 style="margin-top:40px;">Low Stock Alerts</h3>
-
-<?php if(mysqli_num_rows($lowStock)==0): ?>
-
-<p>No low stock items.</p>
-
-<?php else: ?>
+<h3 class="dashboard-subtitle">Low Stock Alerts</h3>
 
 <table class="admin-table">
 
 <tr>
 <th>Product</th>
-<th>Stock Left</th>
+<th>Stock</th>
 </tr>
 
 <?php while($p=mysqli_fetch_assoc($lowStock)): ?>
 
 <tr>
 <td><?= $p['product_name'] ?></td>
-<td style="color:#e67e22;font-weight:bold;">
-<?= $p['stock_qty'] ?>
-</td>
-</tr>
-
-<?php endwhile; ?>
-
-</table>
-
-<?php endif; ?>
-
-
-<!-- RECENT ORDERS -->
-
-<h3 style="margin-top:40px;">Recent Orders</h3>
-
-<table class="admin-table">
-
-<tr>
-<th>Order</th>
-<th>Customer</th>
-<th>Total</th>
-<th>Date</th>
-</tr>
-
-<?php while($o=mysqli_fetch_assoc($recent)): ?>
-
-<tr>
-
-<td>#<?= $o['order_id'] ?></td>
-
-<td><?= htmlspecialchars($o['name']) ?></td>
-
-<td>₹<?= number_format($o['order_total']) ?></td>
-
-<td><?= date("d M Y",strtotime($o['created_at'])) ?></td>
-
+<td><?= $p['total_stock'] ?></td>
 </tr>
 
 <?php endwhile; ?>
