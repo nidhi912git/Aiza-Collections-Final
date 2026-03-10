@@ -2965,3 +2965,116 @@ cursor:pointer;
 z-index:50;
 pointer-events:auto;
 }
+/* Home page extra styling begins */
+/* ===============================
+   HOME SLIDER FULL WIDTH
+================================ */
+
+#home-page .category-slider{
+width:100%;
+max-width:100%;
+padding:0;
+margin:0;
+}
+
+#home-page .slider-wrapper{
+width:100%;
+height:520px; /* bigger slider */
+position:relative;
+overflow:hidden;
+}
+
+#home-page .slides{
+height:100%;
+}
+
+#home-page .slide{
+height:520px;
+}
+
+#home-page .slide img{
+width:100%;
+height:520px;
+object-fit:cover;
+}
+/* slider text layout */
+
+#home-page .slide-content{
+position:absolute;
+top:50%;
+left:8%;
+transform:translateY(-50%);
+max-width:460px;
+
+display:flex;
+flex-direction:column;
+gap:18px; /* spacing between heading, text, button */
+
+color:white;
+z-index:2;
+}
+
+#home-page .slide-content h2{
+font-size:2.2rem;
+line-height:1.2;
+}
+
+#home-page .slide-content p{
+font-size:1.05rem;
+line-height:1.6;
+opacity:0.95;
+}
+
+#home-page .slide-content .btn{
+width:fit-content;
+margin-top:6px;
+}
+/* ===============================
+   HERO SECTION TIGHTER
+================================ */
+
+#home-page .hero{
+padding:60px 20px;
+min-height:auto;
+}
+
+#home-page .hero-content{
+max-width:700px;
+margin:auto;
+text-align:center;
+
+display:flex;
+flex-direction:column;
+gap:18px;
+}
+
+#home-page .hero p{
+line-height:1.7;
+font-size:1.05rem;
+color:var(--text-muted);
+}
+#home-page .slider-btn{
+position:absolute;
+top:50%;
+transform:translateY(-50%);
+width:48px;
+height:48px;
+font-size:28px;
+border-radius:50%;
+background:rgba(0,0,0,0.4);
+}
+
+#home-page .slider-btn.prev{
+left:20px;
+}
+
+#home-page .slider-btn.next{
+right:20px;
+}
+#home-page .hero .btn{
+width:fit-content;
+padding:14px 48px;
+margin:auto;
+display:block;
+}
+/* Home page extra styling stops */

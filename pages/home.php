@@ -57,7 +57,7 @@ $search = $_GET['q'] ?? '';
 
 <div class="slide">
 
-<img src="/aiza-collections-final/assets/images/straight_kurti/S1.jpeg">
+<img src="/aiza-collections-final/assets/images/straight_kurti/S15.jpeg">
 
 <div class="slide-content">
 <h2>Straight Kurti Collection</h2>
