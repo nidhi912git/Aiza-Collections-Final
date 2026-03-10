@@ -3078,3 +3078,82 @@ margin:auto;
 display:block;
 }
 /* Home page extra styling stops */
+
+/* ===============================
+   ABOUT PAGE REVIEW SLIDER
+================================ */
+
+.review-slider-section{
+max-width:1000px;
+margin:40px auto;
+text-align:center;
+}
+
+.review-slider{
+position:relative;
+overflow:hidden;
+border-radius:16px;
+}
+
+.review-slides{
+position:relative;
+}
+
+.review-slide{
+width:100%;
+display:none;
+border-radius:16px;
+}
+
+.review-slide.active{
+display:block;
+}
+
+/* arrows */
+
+.review-btn{
+position:absolute;
+top:50%;
+transform:translateY(-50%);
+background:rgba(0,0,0,0.4);
+color:white;
+border:none;
+width:46px;
+height:46px;
+border-radius:50%;
+font-size:24px;
+cursor:pointer;
+z-index:5;
+}
+
+.review-btn.prev{
+left:10px;
+}
+
+.review-btn.next{
+right:10px;
+}
+
+.review-btn:hover{
+background:rgba(0,0,0,0.7);
+}
+
+/* ABOUT PAGE – reduce spacing around review slider */
+
+.review-slider-section{
+margin-top: 10px;      /* space from header */
+margin-bottom: 10px;   /* space before About section */
+padding-top: 10px;
+padding-bottom: 10px;
+}
+
+.about-divider{
+margin-top: 25px;   /* space from slider */
+margin-bottom: 10px; /* small space before About title */
+border: none;
+height: 2px;
+background: var(--primary);
+max-width: 700px;
+margin-left: auto;
+margin-right: auto;
+}

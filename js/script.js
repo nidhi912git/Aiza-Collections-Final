@@ -300,12 +300,35 @@ function prevSlide(){
 showSlide(currentSlide - 1);
 }
 
-/* auto slide */
+/* auto slide with hover pause */
 
-setInterval(()=>{
+let sliderInterval;
+
+function startSlider(){
+sliderInterval = setInterval(()=>{
 nextSlide();
 },5000);
+}
 
+function stopSlider(){
+clearInterval(sliderInterval);
+}
+
+if(slides){
+
+startSlider();
+
+/* pause slider when hovering */
+
+slides.addEventListener("mouseenter",()=>{
+stopSlider();
+});
+
+slides.addEventListener("mouseleave",()=>{
+startSlider();
+});
+
+}
 
 /* mobile swipe */
 
@@ -379,3 +402,63 @@ changeImage(-1);
 }
 
 });
+
+/* ===============================
+   ABOUT PAGE REVIEW SLIDER
+================================ */
+
+let reviewIndex = 0;
+let reviewInterval;
+
+const reviewSlides = document.querySelectorAll(".review-slide");
+const reviewSlider = document.querySelector(".review-slider");
+
+function showReview(index){
+
+reviewSlides.forEach(slide=>{
+slide.classList.remove("active");
+});
+
+reviewIndex = index;
+
+if(reviewIndex >= reviewSlides.length){
+reviewIndex = 0;
+}
+
+if(reviewIndex < 0){
+reviewIndex = reviewSlides.length - 1;
+}
+
+reviewSlides[reviewIndex].classList.add("active");
+
+}
+
+function nextReview(){
+showReview(reviewIndex + 1);
+}
+
+function prevReview(){
+showReview(reviewIndex - 1);
+}
+
+function startReviewSlider(){
+reviewInterval = setInterval(()=>{
+nextReview();
+},4000);
+}
+
+function stopReviewSlider(){
+clearInterval(reviewInterval);
+}
+
+if(reviewSlider){
+
+startReviewSlider();
+
+/* pause on hover */
+
+reviewSlider.addEventListener("mouseenter",stopReviewSlider);
+
+reviewSlider.addEventListener("mouseleave",startReviewSlider);
+
+}

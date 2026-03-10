@@ -4,6 +4,30 @@ include "../includes/config.php";
 include "../includes/header.php";
 ?>
 
+<!-- REVIEW SLIDESHOW -->
+<section class="review-slider-section">
+
+<div class="review-slider">
+
+<button class="review-btn prev" onclick="prevReview()">❮</button>
+
+<div class="review-slides">
+
+<img src="/aiza-collections-final/assets/reviews/review1.png" class="review-slide active">
+<img src="/aiza-collections-final/assets/reviews/review2.png" class="review-slide">
+<img src="/aiza-collections-final/assets/reviews/review3.png" class="review-slide">
+<img src="/aiza-collections-final/assets/reviews/review4.png" class="review-slide">
+
+</div>
+
+<button class="review-btn next" onclick="nextReview()">❯</button>
+
+</div>
+
+</section>
+
+<div class="about-divider"></div>
+
 <!-- ABOUT INTRO -->
 <section>
   <h2 class="section-title">About Aiza Collections</h2>
@@ -15,6 +39,8 @@ include "../includes/header.php";
     Designed to make every occasion feel meaningful and beautiful.
   </p>
 </section>
+
+<div class="about-divider"></div>
 
 <!-- VALUES SECTION -->
 <section>
