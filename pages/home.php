@@ -6,19 +6,6 @@ include "../includes/header.php";
 $search = $_GET['q'] ?? '';
 ?>
 
-<!-- HERO -->
-
-<section class="hero">
-  <div class="hero-content">
-    <h1>Welcome to Aiza Collections</h1>
-    <p>
-      Handpicked Indian traditional wear crafted for every occasion.
-      Tradition meets modern elegance.
-    </p>
-    <a href="/aiza-collections-final/pages/catalog.php" class="btn">Shop Now</a>
-  </div>
-</section>
-
 
 <!-- CATEGORY SLIDER -->
 
@@ -31,7 +18,7 @@ $search = $_GET['q'] ?? '';
 <div class="slides">
 
 <div class="slide">
-<img src="/aiza-collections-final/assets/categories/anarkali_suit/A1.jpeg">
+<img src="/aiza-collections-final/assets/images/anarkali_suit/A1.jpeg">
 
 <div class="slide-content">
 <h2>Anarkali Collection</h2>
@@ -44,7 +31,7 @@ $search = $_GET['q'] ?? '';
 
 <div class="slide">
 
-<img src="/aiza-collections-final/assets/categories/chikankari/C1.jpeg">
+<img src="/aiza-collections-final/assets/images/chikankari/C1.jpeg">
 
 <div class="slide-content">
 <h2>Chikankari Collection</h2>
@@ -57,7 +44,7 @@ $search = $_GET['q'] ?? '';
 
 <div class="slide">
 
-<img src="/aiza-collections-final/assets/categories/coord_set/CO1.jpeg">
+<img src="/aiza-collections-final/assets/images/coord_sets/CO1.jpeg">
 
 <div class="slide-content">
 <h2>Co‑Ord Sets</h2>
@@ -70,7 +57,7 @@ $search = $_GET['q'] ?? '';
 
 <div class="slide">
 
-<img src="/aiza-collections-final/assets/categories/straight_kurti/S1.jpeg">
+<img src="/aiza-collections-final/assets/images/straight_kurti/S1.jpeg">
 
 <div class="slide-content">
 <h2>Straight Kurti Collection</h2>
@@ -95,6 +82,19 @@ $search = $_GET['q'] ?? '';
 
 </section>
 
+<!-- HERO -->
+
+<section class="hero">
+  <div class="hero-content">
+    <h1>Welcome to Aiza Collections</h1>
+    <p>Handpicked Indian traditional wear crafted for every occasion.
+       Each piece in our collection is thoughtfully selected to celebrate the beauty of timeless Indian craftsmanship and cultural heritage.
+        Our goal is to offer outfits that make you feel confident, comfortable, and connected to the richness of Indian fashion. 
+        We believe traditional wear should not only honor heritage but also complement the style and individuality of the modern woman.
+    </p>
+    <a href="/aiza-collections-final/pages/catalog.php" class="btn">Shop Now</a>
+  </div>
+</section>
 
 <!-- FEATURED PRODUCTS -->
 
@@ -143,7 +143,6 @@ echo "<p>Database Error</p>";
 onclick="viewProduct('<?= $row['product_code'] ?>')">
 
 <img src="<?= imgPath($row['image_path'] ?? 'no-image.jpg') ?>">
-alt="<?= htmlspecialchars($row['product_name']) ?>">
 
 <h4><?= htmlspecialchars($row['product_name']) ?></h4>
 
