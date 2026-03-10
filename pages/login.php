@@ -25,38 +25,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (password_verify($pass,$u['password_hash'])) {
 
-      session_regenerate_id(true);
+        session_regenerate_id(true);
+        $_SESSION['user'] = $u;
 
-      $_SESSION['user']=$u;
+        if(isset($_POST['remember'])){
+            $token = bin2hex(random_bytes(32));
 
-if($u['role'] === 'manager'){
-header("Location: admin/products.php");
-exit;
-}
+            setcookie(
+                "remember_token",
+                $token,
+                time() + (86400 * 30),
+                "/"
+            );
 
-header("Location: home.php");
-exit;
-      if(isset($_POST['remember'])){
+            $_SESSION['remember_token'] = $token;
+        }
 
-$token = bin2hex(random_bytes(32));
+        /* ROLE REDIRECT */
 
-setcookie(
-"remember_token",
-$token,
-time() + (86400 * 30), // 30 days
-"/"
-);
+        if($u['role'] === 'manager'){
+            header("Location: ../admin/products.php");
+        } else {
+            header("Location: home.php");
+        }
 
-$_SESSION['remember_token'] = $token;
-
-}
-
-      header("Location: home.php");
-      exit;
-
+        exit;
     }
-
-  }
+}
 
   $error="Invalid email or password";
 }
