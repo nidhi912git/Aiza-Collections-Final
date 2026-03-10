@@ -3157,3 +3157,95 @@ max-width: 700px;
 margin-left: auto;
 margin-right: auto;
 }
+
+/* ================================
+ORDERS PAGE
+================================ */
+
+.order-list-card{
+align-items:center;
+justify-content:space-between;
+}
+
+.order-status{
+color:#666;
+font-weight:500;
+}
+
+/* ================================
+ORDER DETAILS
+================================ */
+
+.order-items{
+max-width:1100px;
+margin:auto;
+display:flex;
+flex-direction:column;
+gap:20px;
+}
+
+.order-item{
+display:flex;
+align-items:center;
+gap:20px;
+
+background:#fff;
+padding:18px;
+
+border-radius:14px;
+
+transition:box-shadow .2s ease;
+}
+
+.order-item:hover{
+box-shadow:0 10px 25px rgba(0,0,0,0.12);
+}
+
+.order-img{
+width:120px;
+height:140px;
+object-fit:cover;
+border-radius:10px;
+}
+
+.order-info{
+flex:1;
+}
+
+.order-info h4{
+margin-bottom:6px;
+}
+
+.order-info p{
+margin:4px 0;
+color:#555;
+}
+
+.order-subtotal{
+margin-top:6px;
+font-weight:600;
+color:var(--primary);
+}
+
+/* cancel button */
+
+.cancel-btn{
+margin-top:10px;
+
+padding:8px 16px;
+
+border-radius:8px;
+border:none;
+
+background:#c0392b;
+color:white;
+
+cursor:pointer;
+
+transition:.2s;
+}
+
+.cancel-btn:hover{
+background:#922b21;
+
+}
