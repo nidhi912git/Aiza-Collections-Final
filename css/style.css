@@ -8,34 +8,44 @@
   font-family: 'Poppins', sans-serif;
 }
 
+body,
+p,
+span,
+div,
+li,
+label,
+input,
+textarea,
+select,
+button,
+a {
+  font-family: var(--font-main);
+}
+
 /* ===============================
    ROOT VARIABLES
 ================================ */
 :root {
 
   /* Backgrounds */
-  --bg: #FAF7F4;
+  --bg: #F5F1EC;
   --card: #FFFFFF;
 
   /* Text */
-  --text: #1F1F1F;
-  --text-muted: #6B6B6B;
+  --text: #2A2A2A;
+  --text-muted: #6E6E6E;
 
-  /* Primary */
-  --primary: #660B05;
-  --primary-dark: #3E0703;
-  --primary-light: #8C1007;
+  /* Primary brand color (brown) */
+  --primary: #A85C2C;
+  --primary-dark: #8A4A21;
+  --primary-light: #C97A47;
 
-  /* Accent */
-  --accent: #B08B4A;
-  --accent-soft: #E6D3A3;
-
-  /* Neutral UI */
-  --cool-contrast: #5F676F;
-  --cool-light: #D6DADF;
+  /* Accent (gold tone) */
+  --accent: #C9A46B;
+  --accent-soft: #EFE3D3;
 
   /* Borders */
-  --border: #E2DED9;
+  --border: #E7E1D8;
 
   /* Radius */
   --radius: 14px;
@@ -44,9 +54,9 @@
   /* Motion */
   --transition: 0.25s ease;
 
-  /* Typography */
-  --font-main: system-ui, -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  /* Fonts */
+  --font-main: 'Poppins', sans-serif;
+  --font-heading: 'Playfair Display', serif;
 
   /* Layout */
   --container-width: 1200px;
@@ -69,7 +79,7 @@ body {
 body {
   background: var(--bg);
   color: var(--text);
-  overflow-x: hidden;
+  font-family: var(--font-main);
 }
 
 a {
@@ -122,6 +132,7 @@ h1,
 h2,
 h3,
 h4 {
+  font-family: var(--font-heading);
   font-weight: 600;
   letter-spacing: 0.4px;
 }
@@ -228,14 +239,11 @@ select {
 /* Shop name beside logo */
 
 .shop-name {
-  font-family: 'Playfair Display', serif;
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  margin-left: 14px;
-  margin-right: 28px;
-  color: #111;
-  text-transform: uppercase;
+  font-family: var(--font-heading);
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--text);
 }
 
 /* ===============================
@@ -271,6 +279,7 @@ select {
   text-decoration: none;
   color: var(--text);
   font-weight: 500;
+  font-family: var(--font-main);
 }
 
 /* ===============================
@@ -337,12 +346,10 @@ select {
 ================================ */
 
 footer {
-  background: #f8f8f8;
+  background: #EFE9E2;
   padding: 45px 20px;
   margin-top: 40px;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  color: #1a1a1a;
+  font-family: var(--font-main);
 }
 
 /* Main footer row */
@@ -1731,13 +1738,23 @@ img[src*="icons"] {
 }
 
 .qty-btn{
-  width:28px;
-  height:28px;
+  width:32px;
+  height:32px;
   border-radius:50%;
   border:none;
-  background:#660B05;
-  color:white;
+
+  background: var(--primary);
+  color:#fff;
+
+  font-size:18px;
+  font-weight:600;
+
   cursor:pointer;
+  transition:0.25s;
+}
+
+.qty-btn:hover{
+  background: var(--primary-dark);
 }
 
 /* Actions */
@@ -2318,11 +2335,11 @@ body.admin-page section {
   flex:1;
   height:44px;
 
-  border:2px solid #660B05;
+  border:2px solid var(--primary);
   border-radius:28px;
 
   background:transparent;
-  color:#660B05;
+  color:var(--primary);
 
   font-size:15px;
   font-weight:500;
@@ -2332,7 +2349,7 @@ body.admin-page section {
 }
 
 .add-cart-btn:hover{
-  background:#660B05;
+  background: var(--primary);
   color:#fff;
 }
 
@@ -2343,10 +2360,10 @@ body.admin-page section {
   height:44px;
 
   border-radius:50%;
-  border:2px solid #660B05;
+  border:2px solid var(--primary);
 
   background:transparent;
-  color:#660B05;
+  color:var(--primary);
 
   display:flex;
   align-items:center;
@@ -2358,7 +2375,7 @@ body.admin-page section {
 }
 
 .wishlist-btn:hover{
-  background:#660B05;
+  background: var(--primary);
   color:#fff;
 }
 
@@ -2866,4 +2883,3 @@ body.admin-page section {
     word-wrap: break-word;
   }
 }
-
