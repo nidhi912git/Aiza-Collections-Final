@@ -7,53 +7,62 @@ include "../includes/header.php";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-  verify_csrf();
+verify_csrf();
 
-  $email = trim($_POST['email']);
-  $pass  = $_POST['password'];
+$email = trim($_POST['email']);
+$pass  = $_POST['password'];
 
-  $stmt = mysqli_prepare($conn,
-    "SELECT user_id,name,password_hash,role FROM users WHERE email=?"
-  );
+$stmt = mysqli_prepare($conn,
+"SELECT user_id,name,password_hash,role FROM users WHERE email=?"
+);
 
-  mysqli_stmt_bind_param($stmt,"s",$email);
-  mysqli_stmt_execute($stmt);
+mysqli_stmt_bind_param($stmt,"s",$email);
+mysqli_stmt_execute($stmt);
 
-  $res = mysqli_stmt_get_result($stmt);
+$res = mysqli_stmt_get_result($stmt);
 
-  if ($u = mysqli_fetch_assoc($res)) {
+if ($u = mysqli_fetch_assoc($res)) {
 
-    if (password_verify($pass,$u['password_hash'])) {
+if (password_verify($pass,$u['password_hash'])) {
 
-        session_regenerate_id(true);
-        $_SESSION['user'] = $u;
+session_regenerate_id(true);
+$_SESSION['user'] = $u;
 
-        if(isset($_POST['remember'])){
-            $token = bin2hex(random_bytes(32));
+/* REMEMBER ME */
 
-            setcookie(
-                "remember_token",
-                $token,
-                time() + (86400 * 30),
-                "/"
-            );
+if(isset($_POST['remember'])){
 
-            $_SESSION['remember_token'] = $token;
-        }
+$token = bin2hex(random_bytes(32));
 
-        /* ROLE REDIRECT */
+setcookie(
+"remember_token",
+$token,
+time() + (86400 * 30),
+"/"
+);
 
-        if($u['role'] === 'manager'){
-            header("Location: ../admin/products.php");
-        } else {
-            header("Location: home.php");
-        }
+$stmt = mysqli_prepare($conn,
+"UPDATE users SET remember_token=? WHERE user_id=?"
+);
 
-        exit;
-    }
+mysqli_stmt_bind_param($stmt,"si",$token,$u['user_id']);
+mysqli_stmt_execute($stmt);
+
 }
 
-  $error="Invalid email or password";
+/* ROLE REDIRECT */
+
+if($u['role'] === 'manager'){
+header("Location: ../admin/products.php");
+}else{
+header("Location: home.php");
+}
+
+exit;
+}
+}
+
+$error="Invalid email or password";
 }
 ?>
 
@@ -84,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 Remember me
 </label>
 
-<a href="#">Forgot password?</a>
+<a href="forgot_password.php">Forgot password?</a>
 
 </div>
 

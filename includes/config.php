@@ -13,7 +13,26 @@ if(!$conn){
     die("Database connection failed: ".mysqli_connect_error());
 }
 
-/* charset AFTER connection */
+/* REMEMBER ME AUTO LOGIN */
+
+if(!isset($_SESSION['user']) && isset($_COOKIE['remember_token'])){
+
+    $token = $_COOKIE['remember_token'];
+
+    $q = mysqli_query($conn,"
+    SELECT user_id,name,role
+    FROM users
+    WHERE remember_token='$token'
+    ");
+
+    if($u=mysqli_fetch_assoc($q)){
+        $_SESSION['user'] = $u;
+    }
+
+}
+
+/* IMAGE PATH HELPER */
+
 function imgPath($path){
 
     if(!$path){
@@ -26,4 +45,5 @@ function imgPath($path){
 
     return "/aiza-collections-final/assets/images/" . $path;
 }
+
 ?>
