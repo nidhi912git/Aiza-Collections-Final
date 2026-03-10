@@ -243,7 +243,7 @@ select {
   font-size: 26px;
   font-weight: 600;
   letter-spacing: 1px;
-  color: var(--text);
+  color: #000;
 }
 
 /* ===============================
@@ -280,6 +280,10 @@ select {
   color: var(--text);
   font-weight: 500;
   font-family: var(--font-main);
+}
+
+.main-nav a:hover {
+  color: var(--primary);
 }
 
 /* ===============================
@@ -346,10 +350,11 @@ select {
 ================================ */
 
 footer {
-  background: #EFE9E2;
+  background: var(--card);   /* same white as header */
   padding: 45px 20px;
   margin-top: 40px;
   font-family: var(--font-main);
+  border-top: 1px solid var(--border); /* optional nice divider */
 }
 
 /* Main footer row */
@@ -358,7 +363,7 @@ footer > div {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   max-width: 1000px;
   margin: auto;
   gap: 2.5rem;
@@ -505,6 +510,11 @@ button.btn {
 button.btn:hover {
   background: var(--primary-dark);
   transform: translateY(-2px);
+}
+
+.map-btn{
+  margin-top: 12px;
+  display: inline-block;
 }
 
 /* ===============================
@@ -828,12 +838,16 @@ section > h2.section-title + p[style] br {
   padding: 30px;
   border-radius: var(--radius);
   text-align: center;
+
+  border: 2px solid var(--primary); /* ADD THIS */
+
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .contact-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+  border-color: var(--primary-dark);
 }
 
 .contact-card img {
