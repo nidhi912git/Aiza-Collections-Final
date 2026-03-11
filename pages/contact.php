@@ -65,7 +65,7 @@ include "../includes/header.php";
     <p>Experience our collections in person and find your perfect fit.</p>
     <p> Come visit us in-person to have the best shopping experience and get your best fits. we are located in Veera Pillai Street, near the famous Commercial Street of Bengaluru</p>
     <p> Find the link to the google maps below to ease locating us</p>
-    <a href="https://maps.google.com/?q=298, Veera Pillai Street" class="btn map-btn" target="_blank">
+    <a href="https://maps.app.goo.gl/w73CmVHLeTk8r6NB8" class="btn map-btn" target="_blank">
       Open in Google Maps
      </a>
   </div>

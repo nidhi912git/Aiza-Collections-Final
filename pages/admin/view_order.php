@@ -8,31 +8,44 @@ require_admin();
 
 $order_id = intval($_GET['id'] ?? 0);
 
-/* UPDATE STATUS */
+/* ===============================
+   UPDATE ORDER STATUS
+================================ */
 
 if(isset($_POST['update_status'])){
 
 verify_csrf();
 
-$status = mysqli_real_escape_string($conn,$_POST['status']);
+$status = $_POST['status'] ?? '';
 
-mysqli_query($conn,"
+$allowed = ['Placed','Processing','Shipped','Delivered','Cancelled'];
+
+if(in_array($status,$allowed)){
+
+$stmt = mysqli_prepare($conn,"
 UPDATE orders
-SET order_status='$status'
-WHERE order_id='$order_id'
+SET order_status=?
+WHERE order_id=?
 ");
 
-header("Location: orders_panel.php");
+mysqli_stmt_bind_param($stmt,"si",$status,$order_id);
+mysqli_stmt_execute($stmt);
+
+}
+
+header("Location: view_order.php?id=".$order_id);
 exit;
 
 }
 
 include "../../includes/header.php";
 
-/* GET ORDER DETAILS */
+/* ===============================
+   GET ORDER DETAILS
+================================ */
 
-$order_query = mysqli_query($conn,"
-SELECT 
+$stmt = mysqli_prepare($conn,"
+SELECT
 o.order_id,
 o.order_total,
 o.order_status,
@@ -41,33 +54,42 @@ u.name
 FROM orders o
 LEFT JOIN users u
 ON o.user_id = u.user_id
-WHERE o.order_id = '$order_id'
+WHERE o.order_id = ?
 ");
 
-$order = mysqli_fetch_assoc($order_query);
+mysqli_stmt_bind_param($stmt,"i",$order_id);
+mysqli_stmt_execute($stmt);
+
+$order_result = mysqli_stmt_get_result($stmt);
+$order = mysqli_fetch_assoc($order_result);
 
 if(!$order){
-
 echo "<p style='text-align:center;'>Order not found</p>";
 include "../../includes/footer.php";
 exit;
-
 }
 
-/* GET ORDER ITEMS */
+/* ===============================
+   GET ORDER ITEMS + SIZE
+================================ */
 
-$items_query = mysqli_query($conn,"
-SELECT 
+$stmt2 = mysqli_prepare($conn,"
+SELECT
 oi.product_code,
 oi.size,
 oi.quantity,
 oi.price,
 p.product_name
 FROM order_items oi
-JOIN products p
+LEFT JOIN products p
 ON oi.product_code = p.product_code
-WHERE oi.order_id = '$order_id'
+WHERE oi.order_id = ?
 ");
+
+mysqli_stmt_bind_param($stmt2,"i",$order_id);
+mysqli_stmt_execute($stmt2);
+
+$items_query = mysqli_stmt_get_result($stmt2);
 ?>
 
 <section class="order-view-container">
@@ -76,12 +98,22 @@ WHERE oi.order_id = '$order_id'
 
 <div class="order-info">
 
-<p><strong>Customer:</strong> <?= htmlspecialchars($order['name']) ?></p>
-<p><strong>Date:</strong> <?= date("d M Y",strtotime($order['created_at'])) ?></p>
-<p><strong>Status:</strong> <?= $order['order_status'] ?></p>
+<p>
+<strong>Customer:</strong>
+<?= htmlspecialchars($order['name'] ?? '') ?>
+</p>
+
+<p>
+<strong>Date:</strong>
+<?= date("d M Y",strtotime($order['created_at'])) ?>
+</p>
+
+<p>
+<strong>Status:</strong>
+<span><?= htmlspecialchars($order['order_status']) ?></span>
+</p>
 
 </div>
-
 
 <h3>Items Ordered</h3>
 
@@ -99,11 +131,15 @@ WHERE oi.order_id = '$order_id'
 
 <tr>
 
-<td><?= htmlspecialchars($item['product_name']) ?></td>
+<td><?= htmlspecialchars($item['product_name'] ?? '') ?></td>
 
-<td><?= htmlspecialchars($item['size'] ?? '-') ?></td>
+<td>
+<?= !empty($item['size']) 
+? htmlspecialchars($item['size']) 
+: '-' ?>
+</td>
 
-<td><?= $item['quantity'] ?></td>
+<td><?= intval($item['quantity']) ?></td>
 
 <td>₹<?= number_format($item['price']) ?></td>
 
@@ -115,7 +151,6 @@ WHERE oi.order_id = '$order_id'
 
 </table>
 
-
 <p class="order-total">
 Total: ₹<?= number_format($order['order_total']) ?>
 </p>
@@ -125,6 +160,10 @@ Total: ₹<?= number_format($order['order_total']) ?>
 <div class="order-status-update">
 
 <h3>Update Order Status</h3>
+
+<form method="POST">
+
+<input type="hidden" name="csrf" value="<?= csrf_token() ?>">
 
 <div class="custom-dropdown">
 
@@ -144,7 +183,9 @@ Select Status
 
 </div>
 
-<button class="btn">Update Status</button>
+<button class="btn update-status-btn">Update Status</button>
+
+</form>
 
 </div>
 

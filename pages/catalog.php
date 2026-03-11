@@ -8,50 +8,61 @@ $search   = $_GET['q'] ?? '';
 $category = $_GET['category'] ?? 'all';
 $price    = $_GET['price'] ?? 'default';
 
+/* WHERE CONDITIONS */
+
 $where = [];
-
 $where[] = "p.product_code NOT LIKE '%-%'";
+$where[] = "p.is_active = 1";
 
-if ($search !== '') {
+if($search !== ''){
     $safe = mysqli_real_escape_string($conn,$search);
     $where[] = "p.product_name LIKE '%$safe%'";
 }
 
-
-if ($category !== 'all') {
-    $safeCat = (int)$category;
-    $where[] = "p.category_num = $safeCat";
-}
-$whereSql = "WHERE " . implode(" AND ", $where);
-
-$orderSql = "";
-
-if ($price == "low-high") {
-    $orderSql = "ORDER BY p.price ASC";
+if($category !== 'all'){
+    $cat = intval($category);
+    $where[] = "p.category_num = $cat";
 }
 
-if ($price == "high-low") {
-    $orderSql = "ORDER BY p.price DESC";
+/* ORDER BY */
+
+$order = "";
+
+if($price === "low-high"){
+    $order = "ORDER BY p.price ASC";
 }
+elseif($price === "high-low"){
+    $order = "ORDER BY p.price DESC";
+}
+
+/* FINAL QUERY */
 
 $sql = "
 SELECT
 p.product_code,
 p.product_name,
 p.price,
-SUM(ps.stock_qty) AS stock_qty,
-MIN(i.image_path) image_path
+
+(
+SELECT COALESCE(SUM(stock_qty),0)
+FROM product_stock
+WHERE product_code = p.product_code
+) AS stock_qty,
+
+(
+SELECT image_path
+FROM product_images
+WHERE product_code = p.product_code
+ORDER BY image_id ASC
+LIMIT 1
+) AS image_path
+
 FROM products p
-LEFT JOIN product_stock ps
-ON p.product_code=ps.product_code
-LEFT JOIN product_images i
-ON p.product_code=i.product_code
-WHERE p.product_code NOT LIKE '%-%'
-GROUP BY p.product_code
+WHERE ".implode(" AND ",$where)."
+$order
 ";
 
 $result = mysqli_query($conn,$sql);
-
 ?>
 
 <section>

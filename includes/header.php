@@ -13,7 +13,8 @@ include_once __DIR__ . "/security.php";
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;400;500;600&display=swap" rel="stylesheet">
 <script src="/aiza-collections-final/js/script.js?v=<?= time() ?>" defer></script>
 </head>
-<body id="<?= $page_id ?? '' ?>" class="<?= $page_id ?? '' ?> <?= strpos($page_id,'admin')===0?'admin-page':'' ?>">
+<body id="<?= $page_id ?? '' ?>" 
+class="<?= $page_id ?? '' ?> <?= (isset($page_id) && strpos($page_id,'admin')===0)?'admin-page':'' ?>">
 
 <header class="site-header">
 
@@ -68,7 +69,7 @@ include_once __DIR__ . "/security.php";
       }
       }
       ?>
-      <a href="/aiza-collections-final/pages/cart.php">Cart (<?= $cartCount ?>)</a>
+      <a href="/aiza-collections-final/pages/cart.php">Cart (<span data-cart-count><?= $cartCount ?></span>)</a>
       <a href="/aiza-collections-final/pages/wishlist.php">Wishlist</a>
       <a href="/aiza-collections-final/pages/orders.php">My Orders</a>
       <?php if (is_admin()): ?>
@@ -121,11 +122,20 @@ My Orders
 
 <?php if (is_admin()): ?>
 
-<a href="/aiza-collections-final/pages/admin/products.php">
-Admin Panel
+<a href="/aiza-collections-final/pages/admin/dashboard.php">
+Manager Panel
 </a>
 
-<span style="color:#d4a017;font-size:12px;">(Admin)</span>
+<span style="color:#d4a017;font-size:12px;">(Manager)</span>
+
+<?php endif; ?>
+<?php if (is_staff()): ?>
+
+<a href="/aiza-collections-final/pages/staff/dashboard.php">
+Staff Panel
+</a>
+
+<span style="color:#d4a017;font-size:12px;">(Staff)</span>
 
 <?php endif; ?>
 

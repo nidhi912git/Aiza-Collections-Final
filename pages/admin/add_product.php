@@ -18,25 +18,54 @@ include "../../includes/header.php";
 <input type="hidden" name="csrf" value="<?= csrf_token() ?>">
 
 <label>Product Code</label>
-<input type="text" name="code" required>
+<input 
+type="text" 
+name="code" 
+placeholder="Example: A1, C3, SH2" 
+required
+pattern="[A-Za-z0-9]+"
+title="Only letters and numbers allowed">
 
 <label>Category Number</label>
-<input type="number" name="category" min="1" max="6" required>
+<input 
+type="number" 
+name="category" 
+min="1" 
+max="6" 
+required>
 
 <label>Product Name</label>
-<input type="text" name="name" required>
+<input 
+type="text" 
+name="name" 
+required>
 
-<label>Price</label>
-<input type="number" name="price" min="0" step="0.01" required>
+<label>Price (₹)</label>
+<input 
+type="number" 
+name="price" 
+min="0" 
+step="0.01" 
+required>
 
-<label>Stock Quantity</label>
-<input type="number" name="stock" min="0" required>
+<label>Initial Stock Per Size</label>
 
-<label>Color</label>
-<input type="text" name="color">
+<input 
+type="number" 
+name="stock" 
+min="0" 
+value="15"
+required>
+
+<p style="font-size:13px;color:#666;margin-top:-6px;margin-bottom:10px;">
+Stock will be created for sizes: S, M, L, XL, XXL
+</p>
 
 <label>Description</label>
-<textarea name="desc" rows="4"></textarea>
+<textarea 
+name="desc" 
+rows="4"
+placeholder="Short description of the product"></textarea>
 
 <label>Featured Product</label>
 <select name="featured">
@@ -50,7 +79,9 @@ include "../../includes/header.php";
 <option value="0">Inactive</option>
 </select>
 
-<button class="btn">Add Product</button>
+<button class="btn">
+Add Product
+</button>
 
 </form>
 

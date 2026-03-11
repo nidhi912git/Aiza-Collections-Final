@@ -19,13 +19,18 @@ if(!isset($_SESSION['user']) && isset($_COOKIE['remember_token'])){
 
     $token = $_COOKIE['remember_token'];
 
-    $q = mysqli_query($conn,"
+    $stmt = mysqli_prepare($conn,"
     SELECT user_id,name,role
     FROM users
-    WHERE remember_token='$token'
+    WHERE remember_token=?
     ");
 
-    if($u=mysqli_fetch_assoc($q)){
+    mysqli_stmt_bind_param($stmt,"s",$token);
+    mysqli_stmt_execute($stmt);
+
+    $result = mysqli_stmt_get_result($stmt);
+
+    if($u = mysqli_fetch_assoc($result)){
         $_SESSION['user'] = $u;
     }
 

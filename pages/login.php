@@ -9,16 +9,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 verify_csrf();
 
-$email = trim($_POST['email']);
-$pass  = $_POST['password'];
+$email = trim($_POST['email'] ?? '');
+$phone = trim($_POST['phone'] ?? '');
+$pass  = $_POST['password'] ?? '';
 
-$stmt = mysqli_prepare($conn,
-"SELECT user_id,name,password_hash,role FROM users WHERE email=?"
-);
+if(!$email && !$phone){
+$error="Enter email or phone number";
+}
+
+else{
+
+/* ===============================
+   LOGIN USING EMAIL OR PHONE
+================================ */
+
+if($email){
+
+$stmt = mysqli_prepare($conn,"
+SELECT user_id,name,password_hash,role
+FROM users
+WHERE email=?
+");
 
 mysqli_stmt_bind_param($stmt,"s",$email);
-mysqli_stmt_execute($stmt);
 
+}
+
+else{
+
+$stmt = mysqli_prepare($conn,"
+SELECT user_id,name,password_hash,role
+FROM users
+WHERE phone_number=?
+");
+
+mysqli_stmt_bind_param($stmt,"s",$phone);
+
+}
+
+mysqli_stmt_execute($stmt);
 $res = mysqli_stmt_get_result($stmt);
 
 if ($u = mysqli_fetch_assoc($res)) {
@@ -41,12 +70,12 @@ time() + (86400 * 30),
 "/"
 );
 
-$stmt = mysqli_prepare($conn,
+$stmt2 = mysqli_prepare($conn,
 "UPDATE users SET remember_token=? WHERE user_id=?"
 );
 
-mysqli_stmt_bind_param($stmt,"si",$token,$u['user_id']);
-mysqli_stmt_execute($stmt);
+mysqli_stmt_bind_param($stmt2,"si",$token,$u['user_id']);
+mysqli_stmt_execute($stmt2);
 
 }
 
@@ -54,19 +83,26 @@ mysqli_stmt_execute($stmt);
 
 if($u['role'] === 'manager'){
 header("Location: /aiza-collections-final/pages/admin/products.php");
-}else{
+}
+elseif($u['role'] === 'staff'){
+header("Location: /aiza-collections-final/pages/admin/staff_dashboard.php");
+}
+else{
 header("Location: /aiza-collections-final/pages/home.php");
 }
 
 exit;
-}
+
 }
 
-$error="Invalid email or password";
+}
+
+$error="Invalid credentials";
+
+}
+
 }
 ?>
-
-
 
 <div class="auth-box">
 
@@ -78,12 +114,28 @@ $error="Invalid email or password";
 <input type="hidden" name="csrf" value="<?= csrf_token() ?>">
 
 <label>Email address</label>
-<input type="email" name="email" required>
+<input type="email" name="email" placeholder="Enter email">
+
+<label>OR Phone Number</label>
+<input
+type="tel"
+name="phone"
+inputmode="numeric"
+pattern="[0-9]{10}"
+maxlength="10"
+placeholder="Enter 10 digit phone number"
+oninput="this.value=this.value.replace(/[^0-9]/g,'')"
+>
 
 <label>Password</label>
+
 <div class="password-field">
+
 <input type="password" name="password" id="loginPassword" required>
-<span class="toggle-password" onclick="togglePassword('loginPassword', this)">👁</span>
+
+<span class="toggle-password"
+onclick="togglePassword('loginPassword', this)">👁</span>
+
 </div>
 
 <div class="auth-extra">
@@ -102,7 +154,9 @@ Remember me
 </form>
 
 <?php if(isset($error)): ?>
-<p class="auth-error"><?= $error ?></p>
+
+<p class="auth-error"><?= htmlspecialchars($error) ?></p>
+
 <?php endif; ?>
 
 <p class="auth-switch">
@@ -111,6 +165,5 @@ Don't have an account?
 </p>
 
 </div>
-
 
 <?php include "../includes/footer.php"; ?>

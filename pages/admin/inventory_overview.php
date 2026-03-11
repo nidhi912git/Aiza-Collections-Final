@@ -11,8 +11,10 @@ include "../../includes/header.php";
 /* TOTAL INVENTORY VALUE */
 
 $q1 = mysqli_query($conn,"
-SELECT SUM(price * stock_qty) AS total_value
-FROM products
+SELECT SUM(p.price * ps.stock_qty) AS total_value
+FROM products p
+JOIN product_stock ps
+ON p.product_code = ps.product_code
 ");
 
 $total_value = mysqli_fetch_assoc($q1)['total_value'] ?? 0;
@@ -22,7 +24,7 @@ $total_value = mysqli_fetch_assoc($q1)['total_value'] ?? 0;
 
 $q2 = mysqli_query($conn,"
 SELECT SUM(stock_qty) AS total_units
-FROM products
+FROM product_stock
 ");
 
 $total_units = mysqli_fetch_assoc($q2)['total_units'] ?? 0;
@@ -31,9 +33,15 @@ $total_units = mysqli_fetch_assoc($q2)['total_units'] ?? 0;
 /* TOP STOCKED PRODUCTS */
 
 $top = mysqli_query($conn,"
-SELECT product_code, product_name, stock_qty
-FROM products
-ORDER BY stock_qty DESC
+SELECT
+p.product_code,
+p.product_name,
+SUM(ps.stock_qty) AS stock
+FROM products p
+LEFT JOIN product_stock ps
+ON p.product_code = ps.product_code
+GROUP BY p.product_code,p.product_name
+ORDER BY stock DESC
 LIMIT 5
 ");
 
@@ -76,7 +84,7 @@ LIMIT 5
 
 <td><?= htmlspecialchars($p['product_name']) ?></td>
 
-<td><?= $p['stock_qty'] ?></td>
+<td><?= $p['stock'] ?></td>
 
 </tr>
 

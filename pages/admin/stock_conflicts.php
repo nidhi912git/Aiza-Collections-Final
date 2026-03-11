@@ -11,7 +11,7 @@ include "../../includes/header.php";
 /* OUT OF STOCK PRODUCTS */
 
 $out_query = mysqli_query($conn,"
-SELECT 
+SELECT
 p.product_code,
 p.product_name,
 SUM(ps.stock_qty) stock
@@ -19,13 +19,13 @@ FROM products p
 LEFT JOIN product_stock ps
 ON p.product_code=ps.product_code
 GROUP BY p.product_code
-HAVING stock <=5
+HAVING stock = 0
 ");
 
 /* LOW STOCK PRODUCTS */
 
 $low_query = mysqli_query($conn,"
-SELECT 
+SELECT
 p.product_code,
 p.product_name,
 SUM(ps.stock_qty) stock
@@ -33,14 +33,13 @@ FROM products p
 LEFT JOIN product_stock ps
 ON p.product_code=ps.product_code
 GROUP BY p.product_code
-HAVING stock <=5
+HAVING stock BETWEEN 1 AND 5
 ");
 ?>
 
 <section>
 
 <h2 class="section-title">Stock Conflicts</h2>
-
 
 <!-- OUT OF STOCK -->
 
@@ -68,9 +67,7 @@ HAVING stock <=5
 
 <td><?= htmlspecialchars($row['product_name']) ?></td>
 
-<td style="color:red;font-weight:bold;">
-Out of Stock
-</td>
+<td style="color:red;font-weight:bold;">Out of Stock</td>
 
 </tr>
 
@@ -108,7 +105,7 @@ Out of Stock
 <td><?= htmlspecialchars($row['product_name']) ?></td>
 
 <td style="color:#e67e22;font-weight:bold;">
-<?= $row['stock_qty'] ?>
+<?= $row['stock'] ?>
 </td>
 
 </tr>

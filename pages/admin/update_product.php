@@ -10,17 +10,23 @@ verify_csrf();
 /* GET FORM DATA */
 
 $code     = $_POST['code'] ?? '';
-$category = $_POST['category'] ?? 0;
-$name     = $_POST['name'] ?? '';
-$price    = $_POST['price'] ?? 0;
-$stock    = $_POST['stock'] ?? 0;
-$color    = $_POST['color'] ?? '';
-$desc     = $_POST['desc'] ?? '';
-$featured = $_POST['featured'] ?? 0;
-$active   = $_POST['active'] ?? 1;
+$category = intval($_POST['category'] ?? 0);
+$name     = trim($_POST['name'] ?? '');
+$price    = floatval($_POST['price'] ?? 0);
+$color    = trim($_POST['color'] ?? '');
+$desc     = trim($_POST['desc'] ?? '');
+$featured = intval($_POST['featured'] ?? 0);
+$active   = intval($_POST['active'] ?? 1);
 
+/* SIZE STOCK */
 
-/* UPDATE PRODUCT */
+$stock_S   = intval($_POST['stock_S'] ?? 0);
+$stock_M   = intval($_POST['stock_M'] ?? 0);
+$stock_L   = intval($_POST['stock_L'] ?? 0);
+$stock_XL  = intval($_POST['stock_XL'] ?? 0);
+$stock_XXL = intval($_POST['stock_XXL'] ?? 0);
+
+/* UPDATE PRODUCT INFO */
 
 $stmt = mysqli_prepare($conn,"
 UPDATE products
@@ -30,7 +36,6 @@ product_name = ?,
 description = ?,
 price = ?,
 color = ?,
-stock_qty = ?,
 is_featured = ?,
 is_active = ?
 WHERE product_code = ?
@@ -38,13 +43,12 @@ WHERE product_code = ?
 
 mysqli_stmt_bind_param(
 $stmt,
-"issdsiiis",
+"issdsiis",
 $category,
 $name,
 $desc,
 $price,
 $color,
-$stock,
 $featured,
 $active,
 $code
@@ -53,9 +57,36 @@ $code
 mysqli_stmt_execute($stmt);
 
 
+/* UPDATE SIZE STOCK */
+
+$stocks = [
+"S"=>$stock_S,
+"M"=>$stock_M,
+"L"=>$stock_L,
+"XL"=>$stock_XL,
+"XXL"=>$stock_XXL
+];
+
+foreach($stocks as $size=>$qty){
+
+$stmt2 = mysqli_prepare($conn,"
+UPDATE product_stock
+SET stock_qty=?
+WHERE product_code=? AND size=?
+");
+
+mysqli_stmt_bind_param($stmt2,"iss",$qty,$code,$size);
+
+mysqli_stmt_execute($stmt2);
+
+}
+
+/* SUCCESS MESSAGE */
+
+$_SESSION['popup'] = "Product updated successfully.";
+
 /* REDIRECT */
 
 header("Location: products.php");
 exit;
-
 ?>

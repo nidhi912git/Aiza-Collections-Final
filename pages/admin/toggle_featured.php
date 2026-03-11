@@ -7,17 +7,12 @@ include "../../includes/security.php";
 require_admin();
 verify_csrf();
 
-/* GET PRODUCT CODE */
-
 $code = $_POST['code'] ?? '';
 
 if(!$code){
 header("Location: products.php");
 exit;
 }
-
-
-/* TOGGLE FEATURED */
 
 $stmt = mysqli_prepare($conn,"
 UPDATE products
@@ -26,13 +21,9 @@ WHERE product_code = ?
 ");
 
 mysqli_stmt_bind_param($stmt,"s",$code);
-
 mysqli_stmt_execute($stmt);
 
-
-/* REDIRECT BACK */
+$_SESSION['popup'] = "Featured status updated.";
 
 header("Location: products.php");
 exit;
-
-?>

@@ -8,6 +8,8 @@ require_admin();
 
 $code = $_GET['code'] ?? '';
 
+/* GET PRODUCT */
+
 $stmt = mysqli_prepare($conn,"
 SELECT *
 FROM products
@@ -19,6 +21,25 @@ mysqli_stmt_execute($stmt);
 
 $result = mysqli_stmt_get_result($stmt);
 $p = mysqli_fetch_assoc($result);
+
+if(!$p){
+header("Location: products.php");
+exit;
+}
+
+/* GET SIZE STOCK */
+
+$stock = [];
+
+$q = mysqli_query($conn,"
+SELECT size,stock_qty
+FROM product_stock
+WHERE product_code='$code'
+");
+
+while($row=mysqli_fetch_assoc($q)){
+$stock[$row['size']] = $row['stock_qty'];
+}
 
 include "../../includes/header.php";
 ?>
@@ -57,20 +78,44 @@ min="0"
 step="0.01"
 required>
 
-<label>Stock Quantity</label>
-<input type="number"
-name="stock"
-value="<?= $p['stock_qty'] ?>"
-min="0"
-required>
 
-<label>Color</label>
-<input type="text"
-name="color"
-value="<?= htmlspecialchars($p['color']) ?>">
+<!-- SIZE STOCK -->
+
+<h3 style="margin-top:20px;">Stock Per Size</h3>
+
+<label>S</label>
+<input type="number"
+name="stock_S"
+value="<?= $stock['S'] ?? 0 ?>"
+min="0">
+
+<label>M</label>
+<input type="number"
+name="stock_M"
+value="<?= $stock['M'] ?? 0 ?>"
+min="0">
+
+<label>L</label>
+<input type="number"
+name="stock_L"
+value="<?= $stock['L'] ?? 0 ?>"
+min="0">
+
+<label>XL</label>
+<input type="number"
+name="stock_XL"
+value="<?= $stock['XL'] ?? 0 ?>"
+min="0">
+
+<label>XXL</label>
+<input type="number"
+name="stock_XXL"
+value="<?= $stock['XXL'] ?? 0 ?>"
+min="0">
 
 <label>Description</label>
 <textarea name="desc" rows="4"><?= htmlspecialchars($p['description']) ?></textarea>
+
 
 <label>Featured Product</label>
 <select name="featured">
@@ -80,6 +125,7 @@ value="<?= htmlspecialchars($p['color']) ?>">
 
 </select>
 
+
 <label>Active Product</label>
 <select name="active">
 
@@ -88,7 +134,9 @@ value="<?= htmlspecialchars($p['color']) ?>">
 
 </select>
 
-<button class="btn">Update Product</button>
+<button class="btn">
+Update Product
+</button>
 
 </form>
 

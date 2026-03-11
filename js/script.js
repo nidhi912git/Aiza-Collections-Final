@@ -1,108 +1,109 @@
-function showPopup(msg){
-  const p=document.querySelector(".popup");
-  if(!p) return;
-  p.textContent=msg;
-  p.classList.add("show");
-  setTimeout(()=>p.classList.remove("show"),2000);
+/* ===============================
+POPUP SYSTEM
+================================ */
+
+function showPopup(message){
+
+const popup=document.querySelector(".popup");
+if(!popup) return;
+
+popup.textContent=message;
+popup.classList.add("show");
+
+setTimeout(()=>{
+popup.classList.remove("show");
+},2500);
+
 }
 
+/* ===============================
+PRODUCT VIEW
+================================ */
+
 function viewProduct(code){
-  window.location.href="/aiza-collections-final/pages/product.php?code="+code;
+window.location.href="/aiza-collections-final/pages/product.php?code="+code;
 }
+
+/* ===============================
+ADD TO CART / WISHLIST
+================================ */
 
 function addToCart(e,btn){
 e.preventDefault();
 e.stopPropagation();
 
-const code = btn.dataset.code;
-
-askSize("cart", code);
+const code=btn.dataset.code;
+askSize("cart",code);
 }
 
 function addToWishlist(e,btn){
 e.preventDefault();
 e.stopPropagation();
 
-const code = btn.dataset.code;
-
-askSize("wishlist", code);
+const code=btn.dataset.code;
+askSize("wishlist",code);
 }
+
+/* ===============================
+CURRENT PRODUCT PAGE
+================================ */
 function addCurrentProductToCart(btn){
 
-const code = btn.dataset.code;
-
-const sizeBtn = document.querySelector(".sizes button.selected");
+const code=btn.dataset.code;
+const sizeBtn=document.querySelector(".sizes button.selected");
 
 if(!sizeBtn){
 showPopup("Please select a size");
 return;
 }
 
-const size = sizeBtn.textContent;
+const size=sizeBtn.textContent;
+
+btn.classList.add("loading");
 
 fetch("/aiza-collections-final/pages/list-handler.php",{
 method:"POST",
 headers:{'Content-Type':'application/x-www-form-urlencoded'},
-body:`product_code=${code}&size=${size}&action=add_cart`
+body:`product_code=${encodeURIComponent(code)}&size=${encodeURIComponent(size)}&action=add_cart`
 })
-.then(()=>showPopup("✔ Added to cart"));
+.then(res=>res.text())
+.then(()=>{
+
+showPopup("✔ Added to cart");
+updateCartCounter(1);
+
+})
+.finally(()=>{
+btn.classList.remove("loading");
+});
 
 }
 function addCurrentProductToWishlist(btn){
 
-const code = btn.dataset.code;
-
-const sizeBtn = document.querySelector(".sizes button.selected");
+const code=btn.dataset.code;
+const sizeBtn=document.querySelector(".sizes button.selected");
 
 if(!sizeBtn){
 showPopup("Please select a size");
 return;
 }
 
-const size = sizeBtn.textContent;
+const size=sizeBtn.textContent;
 
 fetch("/aiza-collections-final/pages/list-handler.php",{
 method:"POST",
 headers:{'Content-Type':'application/x-www-form-urlencoded'},
-body:`product_code=${code}&size=${size}&action=add_wishlist`
+body:`product_code=${encodeURIComponent(code)}&size=${encodeURIComponent(size)}&action=add_wishlist`
 })
 .then(()=>showPopup("♡ Added to wishlist"));
 
 }
 
-function setMainImage(src){
+/* ===============================
+SIZE MODAL
+================================ */
 
-const img = document.getElementById("prod-img");
-if(!img) return;
-
-img.src = src;
-
-if(typeof productImages !== "undefined"){
-currentImage = productImages.indexOf(src);
-}
-
-}
-
-let simIndex=0;
-function scrollSimilar(dir){
-  const track=document.getElementById("similarTrack");
-  if(!track) return;
-  const cardWidth=track.children[0].offsetWidth+24;
-  simIndex+=dir;
-  simIndex=Math.max(0,Math.min(simIndex,track.children.length-4));
-  track.style.transform=`translateX(-${simIndex*cardWidth}px)`;
-}
-function showAuthMessage(msg){
-const box=document.createElement("div");
-box.className="popup show";
-box.innerText=msg;
-document.body.appendChild(box);
-
-setTimeout(()=>{
-box.remove();
-},2000);
-}
-function askSize(action, code){
+function askSize(action,code){
 
 const overlay=document.createElement("div");
 overlay.className="confirm-overlay";
@@ -129,20 +130,18 @@ overlay.innerHTML=`
 
 document.body.appendChild(overlay);
 
-overlay.querySelector(".confirm-cancel").onclick=()=>{
-overlay.remove();
-};
+overlay.querySelector(".confirm-cancel").onclick=()=>overlay.remove();
 
 overlay.querySelectorAll(".size-options button").forEach(btn=>{
 
 btn.onclick=()=>{
 
-const size = btn.dataset.size;
+const size=btn.dataset.size;
 
 fetch("/aiza-collections-final/pages/list-handler.php",{
 method:"POST",
 headers:{'Content-Type':'application/x-www-form-urlencoded'},
-body:`product_code=${code}&size=${size}&action=${action==="cart"?"add_cart":"add_wishlist"}`
+body:`product_code=${encodeURIComponent(code)}&size=${encodeURIComponent(size)}&action=${action==="cart"?"add_cart":"add_wishlist"}`
 })
 .then(()=>{
 
@@ -161,9 +160,15 @@ overlay.remove();
 });
 
 }
+
+/* ===============================
+SIZE SELECTOR
+================================ */
+
 document.addEventListener("DOMContentLoaded",function(){
 
 document.querySelectorAll(".sizes button").forEach(btn=>{
+
 btn.addEventListener("click",function(){
 
 document.querySelectorAll(".sizes button")
@@ -177,137 +182,179 @@ this.classList.add("selected");
 
 });
 
-function confirmAction(message, form) {
+/* ===============================
+PRODUCT IMAGE SLIDER
+================================ */
 
-const overlay = document.createElement("div");
-overlay.className = "confirm-overlay";
+let currentImage=0;
 
-overlay.innerHTML = `
-<div class="confirm-box">
-<p>${message}</p>
+function changeImage(direction){
 
-<div class="confirm-actions">
-<button type="button" class="btn confirm-yes">Yes</button>
-<button type="button" class="confirm-cancel">No</button>
-</div>
+if(typeof productImages==="undefined") return;
+if(productImages.length===0) return;
 
-</div>
-`;
+currentImage+=direction;
 
-document.body.appendChild(overlay);
+if(currentImage<0){
+currentImage=productImages.length-1;
+}
 
-overlay.querySelector(".confirm-cancel").onclick = () => {
-overlay.remove();
-};
+if(currentImage>=productImages.length){
+currentImage=0;
+}
 
-overlay.querySelector(".confirm-yes").onclick = () => {
-overlay.remove();
-form.submit();   // THIS is what actually submits the form
-};
+const img=document.getElementById("prod-img");
+if(!img) return;
+
+img.classList.add("fade-out");
+
+setTimeout(()=>{
+img.src=productImages[currentImage];
+img.classList.remove("fade-out");
+},180);
 
 }
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("keydown",(e)=>{
 
-const icon = document.getElementById("accountIcon");
-const menu = document.getElementById("accountMenu");
+if(e.key==="ArrowRight") changeImage(1);
+if(e.key==="ArrowLeft") changeImage(-1);
 
-if (!icon || !menu) return;
-
-icon.addEventListener("click", function (e) {
-    e.stopPropagation();
-    menu.classList.toggle("active");
 });
 
-document.addEventListener("click", function () {
-    menu.classList.remove("active");
+/* ===============================
+SIMILAR PRODUCTS CAROUSEL
+================================ */
+
+let simIndex=0;
+
+function scrollSimilar(dir){
+
+const track=document.getElementById("similarTrack");
+if(!track || !track.children.length) return;
+
+const cardWidth=track.children[0].offsetWidth+24;
+
+simIndex+=dir;
+simIndex=Math.max(0,Math.min(simIndex,track.children.length-4));
+
+track.style.transform=`translateX(-${simIndex*cardWidth}px)`;
+
+}
+
+/* ===============================
+ACCOUNT DROPDOWN
+================================ */
+
+document.addEventListener("DOMContentLoaded",function(){
+
+const icon=document.getElementById("accountIcon");
+const menu=document.getElementById("accountMenu");
+
+if(!icon || !menu) return;
+
+icon.addEventListener("click",(e)=>{
+e.stopPropagation();
+menu.classList.toggle("active");
 });
 
-const mobileMenu = document.getElementById("mobile-menu");
-const mainNav = document.getElementById("main-nav");
+document.addEventListener("click",()=>{
+menu.classList.remove("active");
+});
 
-if (mobileMenu && mainNav) {
-    mobileMenu.addEventListener("click", function(e) {
-        e.stopPropagation();
-        mobileMenu.classList.toggle("active");
-        mainNav.classList.toggle("active");
-        document.body.classList.toggle("menu-open");
-    });
+});
 
-    document.addEventListener("click", function(e) {
-        if (!mainNav.contains(e.target) && !mobileMenu.contains(e.target)) {
-            mobileMenu.classList.remove("active");
-            mainNav.classList.remove("active");
-            document.body.classList.remove("menu-open");
-        }
-    });
+/* ===============================
+MOBILE MENU
+================================ */
 
-    // Close menu when clicking on a link
-    const navLinks = mainNav.querySelectorAll("a");
-    navLinks.forEach(link => {
-        link.addEventListener("click", () => {
-            mobileMenu.classList.remove("active");
-            mainNav.classList.remove("active");
-            document.body.classList.remove("menu-open");
-        });
-    });
+document.addEventListener("DOMContentLoaded",function(){
+
+const mobileMenu=document.getElementById("mobile-menu");
+const mainNav=document.getElementById("main-nav");
+
+if(!mobileMenu || !mainNav) return;
+
+mobileMenu.addEventListener("click",(e)=>{
+e.stopPropagation();
+
+mobileMenu.classList.toggle("active");
+mainNav.classList.toggle("active");
+
+document.body.classList.toggle("menu-open");
+});
+
+document.addEventListener("click",(e)=>{
+
+if(!mainNav.contains(e.target) && !mobileMenu.contains(e.target)){
+mobileMenu.classList.remove("active");
+mainNav.classList.remove("active");
+document.body.classList.remove("menu-open");
 }
 
 });
-function togglePassword(id, icon){
 
-const input = document.getElementById(id);
+});
 
-if(input.type === "password"){
-input.type = "text";
-icon.textContent = "🙈";
+/* ===============================
+PASSWORD TOGGLE
+================================ */
+
+function togglePassword(id,icon){
+
+const input=document.getElementById(id);
+
+if(input.type==="password"){
+input.type="text";
+icon.textContent="🙈";
 }
 else{
-input.type = "password";
-icon.textContent = "👁";
+input.type="password";
+icon.textContent="👁";
 }
-}
-/* Home page slider */
-let currentSlide = 0;
 
-const slides = document.querySelector(".slides");
-const totalSlides = document.querySelectorAll(".slide").length;
-const dots = document.querySelectorAll(".dot");
+}
+
+/* ===============================
+HOME PAGE SLIDER
+================================ */
+
+let currentSlide=0;
+
+const slides=document.querySelector(".slides");
+const slideList=document.querySelectorAll(".slide");
+const dots=document.querySelectorAll(".dot");
+
+let totalSlides=slideList.length;
 
 function showSlide(index){
 
-if(index >= totalSlides){
-currentSlide = 0;
+if(!slides) return;
+
+if(index>=totalSlides){
+currentSlide=0;
 }
-else if(index < 0){
-currentSlide = totalSlides - 1;
+else if(index<0){
+currentSlide=totalSlides-1;
 }
 else{
-currentSlide = index;
+currentSlide=index;
 }
 
-slides.style.transform = "translateX(-" + (currentSlide * 100) + "%)";
+slides.style.transform="translateX(-"+(currentSlide*100)+"%)";
 
-dots.forEach(dot => dot.classList.remove("active"));
-dots[currentSlide].classList.add("active");
+dots.forEach(dot=>dot.classList.remove("active"));
+if(dots[currentSlide]) dots[currentSlide].classList.add("active");
+
 }
 
-function nextSlide(){
-showSlide(currentSlide + 1);
-}
-
-function prevSlide(){
-showSlide(currentSlide - 1);
-}
-
-/* auto slide with hover pause */
+function nextSlide(){ showSlide(currentSlide+1); }
+function prevSlide(){ showSlide(currentSlide-1); }
 
 let sliderInterval;
 
 function startSlider(){
-sliderInterval = setInterval(()=>{
-nextSlide();
-},5000);
+sliderInterval=setInterval(()=>nextSlide(),5000);
 }
 
 function stopSlider(){
@@ -318,133 +365,63 @@ if(slides){
 
 startSlider();
 
-/* pause slider when hovering */
-
-slides.addEventListener("mouseenter",()=>{
-stopSlider();
-});
-
-slides.addEventListener("mouseleave",()=>{
-startSlider();
-});
+slides.addEventListener("mouseenter",stopSlider);
+slides.addEventListener("mouseleave",startSlider);
 
 }
 
-/* mobile swipe */
+/* ===============================
+MOBILE SWIPE
+================================ */
 
-let startX = 0;
+let startX=0;
 
 if(slides){
 
 slides.addEventListener("touchstart",(e)=>{
-startX = e.touches[0].clientX;
+startX=e.touches[0].clientX;
 });
 
 slides.addEventListener("touchend",(e)=>{
-let endX = e.changedTouches[0].clientX;
 
-if(startX - endX > 50){
-nextSlide();
-}
+let endX=e.changedTouches[0].clientX;
 
-if(endX - startX > 50){
-prevSlide();
-}
+if(startX-endX>50) nextSlide();
+if(endX-startX>50) prevSlide();
 
 });
 
 }
-/* PRODUCT IMAGE SLIDER */
-
-let currentImage = 0;
-
-function changeImage(direction){
-
-if(typeof productImages === "undefined") return;
-if(productImages.length === 0) return;
-
-currentImage += direction;
-
-if(currentImage < 0){
-currentImage = productImages.length - 1;
-}
-
-if(currentImage >= productImages.length){
-currentImage = 0;
-}
-
-const img = document.getElementById("prod-img");
-if(!img) return;
-
-/* fade out */
-
-img.classList.add("fade-out");
-
-setTimeout(()=>{
-
-img.src = productImages[currentImage];
-
-/* fade in */
-
-img.classList.remove("fade-out");
-
-},180);
-
-}
-document.addEventListener("keydown",(e)=>{
-
-if(e.key === "ArrowRight"){
-changeImage(1);
-}
-
-if(e.key === "ArrowLeft"){
-changeImage(-1);
-}
-
-});
 
 /* ===============================
-   ABOUT PAGE REVIEW SLIDER
+ABOUT PAGE REVIEW SLIDER
 ================================ */
 
-let reviewIndex = 0;
+let reviewIndex=0;
 let reviewInterval;
 
-const reviewSlides = document.querySelectorAll(".review-slide");
-const reviewSlider = document.querySelector(".review-slider");
+const reviewSlides=document.querySelectorAll(".review-slide");
+const reviewSlider=document.querySelector(".review-slider");
 
 function showReview(index){
 
-reviewSlides.forEach(slide=>{
-slide.classList.remove("active");
-});
+reviewSlides.forEach(slide=>slide.classList.remove("active"));
 
-reviewIndex = index;
+reviewIndex=index;
 
-if(reviewIndex >= reviewSlides.length){
-reviewIndex = 0;
-}
+if(reviewIndex>=reviewSlides.length) reviewIndex=0;
+if(reviewIndex<0) reviewIndex=reviewSlides.length-1;
 
-if(reviewIndex < 0){
-reviewIndex = reviewSlides.length - 1;
-}
-
+if(reviewSlides[reviewIndex])
 reviewSlides[reviewIndex].classList.add("active");
 
 }
 
-function nextReview(){
-showReview(reviewIndex + 1);
-}
-
-function prevReview(){
-showReview(reviewIndex - 1);
-}
+function nextReview(){ showReview(reviewIndex+1); }
+function prevReview(){ showReview(reviewIndex-1); }
 
 function startReviewSlider(){
-reviewInterval = setInterval(()=>{
-nextReview();
-},4000);
+reviewInterval=setInterval(()=>nextReview(),4000);
 }
 
 function stopReviewSlider(){
@@ -455,32 +432,150 @@ if(reviewSlider){
 
 startReviewSlider();
 
-/* pause on hover */
-
 reviewSlider.addEventListener("mouseenter",stopReviewSlider);
-
 reviewSlider.addEventListener("mouseleave",startReviewSlider);
 
 }
 
-const dropdown = document.querySelector(".dropdown-selected");
-const menu = document.querySelector(".dropdown-menu");
-const items = document.querySelectorAll(".dropdown-item");
+/* ===============================
+ADMIN CONFIRM MODAL
+================================ */
 
-dropdown.addEventListener("click", ()=>{
-menu.style.display = menu.style.display === "block" ? "none" : "block";
-});
+function confirmAction(message,callback){
 
-items.forEach(item=>{
-item.addEventListener("click", ()=>{
-dropdown.innerText = item.innerText;
-document.getElementById("statusInput").value = item.innerText;
-menu.style.display = "none";
-});
-});
+const overlay=document.createElement("div");
+overlay.className="confirm-overlay";
 
-document.addEventListener("click", function(e){
-if(!e.target.closest(".custom-dropdown")){
-menu.style.display="none";
+overlay.innerHTML=`
+<div class="confirm-box">
+<p>${message}</p>
+<div class="confirm-actions">
+<button class="btn confirm-ok">Yes</button>
+<button class="btn confirm-cancel">Cancel</button>
+</div>
+</div>
+`;
+
+document.body.appendChild(overlay);
+
+overlay.querySelector(".confirm-ok").onclick=function(){
+overlay.remove();
+callback();
+};
+
+overlay.querySelector(".confirm-cancel").onclick=function(){
+overlay.remove();
+};
+
 }
+
+/* ===============================
+ADMIN DROPDOWN
+================================ */
+
+document.querySelectorAll(".custom-dropdown").forEach(drop=>{
+
+const selected=drop.querySelector(".dropdown-selected");
+const menu=drop.querySelector(".dropdown-menu");
+const input=drop.querySelector("input");
+
+if(!selected || !menu) return;
+
+selected.addEventListener("click",()=>{
+menu.style.display=
+menu.style.display==="block"?"none":"block";
+});
+
+menu.querySelectorAll(".dropdown-item").forEach(item=>{
+
+item.addEventListener("click",()=>{
+
+selected.textContent=item.textContent;
+
+if(input){
+input.value=item.textContent;
+}
+
+menu.style.display="none";
+
+});
+
+});
+
+});
+/* ===============================
+CART COUNTER LIVE UPDATE
+================================ */
+
+function updateCartCounter(amount){
+
+const counters=document.querySelectorAll("[data-cart-count]");
+
+counters.forEach(counter=>{
+
+let current=parseInt(counter.textContent) || 0;
+counter.textContent=current + amount;
+
+});
+
+}
+/* ===============================
+ADMIN STATUS UPDATE AJAX
+================================ */
+
+document.querySelectorAll(".update-status-btn").forEach(btn=>{
+
+btn.addEventListener("click",function(e){
+
+e.preventDefault();
+
+const form = this.closest("form");
+if(!form) return;
+
+const data = new FormData(form);
+
+fetch(form.action,{
+method:"POST",
+body:data
+})
+
+.then(res=>res.text())
+
+.then(()=>{
+
+showPopup("Order status updated");
+
+/* update visible status instantly */
+
+const statusInput = form.querySelector("#statusInput");
+const statusText = document.querySelector(".order-info p strong + span");
+
+if(statusInput && statusText){
+statusText.textContent = statusInput.value;
+}
+
+})
+
+.catch(()=>{
+
+showPopup("Error updating status");
+
+});
+
+});
+
+});
+document.querySelectorAll(".confirm-form").forEach(form=>{
+
+form.addEventListener("submit",function(e){
+
+e.preventDefault();
+
+confirmAction(
+"Are you sure you want to delete this product? This cannot be undone.",
+()=>form.submit()
+);
+
+});
+
 });

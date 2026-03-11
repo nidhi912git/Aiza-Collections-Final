@@ -57,8 +57,7 @@ function is_admin() {
 
     return (
         isset($_SESSION['user']) &&
-        isset($_SESSION['user']['role']) &&
-        $_SESSION['user']['role'] === 'manager'
+        ($_SESSION['user']['role'] ?? '') === 'manager'
     );
 
 }
@@ -72,5 +71,29 @@ function require_admin(){
         exit;
 
     }
+
+}
+/* Staff Check  */
+function is_staff(){
+
+return (
+isset($_SESSION['user']) &&
+isset($_SESSION['user']['role']) &&
+(
+$_SESSION['user']['role'] === 'staff' ||
+$_SESSION['user']['role'] === 'manager'
+)
+);
+
+}
+
+function require_staff(){
+
+if(!is_staff()){
+
+header("Location: /aiza-collections-final/pages/home.php");
+exit;
+
+}
 
 }

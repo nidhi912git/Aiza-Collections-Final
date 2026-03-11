@@ -22,7 +22,6 @@ LEFT JOIN users u
 ON o.user_id = u.user_id
 ORDER BY o.created_at DESC
 ");
-
 ?>
 
 <section>
@@ -30,6 +29,12 @@ ORDER BY o.created_at DESC
 <h2 class="section-title">Orders Panel</h2>
 
 <div class="orders-table-container">
+
+<?php if(mysqli_num_rows($q)==0): ?>
+
+<p style="text-align:center;">No orders found.</p>
+
+<?php else: ?>
 
 <table class="admin-table">
 
@@ -46,9 +51,9 @@ ORDER BY o.created_at DESC
 
 <tr>
 
-<td>#<?= $row['order_id'] ?></td>
+<td>#<?= htmlspecialchars($row['order_id']) ?></td>
 
-<td><?= htmlspecialchars($row['name']) ?></td>
+<td><?= htmlspecialchars($row['name'] ?? 'Guest') ?></td>
 
 <td><?= date("d M Y",strtotime($row['created_at'])) ?></td>
 
@@ -56,13 +61,13 @@ ORDER BY o.created_at DESC
 
 <td>
 <span class="status status-<?= strtolower($row['order_status']) ?>">
-<?= $row['order_status'] ?>
+<?= htmlspecialchars($row['order_status']) ?>
 </span>
 </td>
 
 <td>
 <a class="btn small-btn"
-href="view_order.php?id=<?= $row['order_id'] ?>">
+href="view_order.php?id=<?= htmlspecialchars($row['order_id']) ?>">
 View
 </a>
 </td>
@@ -72,6 +77,8 @@ View
 <?php endwhile; ?>
 
 </table>
+
+<?php endif; ?>
 
 </div>
 
