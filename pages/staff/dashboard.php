@@ -1,5 +1,5 @@
 <?php
-$page_id="staff-page";
+$page_id = "staff-page";
 
 include "../../includes/config.php";
 include "../../includes/security.php";
@@ -12,7 +12,7 @@ include "../../includes/header.php";
    PENDING ORDERS
 ================================ */
 
-$stmt = mysqli_prepare($conn,"
+$stmt = mysqli_prepare($conn, "
 SELECT COUNT(*) AS total
 FROM orders
 WHERE order_status IN ('Placed','Processing','Pending')
@@ -29,24 +29,24 @@ $pending = $data['total'] ?? 0;
 
 <section>
 
-<h2 class="section-title">Staff Dashboard</h2>
+   <h2 class="section-title">Staff Dashboard</h2>
 
-<div class="dashboard-stats">
+   <div class="dashboard-stats">
 
-<div class="dash-item">
+      <div class="dash-item">
 
-<span>Pending Orders</span>
-<h3><?= $pending ?></h3>
+         <span>Pending Orders</span>
+         <h3><?= $pending ?></h3>
 
-</div>
+      </div>
 
-</div>
+   </div>
 
-<div class="dashboard-actions">
+   <div class="dashboard-actions">
 
-<a href="orders.php" class="btn">View Orders</a>
+      <a href="orders.php" class="btn">View Orders</a>
 
-</div>
+   </div>
 
 </section>
 

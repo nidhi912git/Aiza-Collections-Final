@@ -28,7 +28,7 @@ $stock_XXL = intval($_POST['stock_XXL'] ?? 0);
 
 /* UPDATE PRODUCT INFO */
 
-$stmt = mysqli_prepare($conn,"
+$stmt = mysqli_prepare($conn, "
 UPDATE products
 SET
 category_num = ?,
@@ -42,43 +42,41 @@ WHERE product_code = ?
 ");
 
 mysqli_stmt_bind_param(
-$stmt,
-"issdsiis",
-$category,
-$name,
-$desc,
-$price,
-$color,
-$featured,
-$active,
-$code
+    $stmt,
+    "issdsiis",
+    $category,
+    $name,
+    $desc,
+    $price,
+    $color,
+    $featured,
+    $active,
+    $code
 );
 
 mysqli_stmt_execute($stmt);
 
-
 /* UPDATE SIZE STOCK */
 
 $stocks = [
-"S"=>$stock_S,
-"M"=>$stock_M,
-"L"=>$stock_L,
-"XL"=>$stock_XL,
-"XXL"=>$stock_XXL
+    "S" => $stock_S,
+    "M" => $stock_M,
+    "L" => $stock_L,
+    "XL" => $stock_XL,
+    "XXL" => $stock_XXL
 ];
 
-foreach($stocks as $size=>$qty){
+foreach ($stocks as $size => $qty) {
 
-$stmt2 = mysqli_prepare($conn,"
-UPDATE product_stock
-SET stock_qty=?
-WHERE product_code=? AND size=?
-");
+    $stmt2 = mysqli_prepare($conn, "
+    UPDATE product_stock
+    SET stock_qty=?
+    WHERE product_code=? AND size=?
+    ");
 
-mysqli_stmt_bind_param($stmt2,"iss",$qty,$code,$size);
+    mysqli_stmt_bind_param($stmt2, "iss", $qty, $code, $size);
 
-mysqli_stmt_execute($stmt2);
-
+    mysqli_stmt_execute($stmt2);
 }
 
 /* SUCCESS MESSAGE */
@@ -89,4 +87,3 @@ $_SESSION['popup'] = "Product updated successfully.";
 
 header("Location: products.php");
 exit;
-?>

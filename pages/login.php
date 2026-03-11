@@ -1,5 +1,5 @@
 <?php
-$page_id="login-page";
+$page_id = "login-page";
 
 include "../includes/config.php";
 include_once "../includes/security.php";
@@ -7,162 +7,149 @@ include "../includes/header.php";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-verify_csrf();
+   verify_csrf();
 
-$email = trim($_POST['email'] ?? '');
-$phone = trim($_POST['phone'] ?? '');
-$pass  = $_POST['password'] ?? '';
+   $email = trim($_POST['email'] ?? '');
+   $phone = trim($_POST['phone'] ?? '');
+   $pass  = $_POST['password'] ?? '';
 
-if(!$email && !$phone){
-$error="Enter email or phone number";
-}
+   if (!$email && !$phone) {
+      $error = "Enter email or phone number";
+   } else {
 
-else{
+      /* ===============================
+            LOGIN USING EMAIL OR PHONE
+      ================================ */
 
-/* ===============================
-   LOGIN USING EMAIL OR PHONE
-================================ */
+      if ($email) {
 
-if($email){
+         $stmt = mysqli_prepare($conn, "
+         SELECT user_id,name,password_hash,role
+         FROM users
+         WHERE email=?
+         ");
 
-$stmt = mysqli_prepare($conn,"
-SELECT user_id,name,password_hash,role
-FROM users
-WHERE email=?
-");
+         mysqli_stmt_bind_param($stmt, "s", $email);
+      } else {
 
-mysqli_stmt_bind_param($stmt,"s",$email);
+         $stmt = mysqli_prepare($conn, "
+         SELECT user_id,name,password_hash,role
+         FROM users
+         WHERE phone_number=?
+         ");
 
-}
+         mysqli_stmt_bind_param($stmt, "s", $phone);
+      }
 
-else{
+      mysqli_stmt_execute($stmt);
+      $res = mysqli_stmt_get_result($stmt);
 
-$stmt = mysqli_prepare($conn,"
-SELECT user_id,name,password_hash,role
-FROM users
-WHERE phone_number=?
-");
+      if ($u = mysqli_fetch_assoc($res)) {
 
-mysqli_stmt_bind_param($stmt,"s",$phone);
+         if (password_verify($pass, $u['password_hash'])) {
 
-}
+            session_regenerate_id(true);
+            $_SESSION['user'] = $u;
 
-mysqli_stmt_execute($stmt);
-$res = mysqli_stmt_get_result($stmt);
+            /* REMEMBER ME */
 
-if ($u = mysqli_fetch_assoc($res)) {
+            if (isset($_POST['remember'])) {
 
-if (password_verify($pass,$u['password_hash'])) {
+               $token = bin2hex(random_bytes(32));
 
-session_regenerate_id(true);
-$_SESSION['user'] = $u;
+               setcookie(
+                  "remember_token",
+                  $token,
+                  time() + (86400 * 30),
+                  "/"
+               );
 
-/* REMEMBER ME */
+               $stmt2 = mysqli_prepare(
+                  $conn,
+                  "UPDATE users SET remember_token=? WHERE user_id=?"
+               );
 
-if(isset($_POST['remember'])){
+               mysqli_stmt_bind_param($stmt2, "si", $token, $u['user_id']);
+               mysqli_stmt_execute($stmt2);
+            }
 
-$token = bin2hex(random_bytes(32));
+            /* ROLE REDIRECT */
 
-setcookie(
-"remember_token",
-$token,
-time() + (86400 * 30),
-"/"
-);
+            if ($u['role'] === 'manager') {
+               header("Location: /aiza-collections-final/pages/admin/products.php");
+            } elseif ($u['role'] === 'staff') {
+               header("Location: /aiza-collections-final/pages/admin/staff_dashboard.php");
+            } else {
+               header("Location: /aiza-collections-final/pages/home.php");
+            }
 
-$stmt2 = mysqli_prepare($conn,
-"UPDATE users SET remember_token=? WHERE user_id=?"
-);
+            exit;
+         }
+      }
 
-mysqli_stmt_bind_param($stmt2,"si",$token,$u['user_id']);
-mysqli_stmt_execute($stmt2);
-
-}
-
-/* ROLE REDIRECT */
-
-if($u['role'] === 'manager'){
-header("Location: /aiza-collections-final/pages/admin/products.php");
-}
-elseif($u['role'] === 'staff'){
-header("Location: /aiza-collections-final/pages/admin/staff_dashboard.php");
-}
-else{
-header("Location: /aiza-collections-final/pages/home.php");
-}
-
-exit;
-
-}
-
-}
-
-$error="Invalid credentials";
-
-}
-
+      $error = "Invalid credentials";
+   }
 }
 ?>
 
 <div class="auth-box">
 
-<h2>Login</h2>
-<p class="auth-sub">Access your Aiza Collections account</p>
+   <h2>Login</h2>
+   <p class="auth-sub">Access your Aiza Collections account</p>
 
-<form method="post" class="auth-form">
+   <form method="post" class="auth-form">
 
-<input type="hidden" name="csrf" value="<?= csrf_token() ?>">
+      <input type="hidden" name="csrf" value="<?= csrf_token() ?>">
 
-<label>Email address</label>
-<input type="email" name="email" placeholder="Enter email">
+      <label>Email address</label>
+      <input type="email" name="email" placeholder="Enter email">
 
-<label>OR Phone Number</label>
-<input
-type="tel"
-name="phone"
-inputmode="numeric"
-pattern="[0-9]{10}"
-maxlength="10"
-placeholder="Enter 10 digit phone number"
-oninput="this.value=this.value.replace(/[^0-9]/g,'')"
->
+      <label>OR Phone Number</label>
+      <input
+         type="tel"
+         name="phone"
+         inputmode="numeric"
+         pattern="[0-9]{10}"
+         maxlength="10"
+         placeholder="Enter 10 digit phone number"
+         oninput="this.value=this.value.replace(/[^0-9]/g,'')">
 
-<label>Password</label>
+      <label>Password</label>
 
-<div class="password-field">
+      <div class="password-field">
 
-<input type="password" name="password" id="loginPassword" required>
+         <input type="password" name="password" id="loginPassword" required>
 
-<span class="toggle-password"
-onclick="togglePassword('loginPassword', this)">👁</span>
+         <span class="toggle-password"
+            onclick="togglePassword('loginPassword', this)">👁</span>
 
-</div>
+      </div>
 
-<div class="auth-extra">
+      <div class="auth-extra">
 
-<label>
-<input type="checkbox" name="remember">
-Remember me
-</label>
+         <label>
+            <input type="checkbox" name="remember">
+            Remember me
+         </label>
 
-<a href="forgot_password.php">Forgot password?</a>
+         <a href="forgot_password.php">Forgot password?</a>
 
-</div>
+      </div>
 
-<button class="btn">Login</button>
+      <button class="btn">Login</button>
 
-</form>
+   </form>
 
-<?php if(isset($error)): ?>
+   <?php if (isset($error)): ?>
 
-<p class="auth-error"><?= htmlspecialchars($error) ?></p>
+      <p class="auth-error"><?= htmlspecialchars($error) ?></p>
 
-<?php endif; ?>
+   <?php endif; ?>
 
-<p class="auth-switch">
-Don't have an account?
-<a href="register.php">Create one</a>
-</p>
+   <p class="auth-switch">
+      Don't have an account?
+      <a href="register.php">Create one</a>
+   </p>
 
 </div>
 

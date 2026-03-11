@@ -4,147 +4,153 @@ include_once __DIR__ . "/security.php";
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aiza Collections</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aiza Collections</title>
 
-<link rel="stylesheet" href="/aiza-collections-final/css/style.css?v=<?= time() ?>">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;400;500;600&display=swap" rel="stylesheet">
-<script src="/aiza-collections-final/js/script.js?v=<?= time() ?>" defer></script>
+  <link rel="stylesheet" href="/aiza-collections-final/css/style.css?v=<?= time() ?>">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;400;500;600&display=swap" rel="stylesheet">
+  <script src="/aiza-collections-final/js/script.js?v=<?= time() ?>" defer></script>
 </head>
-<body id="<?= $page_id ?? '' ?>" 
-class="<?= $page_id ?? '' ?> <?= (isset($page_id) && strpos($page_id,'admin')===0)?'admin-page':'' ?>">
 
-<header class="site-header">
+<body id="<?= $page_id ?? '' ?>"
+  class="<?= $page_id ?? '' ?> <?= (isset($page_id) && strpos($page_id, 'admin') === 0) ? 'admin-page' : '' ?>">
 
-<!-- LOGO -->
-<a href="#">
-<img src="/aiza-collections-final/assets/logo.jpeg" class="logo" alt="Aiza Collections">
-</a>
+  <header class="site-header">
 
-<!-- SHOP NAME -->
-<span class="shop-name">AIZA COLLECTIONS</span>
+    <!-- LOGO -->
+    <a href="#">
+      <img src="/aiza-collections-final/assets/logo.jpeg" class="logo" alt="Aiza Collections">
+    </a>
 
-<!-- SEARCH (DESKTOP) -->
-<form class="header-search desktop-only" action="/aiza-collections-final/pages/catalog.php" method="get">
-<input type="search" name="q" placeholder="Search products...">
-</form>
+    <!-- SHOP NAME -->
+    <span class="shop-name">AIZA COLLECTIONS</span>
 
-<!-- MENU TOGGLE (MOBILE) -->
-<div class="menu-toggle" id="mobile-menu">
-<span></span>
-<span></span>
-<span></span>
-</div>
+    <!-- SEARCH (DESKTOP) -->
+    <form class="header-search desktop-only" action="/aiza-collections-final/pages/catalog.php" method="get">
+      <input type="search" name="q" placeholder="Search products...">
+    </form>
 
-<!-- NAV LINKS (SLIDE-IN PANE ON MOBILE) -->
-<nav class="main-nav" id="main-nav">
+    <!-- MENU TOGGLE (MOBILE) -->
+    <div class="menu-toggle" id="mobile-menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
 
-  <!-- SEARCH (MOBILE INSIDE PANE) -->
-  <form class="mobile-search mobile-only" action="/aiza-collections-final/pages/catalog.php" method="get">
-    <input type="search" name="q" placeholder="Search products...">
-  </form>
+    <!-- NAV LINKS (SLIDE-IN PANE ON MOBILE) -->
+    <nav class="main-nav" id="main-nav">
 
-  <a href="/aiza-collections-final/pages/home.php">Home</a>
-  <a href="/aiza-collections-final/pages/catalog.php">Catalog</a>
-  <a href="/aiza-collections-final/pages/about.php">About</a>
-  <a href="/aiza-collections-final/pages/contact.php">Contact</a>
+      <!-- SEARCH (MOBILE INSIDE PANE) -->
+      <form class="mobile-search mobile-only" action="/aiza-collections-final/pages/catalog.php" method="get">
+        <input type="search" name="q" placeholder="Search products...">
+      </form>
 
-  <!-- ACCOUNT LINKS (MOBILE INSIDE PANE) -->
-  <div class="mobile-account-links mobile-only">
-    <hr>
-    <?php if (!is_logged_in()): ?>
-      <a href="/aiza-collections-final/pages/login.php">Login</a>
-      <a href="/aiza-collections-final/pages/register.php">Register</a>
-    <?php else: ?>
-      <span class="account-name-mobile" style="padding: 15px 10px; display:block; font-weight:bold;">
-        Hello, <?= htmlspecialchars($_SESSION['user']['name']) ?>
-      </span>
-      <?php
-      $cartCount = 0;
-      if(isset($_SESSION['cart'])){
-      foreach($_SESSION['cart'] as $qty){
-      $cartCount += $qty;
-      }
-      }
-      ?>
-      <a href="/aiza-collections-final/pages/cart.php">Cart (<span data-cart-count><?= $cartCount ?></span>)</a>
-      <a href="/aiza-collections-final/pages/wishlist.php">Wishlist</a>
-      <a href="/aiza-collections-final/pages/orders.php">My Orders</a>
-      <?php if (is_admin()): ?>
-        <a href="/aiza-collections-final/pages/admin/products.php">Admin Panel</a>
-      <?php endif; ?>
-      <a href="/aiza-collections-final/pages/logout.php" style="color:var(--primary);">Logout</a>
-    <?php endif; ?>
-  </div>
+      <a href="/aiza-collections-final/pages/home.php">Home</a>
+      <a href="/aiza-collections-final/pages/catalog.php">Catalog</a>
+      <a href="/aiza-collections-final/pages/about.php">About</a>
+      <a href="/aiza-collections-final/pages/contact.php">Contact</a>
 
-</nav>
+      <!-- ACCOUNT LINKS (MOBILE INSIDE PANE) -->
+      <div class="mobile-account-links mobile-only">
+        <hr>
+        <?php if (!is_logged_in()): ?>
+          <a href="/aiza-collections-final/pages/login.php">Login</a>
+          <a href="/aiza-collections-final/pages/register.php">Register</a>
+        <?php else: ?>
+          <span class="account-name-mobile" style="padding: 15px 10px; display:block; font-weight:bold;">
+            Hello, <?= htmlspecialchars($_SESSION['user']['name']) ?>
+          </span>
+          <?php
+          $cartCount = 0;
+          if (isset($_SESSION['cart'])) {
+            foreach ($_SESSION['cart'] as $qty) {
+              $cartCount += $qty;
+            }
+          }
+          ?>
+          <a href="/aiza-collections-final/pages/cart.php">Cart (<span data-cart-count><?= $cartCount ?></span>)</a>
+          <a href="/aiza-collections-final/pages/wishlist.php">Wishlist</a>
+          <a href="/aiza-collections-final/pages/orders.php">My Orders</a>
+          <?php if (is_admin()): ?>
+            <a href="/aiza-collections-final/pages/admin/products.php">Admin Panel</a>
+          <?php endif; ?>
+          <a href="/aiza-collections-final/pages/logout.php" style="color:var(--primary);">Logout</a>
+        <?php endif; ?>
+      </div>
 
-<!-- ACCOUNT MENU (DESKTOP) -->
-<div class="account-menu desktop-only" id="accountMenu">
+    </nav>
 
-<img src="/aiza-collections-final/assets/icons/user.png" class="account-icon" id="accountIcon">
+    <!-- ACCOUNT MENU (DESKTOP) -->
+    <div class="account-menu desktop-only" id="accountMenu">
 
-<div class="account-dropdown">
+      <img src="/aiza-collections-final/assets/icons/user.png" class="account-icon" id="accountIcon">
 
-<?php if (!is_logged_in()): ?>
+      <div class="account-dropdown">
 
-<a href="/aiza-collections-final/pages/login.php">Login</a>
-<a href="/aiza-collections-final/pages/register.php">Register</a>
+        <?php if (!is_logged_in()): ?>
 
-<?php else: ?>
+          <a href="/aiza-collections-final/pages/login.php">Login</a>
+          <a href="/aiza-collections-final/pages/register.php">Register</a>
 
-<span class="account-name">
-Hello, <?= htmlspecialchars($_SESSION['user']['name']) ?>
-</span>
+        <?php else: ?>
 
-<?php
-$cartCount = 0;
-if(isset($_SESSION['cart'])){
-foreach($_SESSION['cart'] as $qty){
-$cartCount += $qty;
-}
-}
-?>
+          <span class="account-name">
+            Hello, <?= htmlspecialchars($_SESSION['user']['name']) ?>
+          </span>
 
-<a href="/aiza-collections-final/pages/cart.php">
-Cart (<?= $cartCount ?>)
-</a>
+          <?php
+          $cartCount = 0;
+          if (isset($_SESSION['cart'])) {
+            foreach ($_SESSION['cart'] as $qty) {
+              $cartCount += $qty;
+            }
+          }
+          ?>
 
-<a href="/aiza-collections-final/pages/wishlist.php">
-Wishlist
-</a>
+          <a href="/aiza-collections-final/pages/cart.php">
+            Cart (<?= $cartCount ?>)
+          </a>
 
-<a href="/aiza-collections-final/pages/orders.php">
-My Orders
-</a>
+          <a href="/aiza-collections-final/pages/wishlist.php">
+            Wishlist
+          </a>
 
-<?php if (is_admin()): ?>
+          <a href="/aiza-collections-final/pages/orders.php">
+            My Orders
+          </a>
 
-<a href="/aiza-collections-final/pages/admin/dashboard.php">
-Manager Panel
-</a>
+          <?php if (is_admin()): ?>
 
-<span style="color:#d4a017;font-size:12px;">(Manager)</span>
+            <a href="/aiza-collections-final/pages/admin/dashboard.php">
+              Manager Panel
+            </a>
 
-<?php endif; ?>
-<?php if (is_staff()): ?>
+            <span style="color:#d4a017;font-size:12px;">(Manager)</span>
 
-<a href="/aiza-collections-final/pages/staff/dashboard.php">
-Staff Panel
-</a>
+          <?php endif; ?>
+          <?php if (is_staff()): ?>
 
-<span style="color:#d4a017;font-size:12px;">(Staff)</span>
+            <a href="/aiza-collections-final/pages/staff/dashboard.php">
+              Staff Panel
+            </a>
 
-<?php endif; ?>
+            <span style="color:#d4a017;font-size:12px;">(Staff)</span>
 
-<a href="/aiza-collections-final/pages/logout.php">
-Logout
-</a>
-<?php endif; ?>
+          <?php endif; ?>
 
-</div>
-</div>
+          <a href="/aiza-collections-final/pages/logout.php">
+            Logout
+          </a>
+        <?php endif; ?>
 
-</header>
+      </div>
+    </div>
+
+  </header>
+
+</body>
+
+</html>

@@ -1,21 +1,21 @@
 <?php
-$page_id="orders-page";
+$page_id = "orders-page";
 
 include "../includes/config.php";
 include "../includes/header.php";
 
 /* USER MUST BE LOGGED IN */
 
-if(!isset($_SESSION['user'])){
-header("Location: /aiza-collections-final/pages/login.php");
-exit;
+if (!isset($_SESSION['user'])) {
+    header("Location: /aiza-collections-final/pages/login.php");
+    exit;
 }
 
 $user_id = $_SESSION['user']['user_id'];
 
 /* GET USER ORDERS */
 
-$orders = mysqli_query($conn,"
+$orders = mysqli_query($conn, "
 SELECT *
 FROM orders
 WHERE user_id='$user_id'
@@ -26,98 +26,97 @@ ORDER BY created_at DESC
 
 <section>
 
-<h2 class="section-title">My Orders</h2>
+    <h2 class="section-title">My Orders</h2>
 
-<?php if(mysqli_num_rows($orders)==0): ?>
+    <?php if (mysqli_num_rows($orders) == 0): ?>
 
-<div style="text-align:center;margin-top:40px;">
+        <div style="text-align:center;margin-top:40px;">
 
-<p>You haven't placed any orders yet.</p>
+            <p>You haven't placed any orders yet.</p>
 
-<a href="/aiza-collections-final/pages/catalog.php" class="btn">
-Browse Products
-</a>
+            <a href="/aiza-collections-final/pages/catalog.php" class="btn">
+                Browse Products
+            </a>
 
-</div>
+        </div>
 
-<?php else: ?>
+    <?php else: ?>
 
-<div class="list-container">
+        <div class="list-container">
 
-<?php while($order=mysqli_fetch_assoc($orders)):
+            <?php while ($order = mysqli_fetch_assoc($orders)):
 
-$order_id = $order['order_id'];
+                $order_id = $order['order_id'];
 
-/* GET ONE IMAGE FOR PREVIEW */
+                /* GET ONE IMAGE FOR PREVIEW */
 
-$preview = mysqli_query($conn,"
-SELECT
-p.product_name,
-MIN(i.image_path) image_path
-FROM order_items oi
-LEFT JOIN products p
-ON oi.product_code=p.product_code
-LEFT JOIN product_images i
-ON p.product_code=i.product_code
-WHERE oi.order_id='$order_id'
-GROUP BY oi.product_code
-LIMIT 1
-");
+                $preview = mysqli_query($conn, "
+                SELECT
+                p.product_name,
+                MIN(i.image_path) image_path
+                FROM order_items oi
+                LEFT JOIN products p
+                ON oi.product_code=p.product_code
+                LEFT JOIN product_images i
+                ON p.product_code=i.product_code
+                WHERE oi.order_id='$order_id'
+                GROUP BY oi.product_code
+                LIMIT 1
+                ");
 
-$img = mysqli_fetch_assoc($preview);
+                $img = mysqli_fetch_assoc($preview);
 
-?>
+            ?>
 
-<div class="list-card">
+                <div class="list-card">
 
-<img
-src="<?= imgPath($img['image_path'] ?? 'no-image.jpg') ?>"
-class="list-img"
->
+                    <img
+                        src="<?= imgPath($img['image_path'] ?? 'no-image.jpg') ?>"
+                        class="list-img">
 
-<div class="list-info">
+                    <div class="list-info">
 
-<div class="list-main">
+                        <div class="list-main">
 
-<h4>Order #<?= $order_id ?></h4>
+                            <h4>Order #<?= $order_id ?></h4>
 
-</div>
+                        </div>
 
-<div class="list-meta">
+                        <div class="list-meta">
 
-<span class="price">
-₹<?= number_format($order['order_total']) ?>
-</span>
+                            <span class="price">
+                                ₹<?= number_format($order['order_total']) ?>
+                            </span>
 
-<span>
-<?= date("d M Y",strtotime($order['created_at'])) ?>
-</span>
+                            <span>
+                                <?= date("d M Y", strtotime($order['created_at'])) ?>
+                            </span>
 
-<span>
-<?= htmlspecialchars($order['order_status']) ?>
-</span>
+                            <span>
+                                <?= htmlspecialchars($order['order_status']) ?>
+                            </span>
 
-</div>
+                        </div>
 
-</div>
+                    </div>
 
-<div class="list-actions">
+                    <div class="list-actions">
 
-<a
-href="/aiza-collections-final/pages/order_details.php?id=<?= $order_id ?>"
-class="action-btn">
-View Details
-</a>
+                        <a
+                            href="/aiza-collections-final/pages/order_details.php?id=<?= $order_id ?>"
+                            class="action-btn">
+                            View Details
+                        </a>
 
-</div>
+                    </div>
 
-</div>
+                </div>
 
-<?php endwhile; ?>
+            <?php endwhile; ?>
 
-</div>
+        </div>
 
-<?php endif; ?>
+    <?php endif; ?>
 
 </section>
 

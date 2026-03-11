@@ -4,9 +4,9 @@ $page_id = "product-page";
 include "../includes/config.php";
 include "../includes/header.php";
 
-$code = mysqli_real_escape_string($conn,$_GET['code'] ?? '');
+$code = mysqli_real_escape_string($conn, $_GET['code'] ?? '');
 
-$pq = mysqli_query($conn,"
+$pq = mysqli_query($conn, "
 SELECT *
 FROM products
 WHERE product_code='$code'
@@ -15,15 +15,15 @@ AND product_code NOT LIKE '%-%'
 
 $product = mysqli_fetch_assoc($pq);
 
-if(!$product){
-echo "<p style='text-align:center;'>Product not found</p>";
-include "../includes/footer.php";
-exit;
+if (!$product) {
+    echo "<p style='text-align:center;'>Product not found</p>";
+    include "../includes/footer.php";
+    exit;
 }
 
 /* GET PRODUCT IMAGES */
 
-$iq = mysqli_query($conn,"
+$iq = mysqli_query($conn, "
 SELECT image_path
 FROM product_images
 WHERE product_code='$code'
@@ -33,18 +33,18 @@ ORDER BY LENGTH(image_path), image_path
 
 $images = [];
 
-while($i=mysqli_fetch_assoc($iq)){
-$images[] = imgPath($i['image_path']);
+while ($i = mysqli_fetch_assoc($iq)) {
+    $images[] = imgPath($i['image_path']);
 }
 
 /* make images available to JS slider */
-echo "<script>window.productImages = ".json_encode($images).";</script>";
+echo "<script>window.productImages = " . json_encode($images) . ";</script>";
 
 /* SIMILAR PRODUCTS */
 
 $cat = $product['category_num'];
 
-$simQ = mysqli_query($conn,"
+$simQ = mysqli_query($conn, "
 SELECT
 p.product_code,
 p.product_name,
@@ -64,255 +64,240 @@ LIMIT 10
 
 <section>
 
-<div class="product-layout">
+    <div class="product-layout">
 
-<!-- PRODUCT IMAGE SLIDER -->
+        <!-- PRODUCT IMAGE SLIDER -->
 
-<div class="product-image">
+        <div class="product-image">
 
-<button class="img-nav prev" onclick="changeImage(-1)">❮</button>
+            <button class="img-nav prev" onclick="changeImage(-1)">❮</button>
 
-<img
-id="prod-img"
-src="<?= $images[0] ?? '/aiza-collections-final/assets/no-image.jpg' ?>"
-alt="<?= htmlspecialchars($product['product_name']) ?>"
->
+            <img
+                id="prod-img"
+                src="<?= $images[0] ?? '/aiza-collections-final/assets/no-image.jpg' ?>"
+                alt="<?= htmlspecialchars($product['product_name']) ?>">
 
-<button class="img-nav next" onclick="changeImage(1)">❯</button>
+            <button class="img-nav next" onclick="changeImage(1)">❯</button>
 
-</div>
+        </div>
 
+        <!-- PRODUCT DETAILS -->
 
-<!-- PRODUCT DETAILS -->
+        <div class="product-details">
 
-<div class="product-details">
+            <h1><?= htmlspecialchars($product['product_name']) ?></h1>
 
-<h1><?= htmlspecialchars($product['product_name']) ?></h1>
+            <p class="product-price">
+                ₹<?= number_format($product['price']) ?>
+            </p>
 
-<p class="product-price">
-₹<?= number_format($product['price']) ?>
-</p>
+            <p class="product-description">
+                <?= nl2br(htmlspecialchars($product['description'])) ?>
+            </p>
 
-<p class="product-description">
-<?= nl2br(htmlspecialchars($product['description'])) ?>
-</p>
+            <!-- SIZE -->
 
+            <div class="product-row size-row">
 
-<!-- SIZE -->
+                <span class="label">Size:</span>
 
-<div class="product-row size-row">
+                <div class="sizes">
 
-<span class="label">Size:</span>
+                    <?php
 
-<div class="sizes">
+                    $sizes = mysqli_query($conn, "
+                    SELECT size,stock_qty
+                    FROM product_stock
+                    WHERE product_code='$code'
+                    ORDER BY FIELD(size,'S','M','L','XL','XXL')
+                    ");
 
-<?php
+                    ?>
 
-$sizes = mysqli_query($conn,"
-SELECT size,stock_qty
-FROM product_stock
-WHERE product_code='$code'
-ORDER BY FIELD(size,'S','M','L','XL','XXL')
-");
+                    <div class="sizes">
 
-?>
+                        <?php while ($s = mysqli_fetch_assoc($sizes)): ?>
 
-<div class="sizes">
+                            <button
+                                type="button"
+                                data-size="<?= $s['size'] ?>"
+                                <?= $s['stock_qty'] <= 0 ? "disabled" : "" ?>>
+                                <?= $s['size'] ?>
+                            </button>
 
-<?php while($s=mysqli_fetch_assoc($sizes)): ?>
+                        <?php endwhile; ?>
 
-<button
-type="button"
-data-size="<?= $s['size'] ?>"
-<?= $s['stock_qty']<=0 ? "disabled" : "" ?>
->
-<?= $s['size'] ?>
-</button>
+                    </div>
 
-<?php endwhile; ?>
+                </div>
 
-</div>
+            </div>
 
-</div>
+            <!-- QUANTITY -->
 
-</div>
+            <div class="product-row">
 
+                <span class="label">Quantity:</span>
 
-<!-- QUANTITY -->
+                <div class="cart-qty">
 
-<div class="product-row">
+                    <button class="qty-btn" onclick="decreaseQty()">−</button>
 
-<span class="label">Quantity:</span>
+                    <span id="qty">1</span>
 
-<div class="cart-qty">
+                    <button class="qty-btn" onclick="increaseQty()">+</button>
 
-<button class="qty-btn" onclick="decreaseQty()">−</button>
+                </div>
 
-<span id="qty">1</span>
+            </div>
 
-<button class="qty-btn" onclick="increaseQty()">+</button>
+            <!-- ACTION BUTTONS -->
 
-</div>
+            <div class="product-actions">
 
-</div>
+                <button
+                    class="add-cart-btn"
+                    data-code="<?= $code ?>"
+                    onclick="addCurrentProductToCart(this)"
+                    <?= $product['stock_qty'] <= 0 ? "disabled" : "" ?>>
+                    Add to Cart
+                </button>
 
+                <button
+                    class="wishlist-btn"
+                    data-code="<?= $code ?>"
+                    onclick="addCurrentProductToWishlist(this)">
+                    ♡
+                </button>
 
-<!-- ACTION BUTTONS -->
+            </div>
 
-<div class="product-actions">
+            <?php if ($product['stock_qty'] <= 0): ?>
 
-<button
-class="add-cart-btn"
-data-code="<?= $code ?>"
-onclick="addCurrentProductToCart(this)"
-<?= $product['stock_qty'] <= 0 ? "disabled" : "" ?>
->
-Add to Cart
-</button>
+                <p class="stock out">
+                    Out of Stock
+                </p>
 
-<button
-class="wishlist-btn"
-data-code="<?= $code ?>"
-onclick="addCurrentProductToWishlist(this)"
->
-♡
-</button>
+            <?php endif; ?>
 
-</div>
+            <!-- SIZE CHART -->
 
+            <div class="size-chart">
 
-<?php if($product['stock_qty'] <= 0): ?>
+                <h4>Women’s Size Chart</h4>
 
-<p class="stock out">
-Out of Stock
-</p>
+                <table>
 
-<?php endif; ?>
+                    <tr>
+                        <th>Size</th>
+                        <th>Bust</th>
+                        <th>Waist</th>
+                        <th>Hip</th>
+                    </tr>
 
+                    <tr>
+                        <td>S</td>
+                        <td>34</td>
+                        <td>28</td>
+                        <td>36</td>
+                    </tr>
 
-<!-- SIZE CHART -->
+                    <tr>
+                        <td>M</td>
+                        <td>36</td>
+                        <td>30</td>
+                        <td>38</td>
+                    </tr>
 
-<div class="size-chart">
+                    <tr>
+                        <td>L</td>
+                        <td>38</td>
+                        <td>32</td>
+                        <td>40</td>
+                    </tr>
 
-<h4>Women’s Size Chart</h4>
+                    <tr>
+                        <td>XL</td>
+                        <td>40</td>
+                        <td>34</td>
+                        <td>42</td>
+                    </tr>
 
-<table>
+                    <tr>
+                        <td>XXL</td>
+                        <td>42</td>
+                        <td>36</td>
+                        <td>44</td>
+                    </tr>
 
-<tr>
-<th>Size</th>
-<th>Bust</th>
-<th>Waist</th>
-<th>Hip</th>
-</tr>
+                </table>
 
-<tr>
-<td>S</td>
-<td>34</td>
-<td>28</td>
-<td>36</td>
-</tr>
+            </div>
 
-<tr>
-<td>M</td>
-<td>36</td>
-<td>30</td>
-<td>38</td>
-</tr>
+        </div>
 
-<tr>
-<td>L</td>
-<td>38</td>
-<td>32</td>
-<td>40</td>
-</tr>
-
-<tr>
-<td>XL</td>
-<td>40</td>
-<td>34</td>
-<td>42</td>
-</tr>
-
-<tr>
-<td>XXL</td>
-<td>42</td>
-<td>36</td>
-<td>44</td>
-</tr>
-
-</table>
-
-</div>
-
-</div>
-
-</div>
+    </div>
 
 </section>
-
 
 <section>
 
-<h2 class="section-title">Similar Products</h2>
+    <h2 class="section-title">Similar Products</h2>
 
-<div class="carousel-wrapper">
+    <div class="carousel-wrapper">
 
-<button class="carousel-btn left" onclick="scrollSimilar(-1)">‹</button>
+        <button class="carousel-btn left" onclick="scrollSimilar(-1)">‹</button>
 
-<div class="carousel">
+        <div class="carousel">
 
-<div class="carousel-track" id="similarTrack">
+            <div class="carousel-track" id="similarTrack">
 
-<?php while($s=mysqli_fetch_assoc($simQ)): ?>
+                <?php while ($s = mysqli_fetch_assoc($simQ)): ?>
 
-<div class="product-card"
-onclick="viewProduct('<?= $s['product_code'] ?>')">
+                    <div class="product-card"
+                        onclick="viewProduct('<?= $s['product_code'] ?>')">
 
-<img
-src="<?= imgPath($s['image_path']) ?>"
-alt="<?= htmlspecialchars($s['product_name']) ?>"
->
+                        <img
+                            src="<?= imgPath($s['image_path']) ?>"
+                            alt="<?= htmlspecialchars($s['product_name']) ?>">
 
-<h4><?= htmlspecialchars($s['product_name']) ?></h4>
+                        <h4><?= htmlspecialchars($s['product_name']) ?></h4>
 
-<p>₹<?= number_format($s['price']) ?></p>
+                        <p>₹<?= number_format($s['price']) ?></p>
 
-<div class="actions horizontal-actions"
-onclick="event.stopPropagation();">
+                        <div class="actions horizontal-actions"
+                            onclick="event.stopPropagation();">
 
-<button
-class="add-cart-btn"
-data-code="<?= $s['product_code'] ?>"
-onclick="addToCart(event,this)"
-<?= $s['stock_qty'] <= 0 ? "disabled" : "" ?>
->
-Add to Cart
-</button>
+                            <button
+                                class="add-cart-btn"
+                                data-code="<?= $s['product_code'] ?>"
+                                onclick="addToCart(event,this)"
+                                <?= $s['stock_qty'] <= 0 ? "disabled" : "" ?>>
+                                Add to Cart
+                            </button>
 
-<button
-class="wishlist-btn"
-data-code="<?= $s['product_code'] ?>"
-onclick="addToWishlist(event,this)"
->
-♡
-</button>
+                            <button
+                                class="wishlist-btn"
+                                data-code="<?= $s['product_code'] ?>"
+                                onclick="addToWishlist(event,this)">
+                                ♡
+                            </button>
 
-</div>
+                        </div>
 
-</div>
+                    </div>
 
-<?php endwhile; ?>
+                <?php endwhile; ?>
 
-</div>
+            </div>
 
-</div>
+        </div>
 
-<button class="carousel-btn right" onclick="scrollSimilar(1)">›</button>
+        <button class="carousel-btn right" onclick="scrollSimilar(1)">›</button>
 
-</div>
+    </div>
 
 </section>
-
 
 <div class="popup"></div>
 

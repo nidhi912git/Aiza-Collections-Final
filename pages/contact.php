@@ -67,7 +67,7 @@ include "../includes/header.php";
     <p> Find the link to the google maps below to ease locating us</p>
     <a href="https://maps.app.goo.gl/w73CmVHLeTk8r6NB8" class="btn map-btn" target="_blank">
       Open in Google Maps
-     </a>
+    </a>
   </div>
 </section>
 
@@ -127,7 +127,7 @@ include "../includes/header.php";
   <h2 class="section-title">Get in Touch</h2>
 
   <form class="contact-form"
-        onsubmit="showPopup('Thank you for the message'); this.reset(); return false;">
+    onsubmit="showPopup('Thank you for the message'); this.reset(); return false;">
 
     <div class="form-row">
       <input type="text" placeholder="First Name" required>
@@ -137,13 +137,13 @@ include "../includes/header.php";
     <div class="form-row">
       <input type="email" placeholder="Email" required>
       <input type="tel"
-             placeholder="Phone (10 digits)"
-             required
-             inputmode="numeric"
-             pattern="[0-9]{10}"
-             minlength="10"
-             maxlength="10"
-             title="Please enter a 10-digit phone number">
+        placeholder="Phone (10 digits)"
+        required
+        inputmode="numeric"
+        pattern="[0-9]{10}"
+        minlength="10"
+        maxlength="10"
+        title="Please enter a 10-digit phone number">
     </div>
 
     <input type="text" placeholder="Subject" required>

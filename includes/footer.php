@@ -20,23 +20,23 @@
 
     <div class="footer-col footer-social">
 
-  <h3>Reach Out</h3>
+      <h3>Reach Out</h3>
 
-  <div class="social-item">
-    <span>Follow us on Instagram</span>
-    <a href="https://www.instagram.com/aiza_collections18/?hl=en" target="_blank">
-      <img src="/aiza-collections-final/assets/icons/instagram.png" alt="Instagram">
-    </a>
-  </div>
+      <div class="social-item">
+        <span>Follow us on Instagram</span>
+        <a href="https://www.instagram.com/aiza_collections18/?hl=en" target="_blank">
+          <img src="/aiza-collections-final/assets/icons/instagram.png" alt="Instagram">
+        </a>
+      </div>
 
-  <div class="social-item">
-    <span>Chat with us on WhatsApp</span>
-    <a href="https://wa.me/916361847110" target="_blank">
-      <img src="/aiza-collections-final/assets/icons/whatsapp.jpeg" alt="WhatsApp">
-    </a>
-  </div>
+      <div class="social-item">
+        <span>Chat with us on WhatsApp</span>
+        <a href="https://wa.me/916361847110" target="_blank">
+          <img src="/aiza-collections-final/assets/icons/whatsapp.jpeg" alt="WhatsApp">
+        </a>
+      </div>
 
-</div>
+    </div>
 
   </div>
 
@@ -48,4 +48,5 @@
 </footer>
 
 </body>
+
 </html>

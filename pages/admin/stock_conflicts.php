@@ -10,7 +10,7 @@ include "../../includes/header.php";
 
 /* OUT OF STOCK PRODUCTS */
 
-$out_query = mysqli_query($conn,"
+$out_query = mysqli_query($conn, "
 SELECT
 p.product_code,
 p.product_name,
@@ -24,7 +24,7 @@ HAVING stock = 0
 
 /* LOW STOCK PRODUCTS */
 
-$low_query = mysqli_query($conn,"
+$low_query = mysqli_query($conn, "
 SELECT
 p.product_code,
 p.product_name,
@@ -39,82 +39,82 @@ HAVING stock BETWEEN 1 AND 5
 
 <section>
 
-<h2 class="section-title">Stock Conflicts</h2>
+    <h2 class="section-title">Stock Conflicts</h2>
 
-<!-- OUT OF STOCK -->
+    <!-- OUT OF STOCK -->
 
-<h3 style="margin-top:30px;">Out of Stock</h3>
+    <h3 style="margin-top:30px;">Out of Stock</h3>
 
-<?php if(mysqli_num_rows($out_query)==0): ?>
+    <?php if (mysqli_num_rows($out_query) == 0): ?>
 
-<p>No products are currently out of stock.</p>
+        <p>No products are currently out of stock.</p>
 
-<?php else: ?>
+    <?php else: ?>
 
-<table class="admin-table">
+        <table class="admin-table">
 
-<tr>
-<th>Product Code</th>
-<th>Product Name</th>
-<th>Status</th>
-</tr>
+            <tr>
+                <th>Product Code</th>
+                <th>Product Name</th>
+                <th>Status</th>
+            </tr>
 
-<?php while($row=mysqli_fetch_assoc($out_query)): ?>
+            <?php while ($row = mysqli_fetch_assoc($out_query)): ?>
 
-<tr>
+                <tr>
 
-<td><?= htmlspecialchars($row['product_code']) ?></td>
+                    <td><?= htmlspecialchars($row['product_code']) ?></td>
 
-<td><?= htmlspecialchars($row['product_name']) ?></td>
+                    <td><?= htmlspecialchars($row['product_name']) ?></td>
 
-<td style="color:red;font-weight:bold;">Out of Stock</td>
+                    <td style="color:red;font-weight:bold;">Out of Stock</td>
 
-</tr>
+                </tr>
 
-<?php endwhile; ?>
+            <?php endwhile; ?>
 
-</table>
+        </table>
 
-<?php endif; ?>
+    <?php endif; ?>
 
 
-<!-- LOW STOCK -->
+    <!-- LOW STOCK -->
 
-<h3 style="margin-top:40px;">Low Stock (≤ 5)</h3>
+    <h3 style="margin-top:40px;">Low Stock (≤ 5)</h3>
 
-<?php if(mysqli_num_rows($low_query)==0): ?>
+    <?php if (mysqli_num_rows($low_query) == 0): ?>
 
-<p>No low stock products.</p>
+        <p>No low stock products.</p>
 
-<?php else: ?>
+    <?php else: ?>
 
-<table class="admin-table">
+        <table class="admin-table">
 
-<tr>
-<th>Product Code</th>
-<th>Product Name</th>
-<th>Stock Left</th>
-</tr>
+            <tr>
+                <th>Product Code</th>
+                <th>Product Name</th>
+                <th>Stock Left</th>
+            </tr>
 
-<?php while($row=mysqli_fetch_assoc($low_query)): ?>
+            <?php while ($row = mysqli_fetch_assoc($low_query)): ?>
 
-<tr>
+                <tr>
 
-<td><?= htmlspecialchars($row['product_code']) ?></td>
+                    <td><?= htmlspecialchars($row['product_code']) ?></td>
 
-<td><?= htmlspecialchars($row['product_name']) ?></td>
+                    <td><?= htmlspecialchars($row['product_name']) ?></td>
 
-<td style="color:#e67e22;font-weight:bold;">
-<?= $row['stock'] ?>
-</td>
+                    <td style="color:#e67e22;font-weight:bold;">
+                        <?= $row['stock'] ?>
+                    </td>
 
-</tr>
+                </tr>
 
-<?php endwhile; ?>
+            <?php endwhile; ?>
 
-</table>
+        </table>
 
-<?php endif; ?>
+    <?php endif; ?>
 
 </section>
 

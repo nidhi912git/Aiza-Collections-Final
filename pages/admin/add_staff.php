@@ -1,5 +1,5 @@
 <?php
-$page_id="admin-page";
+$page_id = "admin-page";
 
 include "../../includes/config.php";
 include "../../includes/security.php";
@@ -11,27 +11,27 @@ include "../../includes/header.php";
 
 <section>
 
-<h2 class="section-title">Add Staff</h2>
+    <h2 class="section-title">Add Staff</h2>
 
-<form method="POST" action="add_staff_save.php" class="admin-form">
+    <form method="POST" action="add_staff_save.php" class="admin-form">
 
-<input type="hidden" name="csrf" value="<?= csrf_token() ?>">
+        <input type="hidden" name="csrf" value="<?= csrf_token() ?>">
 
-<label>User Email</label>
-<input type="email" name="email" required>
+        <label>User Email</label>
+        <input type="email" name="email" required>
 
-<label>Role</label>
+        <label>Role</label>
 
-<select name="role">
+        <select name="role">
 
-<option value="staff">Staff</option>
-<option value="manager">Manager</option>
+            <option value="staff">Staff</option>
+            <option value="manager">Manager</option>
 
-</select>
+        </select>
 
-<button class="btn">Assign Role</button>
+        <button class="btn">Assign Role</button>
 
-</form>
+    </form>
 
 </section>
 

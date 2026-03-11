@@ -6,79 +6,78 @@ include "../includes/header.php";
 $search = $_GET['q'] ?? '';
 ?>
 
-
 <!-- CATEGORY SLIDER -->
 
 <section class="category-slider">
 
-<div class="slider-wrapper">
+  <div class="slider-wrapper">
 
-<button class="slider-btn prev" onclick="prevSlide()">❮</button>
+    <button class="slider-btn prev" onclick="prevSlide()">❮</button>
 
-<div class="slides">
+    <div class="slides">
 
-<div class="slide">
-<img src="/aiza-collections-final/assets/images/anarkali_suit/A1.jpeg">
+      <div class="slide">
+        <img src="/aiza-collections-final/assets/images/anarkali_suit/A1.jpeg">
 
-<div class="slide-content">
-<h2>Anarkali Collection</h2>
-<p>Elegant traditional Anarkali outfits for every occasion.</p>
-<a href="/aiza-collections-final/pages/catalog.php?category=1" class="btn">Shop Collection</a>
-</div>
+        <div class="slide-content">
+          <h2>Anarkali Collection</h2>
+          <p>Elegant traditional Anarkali outfits for every occasion.</p>
+          <a href="/aiza-collections-final/pages/catalog.php?category=1" class="btn">Shop Collection</a>
+        </div>
 
-</div>
-
-
-<div class="slide">
-
-<img src="/aiza-collections-final/assets/images/chikankari/C1.jpeg">
-
-<div class="slide-content">
-<h2>Chikankari Collection</h2>
-<p>Graceful styles blending comfort with tradition.</p>
-<a href="/aiza-collections-final/pages/catalog.php?category=2" class="btn">Shop Collection</a>
-</div>
-
-</div>
+      </div>
 
 
-<div class="slide">
+      <div class="slide">
 
-<img src="/aiza-collections-final/assets/images/coord_sets/CO1.jpeg">
+        <img src="/aiza-collections-final/assets/images/chikankari/C1.jpeg">
 
-<div class="slide-content">
-<h2>Co‑Ord Sets</h2>
-<p>Modern coordinated sets for a stylish everyday look.</p>
-<a href="/aiza-collections-final/pages/catalog.php?category=3" class="btn">Shop Collection</a>
-</div>
+        <div class="slide-content">
+          <h2>Chikankari Collection</h2>
+          <p>Graceful styles blending comfort with tradition.</p>
+          <a href="/aiza-collections-final/pages/catalog.php?category=2" class="btn">Shop Collection</a>
+        </div>
 
-</div>
+      </div>
 
 
-<div class="slide">
+      <div class="slide">
 
-<img src="/aiza-collections-final/assets/images/straight_kurti/S15.jpeg">
+        <img src="/aiza-collections-final/assets/images/coord_sets/CO1.jpeg">
 
-<div class="slide-content">
-<h2>Straight Kurti Collection</h2>
-<p>Minimal elegance with timeless silhouettes.</p>
-<a href="/aiza-collections-final/pages/catalog.php?category=5" class="btn">Shop Collection</a>
-</div>
+        <div class="slide-content">
+          <h2>Co‑Ord Sets</h2>
+          <p>Modern coordinated sets for a stylish everyday look.</p>
+          <a href="/aiza-collections-final/pages/catalog.php?category=3" class="btn">Shop Collection</a>
+        </div>
 
-</div>
+      </div>
 
-</div>
 
-<button class="slider-btn next" onclick="nextSlide()">❯</button>
+      <div class="slide">
 
-<div class="slider-dots">
-<span class="dot active" onclick="showSlide(0)"></span>
-<span class="dot" onclick="showSlide(1)"></span>
-<span class="dot" onclick="showSlide(2)"></span>
-<span class="dot" onclick="showSlide(3)"></span>
-</div>
+        <img src="/aiza-collections-final/assets/images/straight_kurti/S15.jpeg">
 
-</div>
+        <div class="slide-content">
+          <h2>Straight Kurti Collection</h2>
+          <p>Minimal elegance with timeless silhouettes.</p>
+          <a href="/aiza-collections-final/pages/catalog.php?category=5" class="btn">Shop Collection</a>
+        </div>
+
+      </div>
+
+    </div>
+
+    <button class="slider-btn next" onclick="nextSlide()">❯</button>
+
+    <div class="slider-dots">
+      <span class="dot active" onclick="showSlide(0)"></span>
+      <span class="dot" onclick="showSlide(1)"></span>
+      <span class="dot" onclick="showSlide(2)"></span>
+      <span class="dot" onclick="showSlide(3)"></span>
+    </div>
+
+  </div>
 
 </section>
 
@@ -88,9 +87,9 @@ $search = $_GET['q'] ?? '';
   <div class="hero-content">
     <h1>Welcome to Aiza Collections</h1>
     <p>Handpicked Indian traditional wear crafted for every occasion.
-       Each piece in our collection is thoughtfully selected to celebrate the beauty of timeless Indian craftsmanship and cultural heritage.
-        Our goal is to offer outfits that make you feel confident, comfortable, and connected to the richness of Indian fashion. 
-        We believe traditional wear should not only honor heritage but also complement the style and individuality of the modern woman.
+      Each piece in our collection is thoughtfully selected to celebrate the beauty of timeless Indian craftsmanship and cultural heritage.
+      Our goal is to offer outfits that make you feel confident, comfortable, and connected to the richness of Indian fashion.
+      We believe traditional wear should not only honor heritage but also complement the style and individuality of the modern woman.
     </p>
     <a href="/aiza-collections-final/pages/catalog.php" class="btn">Shop Now</a>
   </div>
@@ -100,89 +99,88 @@ $search = $_GET['q'] ?? '';
 
 <section>
 
-<h2 class="section-title">Featured Products</h2>
+  <h2 class="section-title">Featured Products</h2>
 
-<?php
+  <?php
 
-$searchSafe = mysqli_real_escape_string($conn,$search);
+  $searchSafe = mysqli_real_escape_string($conn, $search);
 
-$where = "p.is_featured = 1";
+  $where = "p.is_featured = 1";
 
-if($searchSafe != ''){
-$where .= " AND p.product_name LIKE '%$searchSafe%'";
-}
-$sql = "
-SELECT
-p.product_code,
-p.product_name,
-p.price,
-SUM(ps.stock_qty) AS stock_qty,
-MIN(i.image_path) image_path
-FROM products p
-LEFT JOIN product_stock ps
-ON p.product_code=ps.product_code
-LEFT JOIN product_images i
-ON p.product_code=i.product_code
-WHERE p.is_featured=1
-AND p.product_code NOT LIKE '%-%'
-GROUP BY p.product_code
-LIMIT 15
-";
+  if ($searchSafe != '') {
+    $where .= " AND p.product_name LIKE '%$searchSafe%'";
+  }
+  $sql = "
+  SELECT
+  p.product_code,
+  p.product_name,
+  p.price,
+  SUM(ps.stock_qty) AS stock_qty,
+  MIN(i.image_path) image_path
+  FROM products p
+  LEFT JOIN product_stock ps
+  ON p.product_code=ps.product_code
+  LEFT JOIN product_images i
+  ON p.product_code=i.product_code
+  WHERE p.is_featured=1
+  AND p.product_code NOT LIKE '%-%'
+  GROUP BY p.product_code
+  LIMIT 15
+  ";
 
-$result = mysqli_query($conn,$sql);
+  $result = mysqli_query($conn, $sql);
 
-if(!$result){
-echo "<p>Database Error</p>";
-}
+  if (!$result) {
+    echo "<p>Database Error</p>";
+  }
 
-?>
+  ?>
 
-<div class="grid grid-3" id="product-grid">
+  <div class="grid grid-3" id="product-grid">
 
-<?php while($row = mysqli_fetch_assoc($result)): ?>
+    <?php while ($row = mysqli_fetch_assoc($result)): ?>
 
-<div class="product-card"
-onclick="viewProduct('<?= $row['product_code'] ?>')">
+      <div class="product-card"
+        onclick="viewProduct('<?= $row['product_code'] ?>')">
 
-<img src="<?= imgPath($row['image_path'] ?? 'no-image.jpg') ?>">
+        <img src="<?= imgPath($row['image_path'] ?? 'no-image.jpg') ?>">
 
-<h4><?= htmlspecialchars($row['product_name']) ?></h4>
+        <h4><?= htmlspecialchars($row['product_name']) ?></h4>
 
-<p class="price">₹<?= number_format($row['price']) ?></p>
+        <p class="price">₹<?= number_format($row['price']) ?></p>
 
-<p class="stock">
-<?= $row['stock_qty'] > 0 ? "In Stock" : "Out of Stock" ?>
-</p>
-
-
-<div class="actions horizontal-actions"
-onclick="event.stopPropagation();">
-
-<button class="add-cart-btn"
-data-code="<?= $row['product_code'] ?>"
-onclick="addToCart(event,this)"
-<?= $row['stock_qty'] <= 0 ? "disabled" : "" ?>>
-Add to Cart
-</button>
+        <p class="stock">
+          <?= $row['stock_qty'] > 0 ? "In Stock" : "Out of Stock" ?>
+        </p>
 
 
-<button class="wishlist-btn"
-data-code="<?= $row['product_code'] ?>"
-onclick="addToWishlist(event,this)"
-<?= $row['stock_qty'] <= 0 ? "disabled" : "" ?>>
-♡
-</button>
+        <div class="actions horizontal-actions"
+          onclick="event.stopPropagation();">
 
-</div>
+          <button class="add-cart-btn"
+            data-code="<?= $row['product_code'] ?>"
+            onclick="addToCart(event,this)"
+            <?= $row['stock_qty'] <= 0 ? "disabled" : "" ?>>
+            Add to Cart
+          </button>
 
-</div>
 
-<?php endwhile; ?>
+          <button class="wishlist-btn"
+            data-code="<?= $row['product_code'] ?>"
+            onclick="addToWishlist(event,this)"
+            <?= $row['stock_qty'] <= 0 ? "disabled" : "" ?>>
+            ♡
+          </button>
 
-</div>
+        </div>
+
+      </div>
+
+    <?php endwhile; ?>
+
+  </div>
 
 </section>
-
 
 <div class="popup"></div>
 

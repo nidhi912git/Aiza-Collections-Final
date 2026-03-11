@@ -1,6 +1,6 @@
 <?php
 
-if(isset($_POST['password'])){
+if (isset($_POST['password'])) {
 
     $password = $_POST['password'];
 

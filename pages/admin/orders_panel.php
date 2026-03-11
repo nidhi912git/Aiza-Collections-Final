@@ -10,7 +10,7 @@ include "../../includes/header.php";
 
 /* GET ALL ORDERS */
 
-$q = mysqli_query($conn,"
+$q = mysqli_query($conn, "
 SELECT
 o.order_id,
 o.order_total,
@@ -26,61 +26,61 @@ ORDER BY o.created_at DESC
 
 <section>
 
-<h2 class="section-title">Orders Panel</h2>
+    <h2 class="section-title">Orders Panel</h2>
 
-<div class="orders-table-container">
+    <div class="orders-table-container">
 
-<?php if(mysqli_num_rows($q)==0): ?>
+        <?php if (mysqli_num_rows($q) == 0): ?>
 
-<p style="text-align:center;">No orders found.</p>
+            <p style="text-align:center;">No orders found.</p>
 
-<?php else: ?>
+        <?php else: ?>
 
-<table class="admin-table">
+            <table class="admin-table">
 
-<tr>
-<th>Order ID</th>
-<th>Customer</th>
-<th>Date</th>
-<th>Total</th>
-<th>Status</th>
-<th>View</th>
-</tr>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer</th>
+                    <th>Date</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>View</th>
+                </tr>
 
-<?php while($row=mysqli_fetch_assoc($q)): ?>
+                <?php while ($row = mysqli_fetch_assoc($q)): ?>
 
-<tr>
+                    <tr>
 
-<td>#<?= htmlspecialchars($row['order_id']) ?></td>
+                        <td>#<?= htmlspecialchars($row['order_id']) ?></td>
 
-<td><?= htmlspecialchars($row['name'] ?? 'Guest') ?></td>
+                        <td><?= htmlspecialchars($row['name'] ?? 'Guest') ?></td>
 
-<td><?= date("d M Y",strtotime($row['created_at'])) ?></td>
+                        <td><?= date("d M Y", strtotime($row['created_at'])) ?></td>
 
-<td>₹<?= number_format($row['order_total']) ?></td>
+                        <td>₹<?= number_format($row['order_total']) ?></td>
 
-<td>
-<span class="status status-<?= strtolower($row['order_status']) ?>">
-<?= htmlspecialchars($row['order_status']) ?>
-</span>
-</td>
+                        <td>
+                            <span class="status status-<?= strtolower($row['order_status']) ?>">
+                                <?= htmlspecialchars($row['order_status']) ?>
+                            </span>
+                        </td>
 
-<td>
-<a class="btn small-btn"
-href="view_order.php?id=<?= htmlspecialchars($row['order_id']) ?>">
-View
-</a>
-</td>
+                        <td>
+                            <a class="btn small-btn"
+                                href="view_order.php?id=<?= htmlspecialchars($row['order_id']) ?>">
+                                View
+                            </a>
+                        </td>
 
-</tr>
+                    </tr>
 
-<?php endwhile; ?>
+                <?php endwhile; ?>
 
-</table>
+            </table>
 
-<?php endif; ?>
+        <?php endif; ?>
 
-</div>
+    </div>
 
 </section>
 

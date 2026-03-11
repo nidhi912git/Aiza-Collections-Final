@@ -10,20 +10,20 @@ verify_csrf();
 
 $id = intval($_POST['user_id'] ?? 0);
 
-if(!$id){
-header("Location: manage_staff.php");
-exit;
+if (!$id) {
+    header("Location: manage_staff.php");
+    exit;
 }
 
 /* REMOVE STAFF ROLE -> BACK TO CUSTOMER */
 
-$stmt = mysqli_prepare($conn,"
+$stmt = mysqli_prepare($conn, "
 UPDATE users
 SET role='user'
 WHERE user_id=? AND role='staff'
 ");
 
-mysqli_stmt_bind_param($stmt,"i",$id);
+mysqli_stmt_bind_param($stmt, "i", $id);
 mysqli_stmt_execute($stmt);
 
 /* POPUP MESSAGE */

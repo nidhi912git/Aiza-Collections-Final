@@ -1,5 +1,5 @@
 <?php
-$page_id="checkout-page";
+$page_id = "checkout-page";
 
 include "../includes/config.php";
 include "../includes/security.php";
@@ -9,9 +9,9 @@ include "../includes/header.php";
    USER MUST BE LOGGED IN
 ================================ */
 
-if(!isset($_SESSION['user'])){
-header("Location: /aiza-collections-final/pages/login.php");
-exit;
+if (!isset($_SESSION['user'])) {
+   header("Location: /aiza-collections-final/pages/login.php");
+   exit;
 }
 
 /* ===============================
@@ -20,23 +20,21 @@ exit;
 
 $cart = $_SESSION['cart'] ?? [];
 
-if(!$cart){
+if (!$cart) {
 
-echo "
-<div style='text-align:center;margin-top:40px;'>
+   echo "
+   <div style='text-align:center;margin-top:40px;'>
 
-<p>Your cart is empty.</p>
+      <p>Your cart is empty.</p>
 
-<a href='/aiza-collections-final/pages/catalog.php'
-class='btn'>
-Browse Products
-</a>
+      <a href='/aiza-collections-final/pages/catalog.php' class='btn'>
+         Browse Products
+      </a>
 
-</div>";
+   </div>";
 
-include "../includes/footer.php";
-exit;
-
+   include "../includes/footer.php";
+   exit;
 }
 
 $user_id = $_SESSION['user']['user_id'];
@@ -46,26 +44,25 @@ $total = 0;
    CALCULATE TOTAL (SAFE)
 ================================ */
 
-foreach($cart as $key=>$qty){
+foreach ($cart as $key => $qty) {
 
-list($code,$size) = explode("_",$key);
+   list($code, $size) = explode("_", $key);
 
-$stmt = mysqli_prepare($conn,"
-SELECT price
-FROM products
-WHERE product_code=?
-");
+   $stmt = mysqli_prepare($conn, "
+   SELECT price
+   FROM products
+   WHERE product_code=?
+   ");
 
-mysqli_stmt_bind_param($stmt,"s",$code);
-mysqli_stmt_execute($stmt);
+   mysqli_stmt_bind_param($stmt, "s", $code);
+   mysqli_stmt_execute($stmt);
 
-$res = mysqli_stmt_get_result($stmt);
-$p = mysqli_fetch_assoc($res);
+   $res = mysqli_stmt_get_result($stmt);
+   $p = mysqli_fetch_assoc($res);
 
-if($p){
-$total += $p['price'] * $qty;
-}
-
+   if ($p) {
+      $total += $p['price'] * $qty;
+   }
 }
 
 /* ===============================
@@ -74,145 +71,142 @@ $total += $p['price'] * $qty;
 
 mysqli_begin_transaction($conn);
 
-try{
+try {
 
-/* ===============================
+   /* ===============================
    CREATE ORDER
 ================================ */
 
-$stmt = mysqli_prepare($conn,"
-INSERT INTO orders(user_id,order_total)
-VALUES(?,?)
-");
+   $stmt = mysqli_prepare($conn, "
+   INSERT INTO orders(user_id,order_total)
+   VALUES(?,?)
+   ");
 
-mysqli_stmt_bind_param($stmt,"id",$user_id,$total);
-mysqli_stmt_execute($stmt);
+   mysqli_stmt_bind_param($stmt, "id", $user_id, $total);
+   mysqli_stmt_execute($stmt);
 
-$order_id = mysqli_insert_id($conn);
+   $order_id = mysqli_insert_id($conn);
 
-/* ===============================
+   /* ===============================
    INSERT ITEMS + STOCK UPDATE
 ================================ */
 
-foreach($cart as $key=>$qty){
+   foreach ($cart as $key => $qty) {
 
-list($code,$size) = explode("_",$key);
+      list($code, $size) = explode("_", $key);
 
-/* GET PRODUCT PRICE */
+      /* GET PRODUCT PRICE */
 
-$stmt = mysqli_prepare($conn,"
-SELECT price
-FROM products
-WHERE product_code=?
-");
+      $stmt = mysqli_prepare($conn, "
+      SELECT price
+      FROM products
+      WHERE product_code=?
+      ");
 
-mysqli_stmt_bind_param($stmt,"s",$code);
-mysqli_stmt_execute($stmt);
+      mysqli_stmt_bind_param($stmt, "s", $code);
+      mysqli_stmt_execute($stmt);
 
-$res = mysqli_stmt_get_result($stmt);
-$p = mysqli_fetch_assoc($res);
+      $res = mysqli_stmt_get_result($stmt);
+      $p = mysqli_fetch_assoc($res);
 
-if(!$p){
-throw new Exception("Product not found");
+      if (!$p) {
+         throw new Exception("Product not found");
+      }
+
+      $price = $p['price'];
+
+      /* CHECK STOCK */
+
+      $stmt = mysqli_prepare($conn, "
+      SELECT stock_qty
+      FROM product_stock
+      WHERE product_code=? AND size=?
+      FOR UPDATE
+      ");
+
+      mysqli_stmt_bind_param($stmt, "ss", $code, $size);
+      mysqli_stmt_execute($stmt);
+
+      $res = mysqli_stmt_get_result($stmt);
+      $stockRow = mysqli_fetch_assoc($res);
+
+      if (!$stockRow) {
+         throw new Exception("Stock entry missing for product.");
+      }
+
+      if ($stockRow['stock_qty'] < $qty) {
+         throw new Exception("Not enough stock for product: " . $code . " (Size " . $size . ")");
+      }
+
+      /* INSERT ORDER ITEM */
+
+      $stmt = mysqli_prepare($conn, "
+      INSERT INTO order_items
+      (order_id,product_code,size,quantity,price)
+      VALUES(?,?,?,?,?)
+      ");
+
+      mysqli_stmt_bind_param(
+         $stmt,
+         "issid",
+         $order_id,
+         $code,
+         $size,
+         $qty,
+         $price
+      );
+
+      mysqli_stmt_execute($stmt);
+
+      /* REDUCE STOCK */
+
+      $stmt = mysqli_prepare($conn, "
+      UPDATE product_stock
+      SET stock_qty = stock_qty - ?
+      WHERE product_code=? AND size=?
+      ");
+
+      mysqli_stmt_bind_param(
+         $stmt,
+         "iss",
+         $qty,
+         $code,
+         $size
+      );
+
+      mysqli_stmt_execute($stmt);
+   }
+
+   /* ===============================
+            COMMIT TRANSACTION
+   ================================ */
+
+   mysqli_commit($conn);
+
+   /* CLEAR CART */
+
+   unset($_SESSION['cart']);
+
+   /* SUCCESS MESSAGE */
+
+   $_SESSION['popup'] = "Order placed successfully!";
+
+   /* REDIRECT */
+
+   header("Location: /aiza-collections-final/pages/orders.php");
+   exit;
+} catch (Exception $e) {
+
+   /* ===============================
+         ROLLBACK IF ERROR
+   ================================ */
+
+   mysqli_rollback($conn);
+
+   echo "<div style='text-align:center;margin-top:40px;color:red;'>";
+   echo "Checkout failed: " . htmlspecialchars($e->getMessage());
+   echo "</div>";
+
+   include "../includes/footer.php";
+   exit;
 }
-
-$price = $p['price'];
-
-/* CHECK STOCK */
-
-$stmt = mysqli_prepare($conn,"
-SELECT stock_qty
-FROM product_stock
-WHERE product_code=? AND size=?
-FOR UPDATE
-");
-
-mysqli_stmt_bind_param($stmt,"ss",$code,$size);
-mysqli_stmt_execute($stmt);
-
-$res = mysqli_stmt_get_result($stmt);
-$stockRow = mysqli_fetch_assoc($res);
-
-if(!$stockRow){
-throw new Exception("Stock entry missing for product.");
-}
-
-if($stockRow['stock_qty'] < $qty){
-throw new Exception("Not enough stock for product: ".$code." (Size ".$size.")");
-}
-
-/* INSERT ORDER ITEM */
-
-$stmt = mysqli_prepare($conn,"
-INSERT INTO order_items
-(order_id,product_code,size,quantity,price)
-VALUES(?,?,?,?,?)
-");
-
-mysqli_stmt_bind_param($stmt,"issid",
-$order_id,
-$code,
-$size,
-$qty,
-$price
-);
-
-mysqli_stmt_execute($stmt);
-
-/* REDUCE STOCK */
-
-$stmt = mysqli_prepare($conn,"
-UPDATE product_stock
-SET stock_qty = stock_qty - ?
-WHERE product_code=? AND size=?
-");
-
-mysqli_stmt_bind_param($stmt,"iss",
-$qty,
-$code,
-$size
-);
-
-mysqli_stmt_execute($stmt);
-
-}
-
-/* ===============================
-   COMMIT TRANSACTION
-================================ */
-
-mysqli_commit($conn);
-
-/* CLEAR CART */
-
-unset($_SESSION['cart']);
-
-/* SUCCESS MESSAGE */
-
-$_SESSION['popup']="Order placed successfully!";
-
-/* REDIRECT */
-
-header("Location: /aiza-collections-final/pages/orders.php");
-exit;
-
-}
-
-catch(Exception $e){
-
-/* ===============================
-   ROLLBACK IF ERROR
-================================ */
-
-mysqli_rollback($conn);
-
-echo "<div style='text-align:center;margin-top:40px;color:red;'>";
-echo "Checkout failed: ".htmlspecialchars($e->getMessage());
-echo "</div>";
-
-include "../includes/footer.php";
-exit;
-
-}
-
-?>

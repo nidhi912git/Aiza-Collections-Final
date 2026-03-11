@@ -14,12 +14,12 @@ $where = [];
 $where[] = "p.product_code NOT LIKE '%-%'";
 $where[] = "p.is_active = 1";
 
-if($search !== ''){
-    $safe = mysqli_real_escape_string($conn,$search);
+if ($search !== '') {
+    $safe = mysqli_real_escape_string($conn, $search);
     $where[] = "p.product_name LIKE '%$safe%'";
 }
 
-if($category !== 'all'){
+if ($category !== 'all') {
     $cat = intval($category);
     $where[] = "p.category_num = $cat";
 }
@@ -28,10 +28,9 @@ if($category !== 'all'){
 
 $order = "";
 
-if($price === "low-high"){
+if ($price === "low-high") {
     $order = "ORDER BY p.price ASC";
-}
-elseif($price === "high-low"){
+} elseif ($price === "high-low") {
     $order = "ORDER BY p.price DESC";
 }
 
@@ -58,111 +57,100 @@ LIMIT 1
 ) AS image_path
 
 FROM products p
-WHERE ".implode(" AND ",$where)."
+WHERE " . implode(" AND ", $where) . "
 $order
 ";
 
-$result = mysqli_query($conn,$sql);
+$result = mysqli_query($conn, $sql);
 ?>
 
 <section>
 
-<h2 class="section-title">Our Collection</h2>
+    <h2 class="section-title">Our Collection</h2>
 
+    <form class="catalog-filters" method="get">
 
-<form class="catalog-filters" method="get">
+        <select name="category" onchange="this.form.submit()">
 
-<select name="category" onchange="this.form.submit()">
+            <option value="all">All Categories</option>
 
-<option value="all">All Categories</option>
+            <option value="1" <?= $category == 1 ? 'selected' : '' ?>>Anarkali Set</option>
 
-<option value="1" <?= $category==1?'selected':'' ?>>Anarkali Set</option>
+            <option value="2" <?= $category == 2 ? 'selected' : '' ?>>Chikankari</option>
 
-<option value="2" <?= $category==2?'selected':'' ?>>Chikankari</option>
+            <option value="3" <?= $category == 3 ? 'selected' : '' ?>>Co‑ord Set</option>
 
-<option value="3" <?= $category==3?'selected':'' ?>>Co‑ord Set</option>
+            <option value="4" <?= $category == 4 ? 'selected' : '' ?>>Dress Material</option>
 
-<option value="4" <?= $category==4?'selected':'' ?>>Dress Material</option>
+            <option value="5" <?= $category == 5 ? 'selected' : '' ?>>Straight Kurta Set</option>
 
-<option value="5" <?= $category==5?'selected':'' ?>>Straight Kurta Set</option>
+            <option value="6" <?= $category == 6 ? 'selected' : '' ?>>Sharara Set</option>
 
-<option value="6" <?= $category==6?'selected':'' ?>>Sharara Set</option>
+        </select>
 
-</select>
+        <input type="hidden" name="q" value="<?= htmlspecialchars($search) ?>">
 
+        <select name="price" onchange="this.form.submit()">
 
-<input type="hidden" name="q" value="<?= htmlspecialchars($search) ?>">
+            <option value="default">Sort by Price</option>
 
+            <option value="low-high" <?= $price == 'low-high' ? 'selected' : '' ?>>Low to High</option>
 
-<select name="price" onchange="this.form.submit()">
+            <option value="high-low" <?= $price == 'high-low' ? 'selected' : '' ?>>High to Low</option>
 
-<option value="default">Sort by Price</option>
+        </select>
 
-<option value="low-high" <?= $price=='low-high'?'selected':'' ?>>Low to High</option>
+    </form>
 
-<option value="high-low" <?= $price=='high-low'?'selected':'' ?>>High to Low</option>
+    <div class="grid grid-3" id="product-grid">
 
-</select>
+        <?php while ($row = mysqli_fetch_assoc($result)): ?>
 
-</form>
+            <div class="product-card"
+                onclick="viewProduct('<?= $row['product_code'] ?>')">
 
+                <img
+                    src="<?= imgPath($row['image_path']) ?>"
+                    alt="<?= htmlspecialchars($row['product_name']) ?>">
 
-<div class="grid grid-3" id="product-grid">
+                <h4><?= htmlspecialchars($row['product_name']) ?></h4>
 
-<?php while($row = mysqli_fetch_assoc($result)): ?>
+                <p class="price">
+                    ₹<?= number_format($row['price']) ?>
+                </p>
 
-<div class="product-card"
-onclick="viewProduct('<?= $row['product_code'] ?>')">
+                <p class="stock">
 
-<img
-src="<?= imgPath($row['image_path']) ?>"
-alt="<?= htmlspecialchars($row['product_name']) ?>"
->
+                    <?= $row['stock_qty'] > 0 ? "In Stock" : "Out of Stock" ?>
 
-<h4><?= htmlspecialchars($row['product_name']) ?></h4>
+                </p>
 
-<p class="price">
-₹<?= number_format($row['price']) ?>
-</p>
+                <div class="actions horizontal-actions"
+                    onclick="event.stopPropagation();">
 
-<p class="stock">
+                    <button
+                        class="add-cart-btn"
+                        data-code="<?= $row['product_code'] ?>"
+                        onclick="addToCart(event,this)"
+                        <?= $row['stock_qty'] <= 0 ? "disabled" : "" ?>>
+                        Add to Cart
+                    </button>
 
-<?= $row['stock_qty'] > 0 ? "In Stock" : "Out of Stock" ?>
+                    <button
+                        class="wishlist-btn"
+                        data-code="<?= $row['product_code'] ?>"
+                        onclick="addToWishlist(event,this)"
+                        <?= $row['stock_qty'] <= 0 ? "disabled" : "" ?>>
+                        ♡
+                    </button>
 
-</p>
+                </div>
 
+            </div>
 
-<div class="actions horizontal-actions"
-onclick="event.stopPropagation();">
+        <?php endwhile; ?>
 
-
-<button
-class="add-cart-btn"
-data-code="<?= $row['product_code'] ?>"
-onclick="addToCart(event,this)"
-<?= $row['stock_qty'] <= 0 ? "disabled" : "" ?>
->
-Add to Cart
-</button>
-
-
-<button
-class="wishlist-btn"
-data-code="<?= $row['product_code'] ?>"
-onclick="addToWishlist(event,this)"
-<?= $row['stock_qty'] <= 0 ? "disabled" : "" ?>
->
-♡
-</button>
-
-
-</div>
-
-</div>
-
-<?php endwhile; ?>
-
-</div>
+    </div>
 
 </section>
 

@@ -1,5 +1,5 @@
 <?php
-$page_id="admin-page";
+$page_id = "admin-page";
 
 include "../../includes/config.php";
 include "../../includes/security.php";
@@ -9,7 +9,7 @@ require_admin();
 include "../../includes/header.php";
 
 /* GET PRODUCTS WITH MAIN IMAGE + STOCK */
-$res = mysqli_query($conn,"
+$res = mysqli_query($conn, "
 SELECT
 p.product_code,
 p.product_name,
@@ -46,130 +46,130 @@ ORDER BY p.product_name
 
 <section>
 
-<div class="admin-header">
+    <div class="admin-header">
 
-<h2 class="section-title">Manager's Overview of Products</h2>
+        <h2 class="section-title">Manager's Overview of Products</h2>
 
-<div style="display:flex;gap:12px;">
+        <div style="display:flex;gap:12px;">
 
-<a href="dashboard.php" class="btn">Dashboard</a>
+            <a href="dashboard.php" class="btn">Dashboard</a>
 
-<a href="add_product.php" class="btn">Add New Product</a>
+            <a href="add_product.php" class="btn">Add New Product</a>
 
-</div>
+        </div>
 
-</div>
+    </div>
 
-<?php if(isset($_SESSION['undo'])): ?>
+    <?php if (isset($_SESSION['undo'])): ?>
 
-<div class="admin-undo">
+        <div class="admin-undo">
 
-<p><?= $_SESSION['undo']['msg'] ?></p>
+            <p><?= $_SESSION['undo']['msg'] ?></p>
 
-<form method="post" action="<?= $_SESSION['undo']['action'] ?>">
+            <form method="post" action="<?= $_SESSION['undo']['action'] ?>">
 
-<?php foreach($_SESSION['undo']['data'] as $k=>$v): ?>
+                <?php foreach ($_SESSION['undo']['data'] as $k => $v): ?>
 
-<input type="hidden" name="<?= $k ?>" value="<?= htmlspecialchars($v) ?>">
+                    <input type="hidden" name="<?= $k ?>" value="<?= htmlspecialchars($v) ?>">
 
-<?php endforeach; ?>
+                <?php endforeach; ?>
 
-<button class="btn small-btn">Undo</button>
+                <button class="btn small-btn">Undo</button>
 
-</form>
+            </form>
 
-</div>
+        </div>
 
-<?php unset($_SESSION['undo']); endif; ?>
+    <?php unset($_SESSION['undo']);
+    endif; ?>
 
-<div class="admin-products">
+    <div class="admin-products">
 
-<?php if(mysqli_num_rows($res)==0): ?>
+        <?php if (mysqli_num_rows($res) == 0): ?>
 
-<p style="text-align:center;">No products found.</p>
+            <p style="text-align:center;">No products found.</p>
 
-<?php else: ?>
+        <?php else: ?>
 
-<?php while($p=mysqli_fetch_assoc($res)): ?>
+            <?php while ($p = mysqli_fetch_assoc($res)): ?>
 
-<div class="admin-card">
+                <div class="admin-card">
 
-<img
-src="<?= imgPath($p['image_path']) ?>"
-alt="<?= htmlspecialchars($p['product_name']) ?>"
->
+                    <img
+                        src="<?= imgPath($p['image_path']) ?>"
+                        alt="<?= htmlspecialchars($p['product_name']) ?>">
 
-<h4><?= htmlspecialchars($p['product_name']) ?></h4>
+                    <h4><?= htmlspecialchars($p['product_name']) ?></h4>
 
-<p class="admin-meta">
-Category: <?= $p['category_num'] ?>
-</p>
+                    <p class="admin-meta">
+                        Category: <?= $p['category_num'] ?>
+                    </p>
 
-<p class="price">
-₹<?= number_format($p['price']) ?>
-</p>
+                    <p class="price">
+                        ₹<?= number_format($p['price']) ?>
+                    </p>
 
-<p class="stock">
-Stock: <?= $p['stock_qty'] ?>
-</p>
+                    <p class="stock">
+                        Stock: <?= $p['stock_qty'] ?>
+                    </p>
 
-<?php if($p['is_featured']): ?>
-<p class="badge featured-badge">Featured</p>
-<?php endif; ?>
+                    <?php if ($p['is_featured']): ?>
+                        <p class="badge featured-badge">Featured</p>
+                    <?php endif; ?>
 
-<?php if(!$p['is_active']): ?>
-<p class="badge inactive-badge">Inactive</p>
-<?php endif; ?>
+                    <?php if (!$p['is_active']): ?>
+                        <p class="badge inactive-badge">Inactive</p>
+                    <?php endif; ?>
 
-<div class="admin-actions">
+                    <div class="admin-actions">
 
-<a
-class="btn small-btn"
-href="edit_product.php?code=<?= urlencode($p['product_code']) ?>">
-Edit
-</a>
+                        <a
+                            class="btn small-btn"
+                            href="edit_product.php?code=<?= urlencode($p['product_code']) ?>">
+                            Edit
+                        </a>
 
-<form method="post" action="toggle_featured.php">
+                        <form method="post" action="toggle_featured.php">
 
-<input type="hidden" name="code"
-value="<?= htmlspecialchars($p['product_code']) ?>">
+                            <input type="hidden" name="code"
+                                value="<?= htmlspecialchars($p['product_code']) ?>">
 
-<input type="hidden" name="csrf"
-value="<?= csrf_token() ?>">
+                            <input type="hidden" name="csrf"
+                                value="<?= csrf_token() ?>">
 
-<button class="btn small-btn">
-<?= $p['is_featured'] ? "Unfeature" : "Feature" ?>
-</button>
+                            <button class="btn small-btn">
+                                <?= $p['is_featured'] ? "Unfeature" : "Feature" ?>
+                            </button>
 
-</form>
+                        </form>
 
-<form method="post" action="delete_product.php" class="confirm-form">
+                        <form method="post" action="delete_product.php" class="confirm-form">
 
-<input
-type="hidden"
-name="code"
-value="<?= htmlspecialchars($p['product_code']) ?>">
+                            <input
+                                type="hidden"
+                                name="code"
+                                value="<?= htmlspecialchars($p['product_code']) ?>">
 
-<input
-type="hidden"
-name="csrf"
-value="<?= csrf_token() ?>">
+                            <input
+                                type="hidden"
+                                name="csrf"
+                                value="<?= csrf_token() ?>">
 
-<button class="btn small-btn danger-btn">
-Delete
-</button>
+                            <button class="btn small-btn danger-btn">
+                                Delete
+                            </button>
 
-</form>
+                        </form>
 
-</div>
+                    </div>
 
-</div>
+                </div>
 
-<?php endwhile; ?>
+            <?php endwhile; ?>
 
-<?php endif; ?>
+        <?php endif; ?>
 
-</div>
+    </div>
 
 </section>
 
