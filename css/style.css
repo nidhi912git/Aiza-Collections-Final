@@ -3367,8 +3367,6 @@ ADMIN ORDERS TABLE
 
 .admin-table {
   width: 100%;
-  max-width: 900px;
-  margin: 40px auto;
   border-collapse: collapse;
 }
 
@@ -3698,4 +3696,29 @@ BUTTON LOADING SPINNER
   to {
     transform: translateY(-50%) rotate(360deg);
   }
+}
+
+.admin-table th:nth-child(1),
+.admin-table td:nth-child(1){
+width:120px;
+}
+
+.admin-table th:nth-child(2),
+.admin-table td:nth-child(2){
+width:200px;
+}
+
+.admin-table th:nth-child(3),
+.admin-table td:nth-child(3){
+width:150px;
+}
+
+.admin-table th:nth-child(4),
+.admin-table td:nth-child(4){
+width:150px;
+}
+
+.admin-table th:nth-child(5),
+.admin-table td:nth-child(5){
+width:150px;
 }

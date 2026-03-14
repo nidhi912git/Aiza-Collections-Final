@@ -19,36 +19,44 @@ ORDER BY created_at DESC
 
     <h2 class="section-title">Orders</h2>
 
-    <table class="admin-table">
+    <div class="orders-table-container">
 
-        <tr>
-            <th>Order</th>
-            <th>Date</th>
-            <th>Total</th>
-            <th>Status</th>
-            <th>Update</th>
-        </tr>
-
-        <?php while ($o = mysqli_fetch_assoc($q)): ?>
+        <table class="admin-table">
 
             <tr>
-
-                <td>#<?= $o['order_id'] ?></td>
-                <td><?= date("d M Y", strtotime($o['created_at'])) ?></td>
-                <td>₹<?= number_format($o['order_total']) ?></td>
-                <td><?= $o['order_status'] ?></td>
-                <td>
-                    <a class="btn small-btn"
-                        href="update_order_status.php?id=<?= $o['order_id'] ?>">
-                        Update
-                    </a>
-                </td>
-
+                <th>Order</th>
+                <th>Date</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Update</th>
             </tr>
 
-        <?php endwhile; ?>
+            <?php while ($o = mysqli_fetch_assoc($q)): ?>
 
-    </table>
+                <tr>
+
+                    <td>#<?= $o['order_id'] ?></td>
+                    <td><?= date("d M Y", strtotime($o['created_at'])) ?></td>
+                    <td>₹<?= number_format($o['order_total']) ?></td>
+                    <td>
+                        <span class="status status-<?= strtolower($o['order_status']) ?>">
+                            <?= htmlspecialchars($o['order_status']) ?>
+                        </span>
+                    </td>
+                    <td>
+                        <a class="btn small-btn"
+                            href="update_order_status.php?id=<?= $o['order_id'] ?>">
+                            Update
+                        </a>
+                    </td>
+
+                </tr>
+
+            <?php endwhile; ?>
+
+        </table>
+
+    </div>
 
 </section>
 
