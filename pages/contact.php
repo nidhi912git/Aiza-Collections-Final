@@ -19,7 +19,7 @@ include "../includes/header.php";
   <div class="contact-cards">
 
     <div class="contact-card">
-      <img src="/aiza-collections-final/assets/icons/phone.png" class="contact-icon" alt="">
+      <img src="/aiza-collections/assets/icons/phone.png" class="contact-icon" alt="">
       <h3>Phone</h3>
       <p>
         +91 86182 60912<br>
@@ -28,7 +28,7 @@ include "../includes/header.php";
     </div>
 
     <div class="contact-card">
-      <img src="/aiza-collections-final/assets/icons/location.png" class="contact-icon" alt="">
+      <img src="/aiza-collections/assets/icons/location.png" class="contact-icon" alt="">
       <h3>Visit Us</h3>
       <p>
         298, Veera Pillai Street,<br>
@@ -39,13 +39,13 @@ include "../includes/header.php";
     </div>
 
     <div class="contact-card">
-      <img src="/aiza-collections-final/assets/icons/email.png" class="contact-icon" alt="">
+      <img src="/aiza-collections/assets/icons/email.png" class="contact-icon" alt="">
       <h3>Email</h3>
       <p>aizacollections14@gmail.com</p>
     </div>
 
     <div class="contact-card">
-      <img src="/aiza-collections-final/assets/icons/clock.png" class="contact-icon" alt="">
+      <img src="/aiza-collections/assets/icons/clock.png" class="contact-icon" alt="">
       <h3>Working Hours</h3>
       <p>
         Mon – Sun<br>
@@ -58,15 +58,16 @@ include "../includes/header.php";
 
 <!-- VISIT STORE -->
 <section class="visit-store">
-  <img src="/aiza-collections-final/assets/store-front.jpg" alt="Aiza Collections Store">
+  <img src="/aiza-collections/assets/store-front.jpg" alt="Aiza Collections Store">
 
   <div class="visit-text">
     <h2>Visit Our Store</h2>
     <p>Experience our collections in person and find your perfect fit.</p>
-    <p> Come visit us in-person to have the best shopping experience and get your best fits. we are located in Veera Pillai Street, near the famous Commercial Street of Bengaluru</p>
-    <p> Find the link to the google maps below to ease locating us</p>
-    <a href="https://maps.app.goo.gl/w73CmVHLeTk8r6NB8" class="btn map-btn" target="_blank">
-      Open in Google Maps
+    <p>Come visit us in-person to have the best shopping experience and get your best fits. We are located in Veera Pillai Street, near the famous Commercial Street of Bengaluru.</p>
+    <p>Find the Google Maps link below to easily locate us.</p>
+
+    <a href="https://maps.app.goo.gl/j2UgkEXNa8kpQP3y7" target="_blank">
+      <button type="button">Open in Google Maps</button>
     </a>
   </div>
 </section>
@@ -78,9 +79,7 @@ include "../includes/header.php";
   <div class="faq-grid">
 
     <div class="faq-card">
-      <div class="faq-front">
-        Do you offer custom tailoring?
-      </div>
+      <div class="faq-front">Do you offer custom tailoring?</div>
       <div class="faq-back">
         Yes, we provide custom tailoring for all products.
         Please contact us for measurements and details.
@@ -88,9 +87,7 @@ include "../includes/header.php";
     </div>
 
     <div class="faq-card">
-      <div class="faq-front">
-        What is your return policy?
-      </div>
+      <div class="faq-front">What is your return policy?</div>
       <div class="faq-back">
         Returns are accepted within 7 days for unused items
         with original tags.
@@ -98,9 +95,7 @@ include "../includes/header.php";
     </div>
 
     <div class="faq-card">
-      <div class="faq-front">
-        Do you ship internationally?
-      </div>
+      <div class="faq-front">Do you ship internationally?</div>
       <div class="faq-back">
         Currently, we ship only within India.
         International shipping is coming soon.
@@ -108,9 +103,7 @@ include "../includes/header.php";
     </div>
 
     <div class="faq-card">
-      <div class="faq-front">
-        How long does delivery take?
-      </div>
+      <div class="faq-front">How long does delivery take?</div>
       <div class="faq-back">
         Delivery usually takes 5–7 business days
         depending on location.
@@ -126,27 +119,50 @@ include "../includes/header.php";
 <section class="contact-form-section">
   <h2 class="section-title">Get in Touch</h2>
 
-  <form class="contact-form"
-    onsubmit="showPopup('Thank you for the message'); this.reset(); return false;">
+  <div id="form-success-message" style="display: none; background-color: #d4edda; color: #155724; padding: 15px; margin-bottom: 20px; border: 1px solid #c3e6cb; border-radius: 5px; text-align: center; font-weight: 500;">
+    Thank you for the message
+  </div>
 
+  <form class="contact-form"
+        onsubmit="document.getElementById('form-success-message').style.display='block'; this.reset(); return false;">
+
+    <!-- NAME -->
     <div class="form-row">
-      <input type="text" placeholder="First Name" required>
-      <input type="text" placeholder="Last Name" required>
+      <input 
+        type="text" 
+        placeholder="First Name" 
+        pattern="[A-Za-z\s-]+" 
+        title="Only letters allowed"
+        onkeypress="allowOnlyLetters(event)"
+        required>
+
+      <input 
+        type="text" 
+        placeholder="Last Name" 
+        pattern="[A-Za-z\s-]+" 
+        title="Only letters allowed"
+        onkeypress="allowOnlyLetters(event)"
+        required>
     </div>
 
+    <!-- EMAIL + PHONE -->
     <div class="form-row">
       <input type="email" placeholder="Email" required>
+
       <input type="tel"
-        placeholder="Phone (10 digits)"
-        required
-        inputmode="numeric"
-        pattern="[0-9]{10}"
-        minlength="10"
-        maxlength="10"
-        title="Please enter a 10-digit phone number">
+             placeholder="Phone (10 digits)"
+             required
+             inputmode="numeric"
+             pattern="[0-9]{10}"
+             minlength="10"
+             maxlength="10"
+             title="Please enter a 10-digit phone number">
     </div>
 
+    <!-- SUBJECT -->
     <input type="text" placeholder="Subject" required>
+
+    <!-- MESSAGE -->
     <textarea rows="5" placeholder="Your Message" required></textarea>
 
     <button type="submit">Send Message</button>
@@ -154,3 +170,14 @@ include "../includes/header.php";
 </section>
 
 <?php include "../includes/footer.php"; ?>
+
+<!-- ✅ SCRIPT (placed at bottom for best performance) -->
+<script>
+function allowOnlyLetters(e) {
+  const char = String.fromCharCode(e.which);
+
+  if (!/[a-zA-Z\s-]/.test(char)) {
+    e.preventDefault();
+  }
+}
+</script>
