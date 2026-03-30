@@ -156,9 +156,9 @@ $total = 0;
 
         <div style="text-align:center;margin-top:20px;">
 
-            <a href="/aiza-collections-final/pages/checkout.php" class="btn">
-                Proceed to Checkout
-            </a>
+            <form action="/aiza-collections-final/pages/checkout.php" method="post" onsubmit="event.preventDefault(); confirmAction('Are you sure you want to place this order?', this);">
+  <button type="submit" class="btn">Proceed to Checkout</button>
+</form>
 
         </div>
 

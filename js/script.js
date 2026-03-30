@@ -525,9 +525,9 @@ document.querySelectorAll(".confirm-form").forEach((form) => {
     e.preventDefault();
 
     confirmAction(
-      "Are you sure you want to delete this product? This cannot be undone.",
-      () => form.submit(),
-    );
+  "Are you sure you want to delete this product? This cannot be undone.",
+  form
+);
   });
 });
 
