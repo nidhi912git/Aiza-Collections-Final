@@ -66,8 +66,8 @@ include "../includes/header.php";
     <p>Come visit us in-person to have the best shopping experience and get your best fits. We are located in Veera Pillai Street, near the famous Commercial Street of Bengaluru.</p>
     <p>Find the Google Maps link below to easily locate us.</p>
 
-    <a href="https://maps.app.goo.gl/j2UgkEXNa8kpQP3y7" target="_blank">
-      <button type="button">Open in Google Maps</button>
+    <a href="https://maps.google.com/..." target="_blank" class="btn map-btn">
+      Open in Google Maps
     </a>
   </div>
 </section>
@@ -124,22 +124,22 @@ include "../includes/header.php";
   </div>
 
   <form class="contact-form"
-        onsubmit="document.getElementById('form-success-message').style.display='block'; this.reset(); return false;">
+    onsubmit="document.getElementById('form-success-message').style.display='block'; this.reset(); return false;">
 
     <!-- NAME -->
     <div class="form-row">
-      <input 
-        type="text" 
-        placeholder="First Name" 
-        pattern="[A-Za-z\s-]+" 
+      <input
+        type="text"
+        placeholder="First Name"
+        pattern="[A-Za-z\s-]+"
         title="Only letters allowed"
         onkeypress="allowOnlyLetters(event)"
         required>
 
-      <input 
-        type="text" 
-        placeholder="Last Name" 
-        pattern="[A-Za-z\s-]+" 
+      <input
+        type="text"
+        placeholder="Last Name"
+        pattern="[A-Za-z\s-]+"
         title="Only letters allowed"
         onkeypress="allowOnlyLetters(event)"
         required>
@@ -150,13 +150,13 @@ include "../includes/header.php";
       <input type="email" placeholder="Email" required>
 
       <input type="tel"
-             placeholder="Phone (10 digits)"
-             required
-             inputmode="numeric"
-             pattern="[0-9]{10}"
-             minlength="10"
-             maxlength="10"
-             title="Please enter a 10-digit phone number">
+        placeholder="Phone (10 digits)"
+        required
+        inputmode="numeric"
+        pattern="[0-9]{10}"
+        minlength="10"
+        maxlength="10"
+        title="Please enter a 10-digit phone number">
     </div>
 
     <!-- SUBJECT -->
@@ -173,11 +173,11 @@ include "../includes/header.php";
 
 <!-- ✅ SCRIPT (placed at bottom for best performance) -->
 <script>
-function allowOnlyLetters(e) {
-  const char = String.fromCharCode(e.which);
+  function allowOnlyLetters(e) {
+    const char = String.fromCharCode(e.which);
 
-  if (!/[a-zA-Z\s-]/.test(char)) {
-    e.preventDefault();
+    if (!/[a-zA-Z\s-]/.test(char)) {
+      e.preventDefault();
+    }
   }
-}
 </script>
