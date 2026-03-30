@@ -204,14 +204,25 @@ function scrollSimilar(dir) {
   const track = document.getElementById("similarTrack");
   if (!track || !track.children.length) return;
 
-  const cardWidth = track.children[0].offsetWidth + 24;
+  const visibleCards = 4; // how many cards visible at once
+  const totalCards = track.children.length;
 
   simIndex += dir;
-  simIndex = Math.max(0, Math.min(simIndex, track.children.length - 4));
+
+  // 👉 LOOP FORWARD
+  if (simIndex > totalCards - visibleCards) {
+    simIndex = 0;
+  }
+
+  // 👉 LOOP BACKWARD
+  if (simIndex < 0) {
+    simIndex = totalCards - visibleCards;
+  }
+
+  const cardWidth = track.children[0].offsetWidth + 24;
 
   track.style.transform = `translateX(-${simIndex * cardWidth}px)`;
 }
-
 /* ===============================
 ACCOUNT DROPDOWN
 ================================ */
@@ -423,6 +434,11 @@ function confirmAction(message, form) {
     overlay.remove();
   };
 }
+overlay.querySelector(".confirm-ok").onclick = function () {
+  console.log("Submitting form..."); // 👈 add this
+  overlay.remove();
+  form.submit();
+};
 
 /* ===============================
 ADMIN DROPDOWN
@@ -514,3 +530,4 @@ document.querySelectorAll(".confirm-form").forEach((form) => {
     );
   });
 });
+
