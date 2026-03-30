@@ -19,7 +19,7 @@ include "../includes/header.php";
   <div class="contact-cards">
 
     <div class="contact-card">
-      <img src="/aiza-collections/assets/icons/phone.png" class="contact-icon" alt="">
+      <img src="/aiza-collections-final/assets/icons/phone.png" class="contact-icon" alt="">
       <h3>Phone</h3>
       <p>
         +91 86182 60912<br>
@@ -28,7 +28,7 @@ include "../includes/header.php";
     </div>
 
     <div class="contact-card">
-      <img src="/aiza-collections/assets/icons/location.png" class="contact-icon" alt="">
+      <img src="/aiza-collections-final/assets/icons/location.png" class="contact-icon" alt="">
       <h3>Visit Us</h3>
       <p>
         298, Veera Pillai Street,<br>
@@ -39,13 +39,13 @@ include "../includes/header.php";
     </div>
 
     <div class="contact-card">
-      <img src="/aiza-collections/assets/icons/email.png" class="contact-icon" alt="">
+      <img src="/aiza-collections-final/assets/icons/email.png" class="contact-icon" alt="">
       <h3>Email</h3>
       <p>aizacollections14@gmail.com</p>
     </div>
 
     <div class="contact-card">
-      <img src="/aiza-collections/assets/icons/clock.png" class="contact-icon" alt="">
+      <img src="/aiza-collections-final/assets/icons/clock.png" class="contact-icon" alt="">
       <h3>Working Hours</h3>
       <p>
         Mon – Sun<br>
@@ -58,7 +58,7 @@ include "../includes/header.php";
 
 <!-- VISIT STORE -->
 <section class="visit-store">
-  <img src="/aiza-collections/assets/store-front.jpg" alt="Aiza Collections Store">
+  <img src="/aiza-collections-final/assets/store-front.jpg" alt="Aiza Collections Store">
 
   <div class="visit-text">
     <h2>Visit Our Store</h2>
