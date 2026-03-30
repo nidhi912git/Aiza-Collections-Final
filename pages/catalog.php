@@ -82,9 +82,9 @@ $result = mysqli_query($conn, $sql);
 
             <option value="4" <?= $category == 4 ? 'selected' : '' ?>>Dress Material</option>
 
-            <option value="5" <?= $category == 5 ? 'selected' : '' ?>>Straight Kurta Set</option>
+            <option value="5" <?= $category == 5 ? 'selected' : '' ?>>Sharara Set</option>
 
-            <option value="6" <?= $category == 6 ? 'selected' : '' ?>>Sharara Set</option>
+            <option value="6" <?= $category == 6 ? 'selected' : '' ?>>Straight Kurta Set</option>
 
         </select>
 
