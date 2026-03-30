@@ -396,7 +396,7 @@ if (reviewSlider) {
 ADMIN CONFIRM MODAL
 ================================ */
 
-function confirmAction(message, callback) {
+function confirmAction(message, form) {
   const overlay = document.createElement("div");
   overlay.className = "confirm-overlay";
 
@@ -408,15 +408,17 @@ function confirmAction(message, callback) {
             <button class="btn confirm-cancel">Cancel</button>
         </div>
     </div>
-    `;
+  `;
 
   document.body.appendChild(overlay);
 
+  // ✅ YES button → submit form
   overlay.querySelector(".confirm-ok").onclick = function () {
     overlay.remove();
-    callback();
+    form.submit(); // 🔥 THIS is the key fix
   };
 
+  // ❌ Cancel button
   overlay.querySelector(".confirm-cancel").onclick = function () {
     overlay.remove();
   };
