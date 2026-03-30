@@ -48,6 +48,26 @@ ORDER BY o.created_at DESC
                 </tr>
 
                 <?php while ($row = mysqli_fetch_assoc($q)): ?>
+                    <?php
+                    $order_id = $row['order_id'];
+
+                    /* CALCULATE UPDATED TOTAL */
+                    $totalQ = mysqli_query($conn, "
+SELECT 
+SUM(
+  CASE 
+    WHEN item_status != 'Cancelled' 
+    THEN price * quantity 
+    ELSE 0 
+  END
+) AS updated_total
+FROM order_items
+WHERE order_id='$order_id'
+");
+
+                    $totalRow = mysqli_fetch_assoc($totalQ);
+                    $updated_total = $totalRow['updated_total'] ?? 0;
+                    ?>
 
                     <tr>
 
@@ -57,7 +77,16 @@ ORDER BY o.created_at DESC
 
                         <td><?= date("d M Y", strtotime($row['created_at'])) ?></td>
 
-                        <td>₹<?= number_format($row['order_total']) ?></td>
+                        <td>
+                            ₹<?= number_format($updated_total) ?>
+
+                            <?php if ($updated_total != $row['order_total']): ?>
+                                <br>
+                                <span style="text-decoration:line-through;opacity:0.6;font-size:12px;">
+                                    ₹<?= number_format($row['order_total']) ?>
+                                </span>
+                            <?php endif; ?>
+                        </td>
 
                         <td>
                             <span class="status status-<?= strtolower($row['order_status']) ?>">
