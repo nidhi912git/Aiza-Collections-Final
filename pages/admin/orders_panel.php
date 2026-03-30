@@ -53,17 +53,17 @@ ORDER BY o.created_at DESC
 
                     /* CALCULATE UPDATED TOTAL */
                     $totalQ = mysqli_query($conn, "
-SELECT 
-SUM(
-  CASE 
-    WHEN item_status != 'Cancelled' 
-    THEN price * quantity 
-    ELSE 0 
-  END
-) AS updated_total
-FROM order_items
-WHERE order_id='$order_id'
-");
+                    SELECT 
+                    SUM(
+                        CASE 
+                            WHEN item_status != 'Cancelled' 
+                            THEN price * quantity 
+                            ELSE 0 
+                        END
+                    ) AS updated_total
+                    FROM order_items
+                    WHERE order_id='$order_id'
+                    ");
 
                     $totalRow = mysqli_fetch_assoc($totalQ);
                     $updated_total = $totalRow['updated_total'] ?? 0;
