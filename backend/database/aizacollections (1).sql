@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 10, 2026 at 06:42 PM
+-- Generation Time: Mar 30, 2026 at 05:22 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -43,7 +43,10 @@ INSERT INTO `orders` (`order_id`, `user_id`, `order_total`, `order_status`, `cre
 (1, 14, 2000.00, 'Pending', '2026-03-09 18:31:08'),
 (2, 14, 3700.00, 'Pending', '2026-03-10 16:51:36'),
 (3, 14, 3700.00, 'Pending', '2026-03-10 16:57:07'),
-(4, 14, 7500.00, 'Pending', '2026-03-10 17:01:12');
+(4, 14, 7500.00, 'Pending', '2026-03-10 17:01:12'),
+(5, 13, 2500.00, 'Pending', '2026-03-14 07:12:55'),
+(7, 16, 10000.00, 'Pending', '2026-03-17 20:47:16'),
+(8, 13, 8800.00, 'Pending', '2026-03-30 10:19:02');
 
 -- --------------------------------------------------------
 
@@ -71,7 +74,14 @@ INSERT INTO `order_items` (`item_id`, `order_id`, `product_code`, `quantity`, `p
 (3, 3, 'C6', 1, 1000.00, NULL, 'Placed'),
 (4, 4, 'D13', 1, 2500.00, NULL, 'Placed'),
 (5, 4, 'D7', 1, 3000.00, NULL, 'Placed'),
-(6, 4, 'S15', 1, 2000.00, NULL, 'Placed');
+(6, 4, 'S15', 1, 2000.00, NULL, 'Placed'),
+(7, 5, 'C2', 1, 1000.00, 'XL', 'Cancelled'),
+(8, 5, 'D1', 1, 1500.00, 'M', 'Cancelled'),
+(9, 7, 'C1', 4, 2500.00, 'L', 'Placed'),
+(10, 8, 'A4', 1, 2500.00, 'L', 'Placed'),
+(11, 8, 'A3', 1, 2150.00, 'L', 'Placed'),
+(12, 8, 'A2', 1, 2000.00, 'M', 'Placed'),
+(13, 8, 'A3', 1, 2150.00, 'M', 'Placed');
 
 -- --------------------------------------------------------
 
@@ -89,7 +99,7 @@ CREATE TABLE `products` (
   `stock_qty` int(11) NOT NULL DEFAULT 0 CHECK (`stock_qty` >= 0),
   `is_featured` tinyint(1) NOT NULL DEFAULT 0,
   `is_active` tinyint(1) NOT NULL DEFAULT 1
-) ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `products`
@@ -508,7 +518,7 @@ INSERT INTO `product_images` (`image_id`, `product_code`, `image_path`) VALUES
 (293, 'S15', 'assets/images/straight_kurti/S15.jpeg'),
 (294, 'S15-1', 'assets/images/straight_kurti/S15-1.jpeg'),
 (295, 'S15-2', 'assets/images/straight_kurti/S15-2.jpeg'),
-(296, 'S16', '  assets/images/straight_kurti/S16.jpeg'),
+(296, 'S16', 'assets/images/straight_kurti/S16.jpeg\"'),
 (297, 'S16-1', 'assets/images/straight_kurti/S16-1.jpeg'),
 (298, 'S16-2', 'assets/images/straight_kurti/S16-2.jpeg'),
 (299, 'S17', 'assets/images/straight_kurti/S17.jpeg'),
@@ -589,18 +599,18 @@ INSERT INTO `product_stock` (`stock_id`, `product_code`, `size`, `stock_qty`) VA
 (4, 'A1', 'XL', 15),
 (5, 'A1', 'XXL', 15),
 (6, 'A2', 'S', 15),
-(7, 'A2', 'M', 15),
+(7, 'A2', 'M', 14),
 (8, 'A2', 'L', 15),
 (9, 'A2', 'XL', 15),
 (10, 'A2', 'XXL', 15),
 (11, 'A3', 'S', 15),
-(12, 'A3', 'M', 15),
-(13, 'A3', 'L', 15),
+(12, 'A3', 'M', 14),
+(13, 'A3', 'L', 14),
 (14, 'A3', 'XL', 15),
 (15, 'A3', 'XXL', 15),
 (16, 'A4', 'S', 15),
 (17, 'A4', 'M', 15),
-(18, 'A4', 'L', 15),
+(18, 'A4', 'L', 14),
 (19, 'A4', 'XL', 15),
 (20, 'A4', 'XXL', 15),
 (21, 'A5', 'S', 15),
@@ -630,7 +640,7 @@ INSERT INTO `product_stock` (`stock_id`, `product_code`, `size`, `stock_qty`) VA
 (45, 'A9', 'XXL', 15),
 (46, 'C1', 'S', 15),
 (47, 'C1', 'M', 15),
-(48, 'C1', 'L', 15),
+(48, 'C1', 'L', 11),
 (49, 'C1', 'XL', 15),
 (50, 'C1', 'XXL', 15),
 (51, 'C2', 'S', 15),
@@ -979,7 +989,7 @@ CREATE TABLE `users` (
   `role` enum('user','staff','manager') DEFAULT 'user',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `remember_token` varchar(64) DEFAULT NULL
-) ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
@@ -989,8 +999,10 @@ INSERT INTO `users` (`user_id`, `name`, `email`, `phone_number`, `password_hash`
 (10, 'Nidhi Balaji', 'nidhibalaji219@gmail.com', '7676528462', '$2y$10$mB/KOy8mcjMzoLjxnUWPRO46bza8vp1MrjZrjGCuBBqgN6V10WaDK', 'manager', '2026-03-09 15:05:42', NULL),
 (11, 'Aashika Menon', 'aashikamenon2004@gmail.com', '7411437721', '$2y$10$mGLUKvfEtXQRGeQAISoDPufkxht/813GlreUq7PhUeUq5Lak92Ite', 'manager', '2026-03-09 15:07:08', NULL),
 (12, 'Anitha Patel', 'anithapatel1203@gmail.com', '8618247172', '$2y$10$p4Dg7gc5Eu8H9yceC/kcDe02MlBm5e0p5/w/UzGY/ieSuKQI8FzjO', 'manager', '2026-03-09 15:07:54', NULL),
-(13, 'Aditi Tupsakri', 'adititupsakri@gmail.com', '9108893232', '$2y$10$PPi.XVd2B2BC9aOQ3/XjVelQwKCWliIFCNq3Bd8AVtAGyhdyNFKG6', 'manager', '2026-03-09 15:08:35', NULL),
-(14, 'Kaushik', 'svkaushik2210@gmail.com', '9538003807', '$2y$10$8HtmB4ftp5ugp1sid/sEI.dPR02MjrCiKfYz/gwvD2NClkmqpqGZ2', 'user', '2026-03-09 18:06:13', NULL);
+(13, 'Aditi Tupsakri', 'adititupsakri@gmail.com', '9108893232', '$2y$10$PPi.XVd2B2BC9aOQ3/XjVelQwKCWliIFCNq3Bd8AVtAGyhdyNFKG6', 'manager', '2026-03-09 15:08:35', '70e8f8d643df0c8ec96d437a5a9ce04ceac7c4b40e61f8cadd1ca8f69096f296'),
+(14, 'Kaushik', 'svkaushik2210@gmail.com', '9538003807', '$2y$10$8HtmB4ftp5ugp1sid/sEI.dPR02MjrCiKfYz/gwvD2NClkmqpqGZ2', 'user', '2026-03-09 18:06:13', NULL),
+(15, 'aditi tupsakri', 'adititupsakri.work@gmail.com', '9108893232', '$2y$10$h2SYBECGqRP99klpwPEhfe6vxtjhApFq7Mo3UkXSsUU9CaQU1J7yG', 'user', '2026-03-12 15:07:10', NULL),
+(16, 'Shobha Tupsakri', 'shobha@gmail.com', '9844203996', '$2y$10$HVpevc2Qc0zX0DleIQBjuexlm/pIa2k/u6ZZDiAAXGywoHXs2pnP6', 'user', '2026-03-17 20:40:28', NULL);
 
 -- --------------------------------------------------------
 
@@ -1108,13 +1120,13 @@ ALTER TABLE `user_wishlist`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `product_images`
@@ -1132,7 +1144,7 @@ ALTER TABLE `product_stock`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- Constraints for dumped tables
