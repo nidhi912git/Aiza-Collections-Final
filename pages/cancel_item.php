@@ -70,6 +70,30 @@ SET item_status='Cancelled'
 WHERE item_id='$item_id'
 ");
 
+/* GET ORDER ID */
+$order_id = $item['order_id'];
+
+/* CHECK IF ALL ITEMS ARE CANCELLED */
+$check = mysqli_query($conn, "
+SELECT 
+  COUNT(*) AS total,
+  SUM(item_status = 'Cancelled') AS cancelled
+FROM order_items
+WHERE order_id='$order_id'
+");
+
+$row = mysqli_fetch_assoc($check);
+
+if ($row['total'] == $row['cancelled']) {
+
+    /* UPDATE MAIN ORDER STATUS */
+    mysqli_query($conn, "
+    UPDATE orders
+    SET order_status='Cancelled'
+    WHERE order_id='$order_id'
+    ");
+}
+
 /* SUCCESS POPUP */
 
 $_SESSION['popup'] = "Order item cancelled successfully.";

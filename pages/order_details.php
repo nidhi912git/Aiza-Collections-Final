@@ -61,7 +61,10 @@ $total = 0;
         <?php while ($item = mysqli_fetch_assoc($items)):
 
             $sub = $item['price'] * $item['quantity'];
-            $total += $sub;
+
+            if (($item['item_status'] ?? '') != 'Cancelled') {
+                $total += $sub;
+            }
 
         ?>
 
@@ -101,13 +104,13 @@ $total = 0;
 
                     </div>
 
-                    <p class="list-subtotal">
+                    <p class="list-subtotal"
+                        style="<?= ($item['item_status'] ?? '') == 'Cancelled' ? 'opacity:0.5;text-decoration:line-through;' : '' ?>">
                         Subtotal ₹<?= number_format($sub) ?>
                     </p>
 
-                    <p>
-                        Status:
-                        <?= $item['item_status'] ?? 'Placed' ?>
+                    <p style="<?= ($item['item_status'] ?? '') == 'Cancelled' ? 'color:red;font-weight:bold;' : '' ?>">
+                        Status: <?= $item['item_status'] ?? 'Placed' ?>
                     </p>
 
                 </div>

@@ -12,7 +12,7 @@ $order_id = intval($_GET['id'] ?? 0);
    UPDATE ORDER STATUS
 ================================ */
 
-if (isset($_POST['update_status'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
    verify_csrf();
 
@@ -32,7 +32,7 @@ if (isset($_POST['update_status'])) {
       mysqli_stmt_execute($stmt);
    }
 
-   header("Location: view_order.php?id=" . $order_id);
+   echo "success";
    exit;
 }
 
@@ -77,6 +77,7 @@ oi.product_code,
 oi.size,
 oi.quantity,
 oi.price,
+oi.item_status,
 p.product_name
 FROM order_items oi
 LEFT JOIN products p
@@ -123,8 +124,10 @@ $items_query = mysqli_stmt_get_result($stmt2);
          <th>Quantity</th>
          <th>Price</th>
          <th>Total</th>
+         <th>Status</th>
       </tr>
 
+      <?php $total = 0; ?>
       <?php while ($item = mysqli_fetch_assoc($items_query)): ?>
 
          <tr>
@@ -142,6 +145,15 @@ $items_query = mysqli_stmt_get_result($stmt2);
             <td>₹<?= number_format($item['price']) ?></td>
 
             <td>₹<?= number_format($item['price'] * $item['quantity']) ?></td>
+            <?php
+            if (($item['item_status'] ?? '') != 'Cancelled') {
+               $total += $item['price'] * $item['quantity'];
+            }
+            ?>
+
+            <td style="<?= ($item['item_status'] ?? '') == 'Cancelled' ? 'color:red;font-weight:bold;' : '' ?>">
+               <?= $item['item_status'] ?? 'Placed' ?>
+            </td>
 
          </tr>
 
@@ -150,7 +162,7 @@ $items_query = mysqli_stmt_get_result($stmt2);
    </table>
 
    <p class="order-total">
-      Total: ₹<?= number_format($order['order_total']) ?>
+      Total: ₹<?= number_format($total) ?>
    </p>
 
    <hr>
@@ -181,7 +193,9 @@ $items_query = mysqli_stmt_get_result($stmt2);
 
          </div>
 
-         <button class="btn update-status-btn">Update Status</button>
+         <button type="submit" name="update_status" class="btn update-status-btn">
+            Update Status
+         </button>
 
       </form>
 

@@ -129,7 +129,7 @@ ORDER BY p.product_name
                             Edit
                         </a>
 
-                        <form method="post" action="toggle_featured.php">
+                        <form method="post" action="toggle_featured.php" class="confirm-form" data-type="feature">
 
                             <input type="hidden" name="code"
                                 value="<?= htmlspecialchars($p['product_code']) ?>">
@@ -143,7 +143,7 @@ ORDER BY p.product_name
 
                         </form>
 
-                        <form method="post" action="delete_product.php" class="confirm-form">
+                        <form method="post" action="delete_product.php" class="confirm-form" data-type="delete">
 
                             <input
                                 type="hidden"

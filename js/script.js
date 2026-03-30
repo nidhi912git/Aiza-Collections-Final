@@ -434,36 +434,33 @@ function confirmAction(message, form) {
     overlay.remove();
   };
 }
-overlay.querySelector(".confirm-ok").onclick = function () {
-  console.log("Submitting form..."); // 👈 add this
-  overlay.remove();
-  form.submit();
-};
 
 /* ===============================
 ADMIN DROPDOWN
 ================================ */
 
-document.querySelectorAll(".custom-dropdown").forEach((drop) => {
-  const selected = drop.querySelector(".dropdown-selected");
-  const menu = drop.querySelector(".dropdown-menu");
-  const input = drop.querySelector("input");
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll(".custom-dropdown").forEach((drop) => {
+    const selected = drop.querySelector(".dropdown-selected");
+    const menu = drop.querySelector(".dropdown-menu");
+    const input = drop.querySelector("input");
 
-  if (!selected || !menu) return;
+    if (!selected || !menu) return;
 
-  selected.addEventListener("click", () => {
-    menu.style.display = menu.style.display === "block" ? "none" : "block";
-  });
+    selected.addEventListener("click", () => {
+      menu.style.display = menu.style.display === "block" ? "none" : "block";
+    });
 
-  menu.querySelectorAll(".dropdown-item").forEach((item) => {
-    item.addEventListener("click", () => {
-      selected.textContent = item.textContent;
+    menu.querySelectorAll(".dropdown-item").forEach((item) => {
+      item.addEventListener("click", () => {
+        selected.textContent = item.textContent;
 
-      if (input) {
-        input.value = item.textContent;
-      }
+        if (input) {
+          input.value = item.textContent;
+        }
 
-      menu.style.display = "none";
+        menu.style.display = "none";
+      });
     });
   });
 });
@@ -520,14 +517,18 @@ document.querySelectorAll(".update-status-btn").forEach((btn) => {
       });
   });
 });
+
 document.querySelectorAll(".confirm-form").forEach((form) => {
   form.addEventListener("submit", function (e) {
     e.preventDefault();
 
-    confirmAction(
-  "Are you sure you want to delete this product? This cannot be undone.",
-  form
-);
+    const type = form.dataset.type;
+
+    let message =
+      type === "delete"
+        ? "Are you sure you want to delete this product? This cannot be undone."
+        : "Are you sure you want to feature this product?";
+
+    confirmAction(message, form);
   });
 });
-

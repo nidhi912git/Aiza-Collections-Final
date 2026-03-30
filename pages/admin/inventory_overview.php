@@ -29,7 +29,6 @@ FROM product_stock
 
 $total_units = mysqli_fetch_assoc($q2)['total_units'] ?? 0;
 
-
 /* TOP STOCKED PRODUCTS */
 
 $top = mysqli_query($conn, "
