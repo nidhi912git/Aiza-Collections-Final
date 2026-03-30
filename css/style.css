@@ -837,7 +837,7 @@ section > h2.section-title + p[style] br {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 25px;
-  max-width: 1100px;
+  max-width: 1160px;
   margin: auto;
 }
 
