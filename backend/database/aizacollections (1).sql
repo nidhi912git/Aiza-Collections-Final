@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 30, 2026 at 05:22 PM
+-- Generation Time: Mar 30, 2026 at 07:54 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -43,10 +43,13 @@ INSERT INTO `orders` (`order_id`, `user_id`, `order_total`, `order_status`, `cre
 (1, 14, 2000.00, 'Pending', '2026-03-09 18:31:08'),
 (2, 14, 3700.00, 'Pending', '2026-03-10 16:51:36'),
 (3, 14, 3700.00, 'Pending', '2026-03-10 16:57:07'),
-(4, 14, 7500.00, 'Pending', '2026-03-10 17:01:12'),
-(5, 13, 2500.00, 'Pending', '2026-03-14 07:12:55'),
-(7, 16, 10000.00, 'Pending', '2026-03-17 20:47:16'),
-(8, 13, 8800.00, 'Pending', '2026-03-30 10:19:02');
+(4, 14, 7500.00, 'Processing', '2026-03-10 17:01:12'),
+(5, 13, 2500.00, 'Shipped', '2026-03-14 07:12:55'),
+(7, 16, 10000.00, 'Delivered', '2026-03-17 20:47:16'),
+(8, 13, 8800.00, 'Pending', '2026-03-30 10:19:02'),
+(13, 17, 3000.00, 'Cancelled', '2026-03-30 16:40:21'),
+(14, 17, 3000.00, 'Cancelled', '2026-03-30 16:54:44'),
+(15, 17, 5200.00, 'Processing', '2026-03-30 16:55:40');
 
 -- --------------------------------------------------------
 
@@ -81,7 +84,14 @@ INSERT INTO `order_items` (`item_id`, `order_id`, `product_code`, `quantity`, `p
 (10, 8, 'A4', 1, 2500.00, 'L', 'Placed'),
 (11, 8, 'A3', 1, 2150.00, 'L', 'Placed'),
 (12, 8, 'A2', 1, 2000.00, 'M', 'Placed'),
-(13, 8, 'A3', 1, 2150.00, 'M', 'Placed');
+(13, 8, 'A3', 1, 2150.00, 'M', 'Placed'),
+(14, 13, 'A2', 1, 2000.00, 'M', 'Cancelled'),
+(15, 13, 'S19', 1, 1000.00, 'M', 'Cancelled'),
+(16, 14, 'C2', 1, 1000.00, 'XL', 'Cancelled'),
+(17, 14, 'S15', 1, 2000.00, 'S', 'Cancelled'),
+(18, 15, 'A7', 1, 700.00, 'XL', 'Placed'),
+(19, 15, 'C5', 1, 1000.00, 'M', 'Placed'),
+(20, 15, 'D10', 1, 3500.00, 'XXL', 'Cancelled');
 
 -- --------------------------------------------------------
 
@@ -626,7 +636,7 @@ INSERT INTO `product_stock` (`stock_id`, `product_code`, `size`, `stock_qty`) VA
 (31, 'A7', 'S', 15),
 (32, 'A7', 'M', 15),
 (33, 'A7', 'L', 15),
-(34, 'A7', 'XL', 15),
+(34, 'A7', 'XL', 14),
 (35, 'A7', 'XXL', 15),
 (36, 'A8', 'S', 15),
 (37, 'A8', 'M', 15),
@@ -659,7 +669,7 @@ INSERT INTO `product_stock` (`stock_id`, `product_code`, `size`, `stock_qty`) VA
 (64, 'C4', 'XL', 15),
 (65, 'C4', 'XXL', 15),
 (66, 'C5', 'S', 15),
-(67, 'C5', 'M', 15),
+(67, 'C5', 'M', 14),
 (68, 'C5', 'L', 15),
 (69, 'C5', 'XL', 15),
 (70, 'C5', 'XXL', 15),
@@ -1002,7 +1012,8 @@ INSERT INTO `users` (`user_id`, `name`, `email`, `phone_number`, `password_hash`
 (13, 'Aditi Tupsakri', 'adititupsakri@gmail.com', '9108893232', '$2y$10$PPi.XVd2B2BC9aOQ3/XjVelQwKCWliIFCNq3Bd8AVtAGyhdyNFKG6', 'manager', '2026-03-09 15:08:35', '70e8f8d643df0c8ec96d437a5a9ce04ceac7c4b40e61f8cadd1ca8f69096f296'),
 (14, 'Kaushik', 'svkaushik2210@gmail.com', '9538003807', '$2y$10$8HtmB4ftp5ugp1sid/sEI.dPR02MjrCiKfYz/gwvD2NClkmqpqGZ2', 'user', '2026-03-09 18:06:13', NULL),
 (15, 'aditi tupsakri', 'adititupsakri.work@gmail.com', '9108893232', '$2y$10$h2SYBECGqRP99klpwPEhfe6vxtjhApFq7Mo3UkXSsUU9CaQU1J7yG', 'user', '2026-03-12 15:07:10', NULL),
-(16, 'Shobha Tupsakri', 'shobha@gmail.com', '9844203996', '$2y$10$HVpevc2Qc0zX0DleIQBjuexlm/pIa2k/u6ZZDiAAXGywoHXs2pnP6', 'user', '2026-03-17 20:40:28', NULL);
+(16, 'Shobha Tupsakri', 'shobha@gmail.com', '9844203996', '$2y$10$HVpevc2Qc0zX0DleIQBjuexlm/pIa2k/u6ZZDiAAXGywoHXs2pnP6', 'user', '2026-03-17 20:40:28', NULL),
+(17, 'Rachana', 'patelanitha64@gmail.com', '8618247172', '$2y$10$HBeOwy/erN5OJYzGmzOYM.K0sB47sr5iG5XYgu9NKs6Jcxo5amsaq', 'user', '2026-03-30 16:39:39', NULL);
 
 -- --------------------------------------------------------
 
@@ -1120,13 +1131,13 @@ ALTER TABLE `user_wishlist`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `product_images`
@@ -1144,7 +1155,7 @@ ALTER TABLE `product_stock`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- Constraints for dumped tables
