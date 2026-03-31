@@ -193,8 +193,21 @@ LIMIT 10
 
             <?php else: ?>
 
-                <p class="stock in">
-                    Available: <?= $available ?>
+                <?php
+                $stock_class = '';
+
+                if ($available <= 5) {
+                    $stock_class = 'low-stock';
+                } elseif ($available <= 15) {
+                    $stock_class = 'medium-stock';
+                } else {
+                    $stock_class = 'high-stock';
+                }
+                ?>
+
+                <p class="stock-badge <?= $stock_class ?>">
+                    <span><?= $available <= 5 ? 'Hurry!' : 'In Stock' ?></span>
+                    <strong><?= $available ?></strong>
                 </p>
 
             <?php endif; ?>

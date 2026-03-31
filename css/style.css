@@ -3768,3 +3768,106 @@ width:150px;
     font-weight: 500;
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
+
+#orders-page .list-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+#orders-page .list-card img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+#orders-page .list-info {
+  flex: 1;
+}
+
+/* ===============================
+   PRODUCT PAGE STOCK BADGE (PREMIUM)
+================================ */
+
+#product-page .stock-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  background: #f3e6dc; /* soft brand background */
+  color: var(--primary);
+
+  padding: 6px 14px;
+  border-radius: 999px;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  margin-top: 10px;
+
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* number bubble */
+
+#product-page .stock-badge strong {
+  background: var(--primary);
+  color: #fff;
+
+  padding: 2px 8px;
+  border-radius: 999px;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* 🔥 BONUS HOVER EFFECT */
+
+#product-page .stock-badge:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 14px rgba(168, 92, 44, 0.25);
+}
+
+/* ===============================
+   PRODUCT PAGE STOCK BADGE (PREMIUM)
+================================ */
+
+#product-page .stock-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  background: #f3e6dc; /* soft brand background */
+  color: var(--primary);
+
+  padding: 6px 14px;
+  border-radius: 999px;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  margin-top: 10px;
+
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* number bubble */
+
+#product-page .stock-badge strong {
+  background: var(--primary);
+  color: #fff;
+
+  padding: 2px 8px;
+  border-radius: 999px;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* 🔥 BONUS HOVER EFFECT */
+
+#product-page .stock-badge:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 14px rgba(168, 92, 44, 0.25);
+}

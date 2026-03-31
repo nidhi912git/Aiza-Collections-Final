@@ -86,7 +86,7 @@ ORDER BY created_at DESC
 
                 <div class="list-card">
 
-                    src="<?= imgPath($img['image_path'] ?? '') ?>"
+                    <img src="<?= imgPath($img['image_path'] ?? '') ?>" alt="Order Image">
 
                     <div class="list-info">
 
