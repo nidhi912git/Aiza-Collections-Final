@@ -133,6 +133,7 @@ LIMIT 10
                         <button
                             type="button"
                             data-size="<?= $s['size'] ?>"
+                            data-stock="<?= $s['stock_qty'] ?>"
                             <?= ($s['stock_qty'] ?? 0) <= 0 ? "disabled" : "" ?>>
                             <?= $s['size'] ?>
                         </button>
@@ -205,7 +206,7 @@ LIMIT 10
                 }
                 ?>
 
-                <p class="stock-badge <?= $stock_class ?>">
+                <p id="stockBadge" class="stock-badge <?= $stock_class ?>" style="display:none;">
                     <span><?= $available <= 5 ? 'Hurry!' : 'In Stock' ?></span>
                     <strong><?= $available ?></strong>
                 </p>

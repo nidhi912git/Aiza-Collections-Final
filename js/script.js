@@ -204,6 +204,53 @@ document.addEventListener("DOMContentLoaded", function () {
       if (cartBtn) {
         cartBtn.dataset.size = this.dataset.size;
       }
+
+            // ===============================
+      // 🔥 STOCK UPDATE BASED ON SIZE
+      // ===============================
+
+      const stock = parseInt(this.dataset.stock) || 0;
+      const badge = document.getElementById("stockBadge");
+
+      if (badge) {
+
+        badge.style.display = "inline-flex";
+
+        let text = "";
+        let className = "stock-badge";
+
+        if (stock <= 0) {
+          text = "Out of Stock";
+          className += " out-stock";
+
+          if (cartBtn) cartBtn.disabled = true;
+
+        } else if (stock <= 5) {
+          text = "Hurry!";
+          className += " low-stock";
+
+          if (cartBtn) cartBtn.disabled = false;
+
+        } else if (stock <= 15) {
+          text = "In Stock";
+          className += " medium-stock";
+
+          if (cartBtn) cartBtn.disabled = false;
+
+        } else {
+          text = "In Stock";
+          className += " high-stock";
+
+          if (cartBtn) cartBtn.disabled = false;
+        }
+
+        badge.className = className;
+        badge.innerHTML = `<span>${text}</span><strong>${stock}</strong>`;
+      }
+
+      // 🔁 OPTIONAL: reset quantity when size changes
+      const qtyEl = document.getElementById("qty");
+      if (qtyEl) qtyEl.innerText = 1;
     });
   });
 });
