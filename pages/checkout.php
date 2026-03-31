@@ -134,8 +134,18 @@ try {
          throw new Exception("Stock entry missing for product.");
       }
 
+      if ($stockRow['stock_qty'] <= 0) {
+         $_SESSION['popup'] = "Out of stock. Check again in a few days.";
+         mysqli_rollback($conn);
+         header("Location: /aiza-collections-final/pages/cart.php");
+         exit;
+      }
+
       if ($stockRow['stock_qty'] < $qty) {
-         throw new Exception("Not enough stock for product: " . $code . " (Size " . $size . ")");
+         $_SESSION['popup'] = "Only " . $stockRow['stock_qty'] . " items available for size " . $size . ".";
+         mysqli_rollback($conn);
+         header("Location: /aiza-collections-final/pages/cart.php");
+         exit;
       }
 
       /* INSERT ORDER ITEM */
@@ -203,9 +213,9 @@ try {
 
    mysqli_rollback($conn);
 
-   echo "<div style='text-align:center;margin-top:40px;color:red;'>";
-   echo "Checkout failed: " . htmlspecialchars($e->getMessage());
-   echo "</div>";
+   $_SESSION['popup'] = "Checkout failed. Please try again.";
+   header("Location: /aiza-collections-final/pages/cart.php");
+   exit;
 
    include "../includes/footer.php";
    exit;

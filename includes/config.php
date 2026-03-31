@@ -56,3 +56,16 @@ function imgPath($path) {
     // default (new uploads)
     return "/aiza-collections-final/assets/uploads/" . $path;
 }
+function getStock($conn, $code, $size) {
+    $stmt = mysqli_prepare($conn, "
+        SELECT stock_qty 
+        FROM product_stock 
+        WHERE product_code=? AND size=?
+    ");
+    mysqli_stmt_bind_param($stmt, "ss", $code, $size);
+    mysqli_stmt_execute($stmt);
+    $res = mysqli_stmt_get_result($stmt);
+    $row = mysqli_fetch_assoc($res);
+
+    return $row ? (int)$row['stock_qty'] : 0;
+}

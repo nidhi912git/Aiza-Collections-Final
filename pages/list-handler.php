@@ -10,8 +10,11 @@ $key = $code . '_' . $size;
 
 if (!$code) exit;
 
-/* FUNCTION: CHECK STOCK (PER PRODUCT + SIZE) */
-function canAddToCart($conn, $code, $size, $current_qty) {
+
+/* =====================================
+   FUNCTION: CHECK STOCK (PER SIZE)
+===================================== */
+function canAddToCart($conn, $code, $size, $current_qty, &$message = "") {
 
     $stmt = mysqli_prepare($conn, "
         SELECT stock_qty 
@@ -27,22 +30,33 @@ function canAddToCart($conn, $code, $size, $current_qty) {
 
     $available = intval($row['stock_qty'] ?? 0);
 
-    // ❌ no stock at all
+    // ❌ completely out of stock
     if ($available <= 0) {
+        $message = "Out of stock. Check again in a few days.";
         return false;
     }
 
-    // ❌ already reached stock limit
-    return $current_qty < $available;
+    // ❌ reached max available stock
+    if ($current_qty >= $available) {
+        $message = "Only $available items available for this size.";
+        return false;
+    }
+
+    return true;
 }
 
-/* ADD TO CART (AJAX) */
+
+/* =====================================
+   ADD TO CART (AJAX)
+===================================== */
 if ($action === 'add_cart') {
 
     $current_qty = $_SESSION['cart'][$key] ?? 0;
 
-    if (!canAddToCart($conn, $code, $size, $current_qty)) {
-        echo "out_of_stock";
+    $message = "";
+
+    if (!canAddToCart($conn, $code, $size, $current_qty, $message)) {
+        echo $message; // send exact reason back to JS
         exit;
     }
 
@@ -52,13 +66,18 @@ if ($action === 'add_cart') {
     exit;
 }
 
-/* INCREASE QUANTITY (CART PAGE) */
+
+/* =====================================
+   INCREASE QUANTITY (CART PAGE)
+===================================== */
 if ($action === 'add') {
 
     $current_qty = $_SESSION['cart'][$key] ?? 0;
 
-    if (!canAddToCart($conn, $code, $size, $current_qty)) {
-        $_SESSION['popup'] = "Out of stock. Please check again in a few days.";
+    $message = "";
+
+    if (!canAddToCart($conn, $code, $size, $current_qty, $message)) {
+        $_SESSION['popup'] = $message;
         header("Location: cart.php");
         exit;
     }
@@ -69,7 +88,10 @@ if ($action === 'add') {
     exit;
 }
 
-/* DECREASE QUANTITY */
+
+/* =====================================
+   DECREASE QUANTITY
+===================================== */
 if ($action === 'decrease') {
 
     if (isset($_SESSION['cart'][$key])) {
@@ -86,14 +108,20 @@ if ($action === 'decrease') {
     exit;
 }
 
-/* ADD TO WISHLIST */
+
+/* =====================================
+   ADD TO WISHLIST
+===================================== */
 if ($action === 'add_wishlist') {
     $_SESSION['wishlist'][$key] = true;
     echo "added_wishlist";
     exit;
 }
 
-/* REMOVE FROM CART */
+
+/* =====================================
+   REMOVE FROM CART
+===================================== */
 if ($action === 'remove_cart') {
     unset($_SESSION['cart'][$key]);
     $_SESSION['popup'] = "Item removed from cart";
@@ -101,7 +129,10 @@ if ($action === 'remove_cart') {
     exit;
 }
 
-/* REMOVE FROM WISHLIST */
+
+/* =====================================
+   REMOVE FROM WISHLIST
+===================================== */
 if ($action === 'remove_wishlist') {
     unset($_SESSION['wishlist'][$key]);
     $_SESSION['popup'] = "Item removed from wishlist";
@@ -109,7 +140,10 @@ if ($action === 'remove_wishlist') {
     exit;
 }
 
-/* MOVE CART → WISHLIST */
+
+/* =====================================
+   MOVE CART → WISHLIST
+===================================== */
 if ($action === 'cart_to_wishlist') {
     unset($_SESSION['cart'][$key]);
     $_SESSION['wishlist'][$key] = true;
@@ -118,13 +152,18 @@ if ($action === 'cart_to_wishlist') {
     exit;
 }
 
-/* MOVE WISHLIST → CART */
+
+/* =====================================
+   MOVE WISHLIST → CART
+===================================== */
 if ($action === 'wishlist_to_cart') {
 
     $current_qty = $_SESSION['cart'][$key] ?? 0;
 
-    if (!canAddToCart($conn, $code, $size, $current_qty)) {
-        $_SESSION['popup'] = "Out of stock. Please check again in a few days.";
+    $message = "";
+
+    if (!canAddToCart($conn, $code, $size, $current_qty, $message)) {
+        $_SESSION['popup'] = $message;
         header("Location: wishlist.php");
         exit;
     }
@@ -136,3 +175,4 @@ if ($action === 'wishlist_to_cart') {
     header("Location: wishlist.php");
     exit;
 }
+?>
