@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 31, 2026 at 09:22 AM
+-- Generation Time: Mar 31, 2026 at 04:43 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -119,6 +119,7 @@ INSERT INTO `products` (`category_num`, `product_code`, `product_name`, `descrip
 (1, 'A1', 'Olive Garden Elegance', 'An ivory kurta with olive and mustard floral prints, featuring delicate embroidery on the neckline and lace-detailed sleeves. Paired with a matching dupatta, it offers a soft, elegant look perfect for festive or daytime wear.', 2500.00, NULL, 9, 0, 1),
 (1, 'A1-1', 'Olive Garden Elegance', 'An ivory kurta with olive and mustard floral prints, featuring delicate embroidery on the neckline and lace-detailed sleeves. Paired with a matching dupatta, it offers a soft, elegant look perfect for festive or daytime wear.', 2500.00, NULL, 10, 0, 1),
 (1, 'A1-2', 'Olive Garden Elegance', 'An ivory kurta with olive and mustard floral prints, featuring delicate embroidery on the neckline and lace-detailed sleeves. Paired with a matching dupatta, it offers a soft, elegant look perfect for festive or daytime wear.', 2500.00, NULL, 10, 0, 1),
+(1, 'A10', 'trial', 'trial', 500.00, '', 0, 0, 1),
 (1, 'A2', 'Misty Blue Grace', 'A soft blue floral printed kurta set featuring delicate traditional patterns and elegant detailing on the neckline. Paired with a beautifully coordinated dupatta and matching bottoms, the outfit creates a graceful and timeless look, perfect for festive gatherings, casual celebrations, or elegant daywear.', 2000.00, NULL, 9, 0, 1),
 (1, 'A2-1', 'Misty Blue Grace', 'A soft blue floral printed kurta set featuring delicate traditional patterns and elegant detailing on the neckline. Paired with a beautifully coordinated dupatta and matching bottoms, the outfit creates a graceful and timeless look, perfect for festive gatherings, casual celebrations, or elegant daywear.', 2000.00, NULL, 10, 0, 1),
 (1, 'A3', 'Sunshine Bloom', 'A vibrant mustard-yellow kurta set featuring delicate floral prints and a comfortable, elegant silhouette. Paired with striped bottoms and a beautifully patterned dupatta with floral borders, this outfit brings a bright and cheerful charm, perfect for festive gatherings or everyday ethnic wear.', 2150.00, NULL, 10, 0, 1),
@@ -273,9 +274,9 @@ INSERT INTO `products` (`category_num`, `product_code`, `product_name`, `descrip
 (6, 'S23-2', 'Midnight Indigo', 'A graceful indigo suit set featuring elegant traditional prints and intricate neckline detailing. Paired with matching bottoms and a coordinated dupatta, it offers a stylish and comfortable look perfect for everyday wear and casual occasions.', 1000.00, NULL, 10, 0, 1),
 (6, 'S24', 'Noir Ruby', 'A stylish black suit set featuring rich ruby-red traditional prints and detailed neckline work. Paired with matching bottoms and a beautifully patterned dupatta, it creates a graceful look perfect for casual and festive occasions.', 1500.00, NULL, 10, 0, 1),
 (6, 'S24-1', 'Noir Ruby', 'A stylish black suit set featuring rich ruby-red traditional prints and detailed neckline work. Paired with matching bottoms and a beautifully patterned dupatta, it creates a graceful look perfect for casual and festive occasions.', 1500.00, NULL, 10, 0, 1),
-(6, 'S24-2', 'Noir Ruby', 'A stylish black suit set featuring rich ruby-red traditional prints and detailed neckline work. Paired with matching bottoms and a beautifully patterned dupatta, it creates a graceful look perfect for casual and festive occasions.', 1500.00, NULL, 10, 0, 1),
-(6, 'S25', 'Maroon Royal', 'A rich maroon suit set featuring elegant traditional prints and detailed neckline work. Paired with matching bottoms and a beautifully patterned dupatta, it creates a graceful look perfect for festive and special occasions.', 1500.00, NULL, 10, 1, 1);
+(6, 'S24-2', 'Noir Ruby', 'A stylish black suit set featuring rich ruby-red traditional prints and detailed neckline work. Paired with matching bottoms and a beautifully patterned dupatta, it creates a graceful look perfect for casual and festive occasions.', 1500.00, NULL, 10, 0, 1);
 INSERT INTO `products` (`category_num`, `product_code`, `product_name`, `description`, `price`, `color`, `stock_qty`, `is_featured`, `is_active`) VALUES
+(6, 'S25', 'Maroon Royal', 'A rich maroon suit set featuring elegant traditional prints and detailed neckline work. Paired with matching bottoms and a beautifully patterned dupatta, it creates a graceful look perfect for festive and special occasions.', 1500.00, NULL, 10, 1, 1),
 (6, 'S25-1', 'Maroon Royal', 'A rich maroon suit set featuring elegant traditional prints and detailed neckline work. Paired with matching bottoms and a beautifully patterned dupatta, it creates a graceful look perfect for festive and special occasions.', 1500.00, NULL, 10, 0, 1),
 (6, 'S25-2', 'Maroon Royal', 'A rich maroon suit set featuring elegant traditional prints and detailed neckline work. Paired with matching bottoms and a beautifully patterned dupatta, it creates a graceful look perfect for festive and special occasions.', 1500.00, NULL, 10, 0, 1),
 (6, 'S26', 'Midnight Royal', 'A sophisticated black suit set featuring elegant traditional patterns and detailed neckline work. Paired with matching bottoms and a richly patterned dupatta, it creates a graceful look perfect for festive and evening occasions.', 1200.00, NULL, 10, 0, 1),
@@ -319,6 +320,8 @@ INSERT INTO `products` (`category_num`, `product_code`, `product_name`, `descrip
 (6, 'S7', 'Rose Blossom', 'A beautiful pink printed suit set with delicate floral patterns and traditional prints. Paired with matching bottoms and a coordinating dupatta, it is perfect for casual outings and everyday ethnic wear.', 2000.00, NULL, 10, 0, 1),
 (6, 'S7-1', 'Rose Blossom', 'A beautiful pink printed suit set with delicate floral patterns and traditional prints. Paired with matching bottoms and a coordinating dupatta, it is perfect for casual outings and everyday ethnic wear.', 2000.00, NULL, 10, 0, 1),
 (6, 'S7-2', 'Rose Blossom', 'A beautiful pink printed suit set with delicate floral patterns and traditional prints. Paired with matching bottoms and a coordinating dupatta, it is perfect for casual outings and everyday ethnic wear.', 2000.00, NULL, 10, 0, 1),
+(6, 'S70', 'trial', 'trial', 400.00, '', 0, 0, 1),
+(1, 's71', 't2', 'trial again', 200.00, '', 0, 0, 1),
 (6, 'S8', 'Teal Grace', 'A stylish teal printed suit set featuring delicate traditional patterns. Paired with matching bottoms and a coordinated dupatta, it offers a comfortable and elegant look for everyday wear and casual outings.', 1200.00, NULL, 10, 0, 1),
 (6, 'S8-1', 'Teal Grace', 'A stylish teal printed suit set featuring delicate traditional patterns. Paired with matching bottoms and a coordinated dupatta, it offers a comfortable and elegant look for everyday wear and casual outings.', 1200.00, NULL, 10, 0, 1),
 (6, 'S8-2', 'Teal Grace', 'A stylish teal printed suit set featuring delicate traditional patterns. Paired with matching bottoms and a coordinated dupatta, it offers a comfortable and elegant look for everyday wear and casual outings.', 1200.00, NULL, 10, 0, 1),
@@ -360,6 +363,7 @@ CREATE TABLE `product_images` (
 --
 
 INSERT INTO `product_images` (`image_id`, `product_code`, `image_path`) VALUES
+(1, 'S70', '1774961736_0_Level 0.drawio (1).png'),
 (128, 'A1', 'assets/images/anarkali_suit/A1.jpeg'),
 (129, 'A1-1', 'assets/images/anarkali_suit/A1-1.jpeg'),
 (130, 'A1-2', 'assets/images/anarkali_suit/A1-2.jpeg'),
@@ -603,6 +607,7 @@ CREATE TABLE `product_stock` (
 --
 
 INSERT INTO `product_stock` (`stock_id`, `product_code`, `size`, `stock_qty`) VALUES
+(0, 's71', 'S', 15),
 (1, 'A1', 'S', 15),
 (2, 'A1', 'M', 15),
 (3, 'A1', 'L', 15),
@@ -1120,6 +1125,16 @@ ALTER TABLE `user_sessions`
 ALTER TABLE `user_wishlist`
   ADD PRIMARY KEY (`user_id`,`product_code`),
   ADD KEY `fk_wishlist_product` (`product_code`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `product_images`
+--
+ALTER TABLE `product_images`
+  MODIFY `image_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=352;
 
 --
 -- Constraints for dumped tables
