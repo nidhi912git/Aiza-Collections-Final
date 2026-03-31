@@ -36,13 +36,17 @@ if (mysqli_num_rows($orderQ) == 0) {
 $items = mysqli_query($conn, "
 SELECT
 oi.*,
+oi.cancelled_at,
+o.order_status,
 p.product_name,
 MIN(i.image_path) AS image_path
 FROM order_items oi
+LEFT JOIN orders o
+ON oi.order_id = o.order_id
 LEFT JOIN products p
-ON oi.product_code=p.product_code
+ON oi.product_code = p.product_code
 LEFT JOIN product_images i
-ON p.product_code=i.product_code
+ON p.product_code = i.product_code
 WHERE oi.order_id='$order_id'
 GROUP BY oi.product_code
 ");
@@ -109,15 +113,37 @@ $total = 0;
                         Subtotal ₹<?= number_format($sub) ?>
                     </p>
 
-                    <p style="<?= ($item['item_status'] ?? '') == 'Cancelled' ? 'color:red;font-weight:bold;' : '' ?>">
-                        Status: <?= $item['item_status'] ?? 'Placed' ?>
+                    <?php
+                    if (($item['item_status'] ?? '') == 'Cancelled') {
+                        $status = 'Cancelled';
+                    } else {
+                        $status = $item['order_status'] ?? 'Pending';
+                    }
+                    ?>
+
+                    <p style="<?= $status == 'Cancelled' ? 'color:red;font-weight:bold;' : '' ?>">
+                        Status: <?= $status ?>
+
+                        <?php if ($status == 'Cancelled' && !empty($item['cancelled_at'])): ?>
+                            <br>
+                            <small style="color:red;">
+                                (Cancelled on <?= date("d M Y", strtotime($item['cancelled_at'])) ?>)
+                            </small>
+                        <?php endif; ?>
                     </p>
 
                 </div>
 
                 <div class="list-actions">
 
-                    <?php if (($item['item_status'] ?? 'Placed') == 'Placed'): ?>
+                    <?php
+                    $status = $item['order_status'] ?? 'Pending';
+
+                    if (
+                        ($item['item_status'] ?? 'Placed') == 'Placed' &&
+                        in_array($status, ['Pending', 'Placed', 'Processing'])
+                    ):
+                    ?>
 
                         <form
                             method="POST"

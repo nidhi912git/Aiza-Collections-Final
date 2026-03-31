@@ -78,6 +78,7 @@ oi.size,
 oi.quantity,
 oi.price,
 oi.item_status,
+oi.cancelled_at,
 p.product_name
 FROM order_items oi
 LEFT JOIN products p
@@ -152,7 +153,16 @@ $items_query = mysqli_stmt_get_result($stmt2);
             ?>
 
             <td style="<?= ($item['item_status'] ?? '') == 'Cancelled' ? 'color:red;font-weight:bold;' : '' ?>">
+
                <?= $item['item_status'] ?? 'Placed' ?>
+
+               <?php if (($item['item_status'] ?? '') == 'Cancelled' && !empty($item['cancelled_at'])): ?>
+                  <br>
+                  <small style="color:red;">
+                     (Cancelled on <?= date("d M Y", strtotime($item['cancelled_at'])) ?>)
+                  </small>
+               <?php endif; ?>
+
             </td>
 
          </tr>

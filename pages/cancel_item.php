@@ -22,9 +22,11 @@ if (!$item_id) {
 /* FETCH ORDER ITEM */
 
 $q = mysqli_query($conn, "
-SELECT *
-FROM order_items
-WHERE item_id='$item_id'
+SELECT oi.*, o.order_status
+FROM order_items oi
+LEFT JOIN orders o
+ON oi.order_id = o.order_id
+WHERE oi.item_id='$item_id'
 ");
 
 if (mysqli_num_rows($q) == 0) {
@@ -38,10 +40,13 @@ $item = mysqli_fetch_assoc($q);
 
 /* PREVENT CANCELLING IF ALREADY SHIPPED / CANCELLED */
 
-$status = $item['item_status'] ?? 'Placed';
+$item_status = $item['item_status'] ?? 'Placed';
+$order_status = $item['order_status'] ?? 'Pending';
 
-if ($status != 'Placed') {
-
+if (
+    $item_status != 'Placed' ||
+    !in_array($order_status, ['Pending', 'Placed', 'Processing'])
+) {
     $_SESSION['popup'] = "This item can no longer be cancelled.";
     header("Location: " . $_SERVER['HTTP_REFERER']);
     exit;
@@ -66,7 +71,9 @@ AND size='$size'
 
 mysqli_query($conn, "
 UPDATE order_items
-SET item_status='Cancelled'
+SET 
+    item_status='Cancelled',
+    cancelled_at = NOW()
 WHERE item_id='$item_id'
 ");
 
