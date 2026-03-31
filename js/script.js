@@ -55,19 +55,24 @@ function addCurrentProductToCart(btn) {
     return;
   }
 
-  const size = sizeBtn.textContent;
+  const size = sizeBtn.dataset.size;
+  const qty = parseInt(document.getElementById("qty").innerText) || 1;
 
   btn.classList.add("loading");
 
   fetch("/aiza-collections-final/pages/list-handler.php", {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: `product_code=${encodeURIComponent(code)}&size=${encodeURIComponent(size)}&action=add_cart`,
+    body: `product_code=${encodeURIComponent(code)}&size=${encodeURIComponent(size)}&qty=${qty}&action=add_cart`,
   })
     .then((res) => res.text())
-    .then(() => {
-      showPopup("✔ Added to cart");
-      updateCartCounter(1);
+    .then((data) => {
+      if (data.trim() === "added_cart") {
+        showPopup("✔ Added to cart");
+        updateCartCounter(1);
+      } else {
+        showPopup(data);
+      }
     })
     .finally(() => {
       btn.classList.remove("loading");
@@ -82,15 +87,52 @@ function addCurrentProductToWishlist(btn) {
     return;
   }
 
-  const size = sizeBtn.textContent;
+  const size = sizeBtn.dataset.size;
 
   fetch("/aiza-collections-final/pages/list-handler.php", {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: `product_code=${encodeURIComponent(code)}&size=${encodeURIComponent(size)}&action=add_wishlist`,
-  }).then(() => showPopup("♡ Added to wishlist"));
+  })
+    .then((res) => res.text())
+    .then((data) => {
+      if (data.trim() === "added_wishlist") {
+        showPopup("♡ Added to wishlist");
+      } else {
+        showPopup(data);
+      }
+    });
 }
 
+function increaseQty() {
+  const sizeBtn = document.querySelector(".sizes button.selected");
+
+  if (!sizeBtn) {
+    showPopup("Please select a size first");
+    return;
+  }
+
+  let qtyEl = document.getElementById("qty");
+  let qty = parseInt(qtyEl.innerText) || 1;
+
+  qtyEl.innerText = qty + 1;
+}
+
+function decreaseQty() {
+  const sizeBtn = document.querySelector(".sizes button.selected");
+
+  if (!sizeBtn) {
+    showPopup("Please select a size first");
+    return;
+  }
+
+  let qtyEl = document.getElementById("qty");
+  let qty = parseInt(qtyEl.innerText) || 1;
+
+  if (qty > 1) {
+    qtyEl.innerText = qty - 1;
+  }
+}
 /* ===============================
 SIZE MODAL
 ================================ */
@@ -147,13 +189,21 @@ SIZE SELECTOR
 ================================ */
 
 document.addEventListener("DOMContentLoaded", function () {
-  document.querySelectorAll(".sizes button").forEach((btn) => {
-    btn.addEventListener("click", function () {
-      document
-        .querySelectorAll(".sizes button")
-        .forEach((b) => b.classList.remove("selected"));
+  const sizeButtons = document.querySelectorAll(".sizes button");
+  const cartBtn = document.querySelector(".add-cart-btn");
 
+  sizeButtons.forEach((btn) => {
+    btn.addEventListener("click", function () {
+      // remove previous selection
+      sizeButtons.forEach((b) => b.classList.remove("selected"));
+
+      // add selected class
       this.classList.add("selected");
+
+      // 🔥 update selected size in Add to Cart
+      if (cartBtn) {
+        cartBtn.dataset.size = this.dataset.size;
+      }
     });
   });
 });
@@ -532,4 +582,3 @@ document.querySelectorAll(".confirm-form").forEach((form) => {
     confirmAction(message, form);
   });
 });
-

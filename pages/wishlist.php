@@ -20,7 +20,7 @@ $wishlist = $_SESSION['wishlist'] ?? [];
 
     <?php if (!$wishlist): ?>
 
-        <p style="text-align:center;">Wishlist empty</p>
+        <p style="text-align:center;">🛒 Your Wishlist empty</p>
 
     <?php else: ?>
 

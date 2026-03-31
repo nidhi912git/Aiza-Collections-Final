@@ -80,126 +80,126 @@ LIMIT 10
 
 <section>
 
-<div class="product-layout">
+    <div class="product-layout">
 
-    <!-- IMAGE -->
+        <!-- IMAGE -->
 
-    <div class="product-image">
+        <div class="product-image">
 
-        <button class="img-nav prev" onclick="changeImage(-1)">❮</button>
+            <button class="img-nav prev" onclick="changeImage(-1)">❮</button>
 
-        <img
-            id="prod-img"
-            src="<?= $images[0] ?? '/aiza-collections-final/assets/no-image.jpg' ?>"
-            alt="<?= htmlspecialchars($product['product_name']) ?>">
+            <img
+                id="prod-img"
+                src="<?= $images[0] ?? '/aiza-collections-final/assets/no-image.jpg' ?>"
+                alt="<?= htmlspecialchars($product['product_name']) ?>">
 
-        <button class="img-nav next" onclick="changeImage(1)">❯</button>
+            <button class="img-nav next" onclick="changeImage(1)">❯</button>
 
-    </div>
+        </div>
 
-    <!-- DETAILS -->
+        <!-- DETAILS -->
 
-    <div class="product-details">
+        <div class="product-details">
 
-        <h1><?= htmlspecialchars($product['product_name']) ?></h1>
+            <h1><?= htmlspecialchars($product['product_name']) ?></h1>
 
-        <p class="product-price">
-            ₹<?= number_format($product['price']) ?>
-        </p>
+            <p class="product-price">
+                ₹<?= number_format($product['price']) ?>
+            </p>
 
-        <p class="product-description">
-            <?= nl2br(htmlspecialchars($product['description'])) ?>
-        </p>
+            <p class="product-description">
+                <?= nl2br(htmlspecialchars($product['description'])) ?>
+            </p>
 
-        <!-- SIZE -->
+            <!-- SIZE -->
 
-        <div class="product-row size-row">
+            <div class="product-row size-row">
 
-            <span class="label">Size:</span>
+                <span class="label">Size:</span>
 
-            <div class="sizes">
+                <div class="sizes">
 
-                <?php
-                $sizes = mysqli_query($conn, "
+                    <?php
+                    $sizes = mysqli_query($conn, "
                 SELECT size,stock_qty
                 FROM product_stock
                 WHERE product_code='$code'
                 ORDER BY FIELD(size,'S','M','L','XL','XXL')
                 ");
-                ?>
+                    ?>
 
-                <?php while ($s = mysqli_fetch_assoc($sizes)): ?>
+                    <?php while ($s = mysqli_fetch_assoc($sizes)): ?>
 
-                    <button
-                        type="button"
-                        data-size="<?= $s['size'] ?>"
-                        <?= ($s['total_stock'] ?? 0) <= 0 ? "disabled" : "" ?>
-                        <?= $s['size'] ?>
-                    </button>
+                        <button
+                            type="button"
+                            data-size="<?= $s['size'] ?>"
+                            <?= ($s['stock_qty'] ?? 0) <= 0 ? "disabled" : "" ?>>
+                            <?= $s['size'] ?>
+                        </button>
 
-                <?php endwhile; ?>
+                    <?php endwhile; ?>
 
-            </div>
-
-        </div>
-
-        <!-- QUANTITY -->
-
-        <div class="product-row">
-
-            <span class="label">Quantity:</span>
-
-            <div class="cart-qty">
-
-                <button class="qty-btn" onclick="decreaseQty()">−</button>
-
-                <span id="qty">1</span>
-
-                <button class="qty-btn" onclick="increaseQty()">+</button>
+                </div>
 
             </div>
 
-        </div>
+            <!-- QUANTITY -->
 
-        <!-- ACTIONS -->
+            <div class="product-row">
 
-        <div class="product-actions">
+                <span class="label">Quantity:</span>
 
-            <button
-                class="add-cart-btn"
-                data-code="<?= $code ?>"
-                data-size="<?= $selected_size ?>"
-                onclick="addCurrentProductToCart(this)"
-                <?= $available <= 0 ? "disabled" : "" ?>>
-                Add to Cart
-            </button>
+                <div class="cart-qty">
 
-            <button
-                class="wishlist-btn"
-                data-code="<?= $code ?>"
-                onclick="addCurrentProductToWishlist(this)">
-                ♡
-            </button>
+                    <button class="qty-btn" onclick="decreaseQty()">−</button>
 
-        </div>
+                    <span id="qty">1</span>
 
-        <!-- STOCK DISPLAY -->
+                    <button class="qty-btn" onclick="increaseQty()">+</button>
 
-        <?php if ($available <= 0): ?>
+                </div>
 
-            <p class="stock out">
-                Out of Stock
-            </p>
+            </div>
 
-        <?php else: ?>
+            <!-- ACTIONS -->
 
-            <p class="stock in">
-                Available: <?= $available ?>
-            </p>
+            <div class="product-actions">
 
-        <?php endif; ?>
+                <button
+                    class="add-cart-btn"
+                    data-code="<?= $code ?>"
+                    data-size="<?= $selected_size ?>"
+                    onclick="addCurrentProductToCart(this)"
+                    <?= $available <= 0 ? "disabled" : "" ?>>
+                    Add to Cart
+                </button>
 
-        <!-- SIZE CHART -->
+                <button
+                    class="wishlist-btn"
+                    data-code="<?= $code ?>"
+                    onclick="addCurrentProductToWishlist(this)">
+                    ♡
+                </button>
+
+            </div>
+
+            <!-- STOCK DISPLAY -->
+
+            <?php if ($available <= 0): ?>
+
+                <p class="stock out">
+                    Out of Stock
+                </p>
+
+            <?php else: ?>
+
+                <p class="stock in">
+                    Available: <?= $available ?>
+                </p>
+
+            <?php endif; ?>
+
+            <!-- SIZE CHART -->
 
             <div class="size-chart">
 

@@ -21,7 +21,7 @@ $total = 0;
 
 <?php if (!$cart): ?>
 
-    <p style="text-align:center;">Your cart is empty</p>
+    <p style="text-align:center;">🛒 Your cart is empty</p>
 
 <?php else: ?>
 

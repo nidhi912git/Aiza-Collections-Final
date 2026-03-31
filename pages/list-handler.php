@@ -14,7 +14,8 @@ if (!$code) exit;
 /* =====================================
    FUNCTION: CHECK STOCK (PER SIZE)
 ===================================== */
-function canAddToCart($conn, $code, $size, $current_qty, &$message = "") {
+function canAddToCart($conn, $code, $size, $current_qty, &$message = "")
+{
 
     $stmt = mysqli_prepare($conn, "
         SELECT stock_qty 
@@ -60,7 +61,21 @@ if ($action === 'add_cart') {
         exit;
     }
 
-    $_SESSION['cart'][$key] = $current_qty + 1;
+    $qty = intval($_POST['qty'] ?? 1);
+
+    for ($i = 0; $i < $qty; $i++) {
+
+        $current_qty = $_SESSION['cart'][$key] ?? 0;
+
+        $message = "";
+
+        if (!canAddToCart($conn, $code, $size, $current_qty, $message)) {
+            echo $message;
+            exit;
+        }
+
+        $_SESSION['cart'][$key] = $current_qty + 1;
+    }
 
     echo "added_cart";
     exit;
@@ -175,4 +190,3 @@ if ($action === 'wishlist_to_cart') {
     header("Location: wishlist.php");
     exit;
 }
-?>
