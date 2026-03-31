@@ -3,27 +3,40 @@ session_start();
 include "../includes/config.php"; // DB connection
 
 $code = $_POST['product_code'] ?? null;
-$size = $_POST['size'] ?? 'M';
+$size = $_POST['size'] ?? 'M'; // make sure frontend sends correct size
 $action = $_POST['action'] ?? null;
 
 $key = $code . '_' . $size;
 
 if (!$code) exit;
 
-/* FUNCTION: CHECK STOCK */
+/* FUNCTION: CHECK STOCK (PER PRODUCT + SIZE) */
 function canAddToCart($conn, $code, $size, $current_qty) {
-    $sql = "SELECT stock_qty FROM product_stock 
-            WHERE product_code='$code' AND size='$size'";
 
-    $res = mysqli_query($conn, $sql);
-    $row = mysqli_fetch_assoc($res);
+    $stmt = mysqli_prepare($conn, "
+        SELECT stock_qty 
+        FROM product_stock 
+        WHERE product_code=? AND size=?
+    ");
 
-    $available = $row['stock_qty'] ?? 0;
+    mysqli_stmt_bind_param($stmt, "ss", $code, $size);
+    mysqli_stmt_execute($stmt);
 
+    $result = mysqli_stmt_get_result($stmt);
+    $row = mysqli_fetch_assoc($result);
+
+    $available = intval($row['stock_qty'] ?? 0);
+
+    // ❌ no stock at all
+    if ($available <= 0) {
+        return false;
+    }
+
+    // ❌ already reached stock limit
     return $current_qty < $available;
 }
 
-/* ADD TO CART */
+/* ADD TO CART (AJAX) */
 if ($action === 'add_cart') {
 
     $current_qty = $_SESSION['cart'][$key] ?? 0;
@@ -39,7 +52,7 @@ if ($action === 'add_cart') {
     exit;
 }
 
-/* ADD QUANTITY INCREASE */
+/* INCREASE QUANTITY (CART PAGE) */
 if ($action === 'add') {
 
     $current_qty = $_SESSION['cart'][$key] ?? 0;
@@ -56,7 +69,7 @@ if ($action === 'add') {
     exit;
 }
 
-/* ADD QUANTITY DECREASE */
+/* DECREASE QUANTITY */
 if ($action === 'decrease') {
 
     if (isset($_SESSION['cart'][$key])) {
