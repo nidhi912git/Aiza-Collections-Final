@@ -7,7 +7,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-$conn = mysqli_connect("localhost", "root", "", "aizacollections");
+$conn = mysqli_connect("localhost", "root", "", "aizacollections_v2");
 
 if (!$conn) {
     die("Database connection failed: " . mysqli_connect_error());
@@ -37,15 +37,22 @@ if (!isset($_SESSION['user']) && isset($_COOKIE['remember_token'])) {
 
 /* IMAGE PATH HELPER */
 
-function imgPath($path)
-{
-    if (!$path) {
-        return "/aiza-collections-final/assets/images/no-image.jpg";
+function imgPath($path) {
+
+    if (empty($path)) {
+        return "/aiza-collections-final/assets/no-image.jpg";
     }
 
-    if (str_starts_with($path, "assets/")) {
+    // if already full path (old images)
+    if (strpos($path, 'assets/') !== false) {
         return "/aiza-collections-final/" . $path;
     }
 
-    return "/aiza-collections-final/assets/images/" . $path;
+    // if already contains uploads
+    if (strpos($path, 'uploads/') !== false) {
+        return "/aiza-collections-final/assets/" . $path;
+    }
+
+    // default (new uploads)
+    return "/aiza-collections-final/assets/uploads/" . $path;
 }

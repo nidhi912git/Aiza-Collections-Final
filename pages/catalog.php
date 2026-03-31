@@ -124,9 +124,8 @@ $result = mysqli_query($conn, $sql);
                 onclick="viewProduct('<?= $row['product_code'] ?>')">
 
                 <img
-                    src="<?= imgPath($row['image_path']) ?>"
-                    alt="<?= htmlspecialchars($row['product_name']) ?>">
-
+                   src="<?= imgPath($row['image_path']) ?>"
+                   alt="<?= htmlspecialchars($row['product_name']) ?>">
                 <h4><?= htmlspecialchars($row['product_name']) ?></h4>
 
                 <p class="price">

@@ -57,8 +57,8 @@ $total = 0;
                     onclick="window.location.href='/aiza-collections-final/pages/product.php?code=<?= $code ?>'">
 
                     <img class="list-img"
-                        src="<?= imgPath($p['image_path']) ?>"
-                        alt="<?= htmlspecialchars($p['product_name']) ?>">
+                      src="<?= imgPath($p['image_path']) ?>"
+                      alt="<?= htmlspecialchars($p['product_name']) ?>">
 
                     <div class="list-info">
 

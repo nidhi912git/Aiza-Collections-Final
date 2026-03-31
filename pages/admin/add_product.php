@@ -13,7 +13,7 @@ include "../../includes/header.php";
 
     <h2 class="section-title">Add Product</h2>
 
-    <form method="post" action="insert_product.php" class="admin-form">
+    <form method="post" action="insert_product.php" class="admin-form" enctype="multipart/form-data">
 
         <input type="hidden" name="csrf" value="<?= csrf_token() ?>">
 
@@ -45,7 +45,7 @@ include "../../includes/header.php";
             type="number"
             name="price"
             min="0"
-            step="0.01"
+            step="100"
             required>
 
         <label>Initial Stock Per Size</label>
@@ -78,6 +78,18 @@ include "../../includes/header.php";
             <option value="1">Active</option>
             <option value="0">Inactive</option>
         </select>
+
+        <label>Product Images (1 to 5)</label>
+         <input 
+           type="file" 
+           name="images[]" 
+           accept=".jpg,.jpeg,.png" 
+           multiple 
+           required>
+
+         <p style="font-size:13px;color:#666;">
+           Upload 1 to 5 images (JPG, JPEG, PNG only, max 150KB each)
+         </p>
 
         <button class="btn">
             Add Product

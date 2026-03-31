@@ -15,6 +15,14 @@ include_once __DIR__ . "/security.php";
   <script src="/aiza-collections-final/js/script.js?v=<?= time() ?>" defer></script>
 </head>
 
+<?php if (!empty($_SESSION['popup'])): ?>
+<script>
+    window.onload = function() {
+        showPopup("<?= $_SESSION['popup'] ?>");
+    };
+</script>
+<?php unset($_SESSION['popup']); endif; ?>
+
 <body id="<?= $page_id ?? '' ?>"
   class="<?= $page_id ?? '' ?> <?= (isset($page_id) && strpos($page_id, 'admin') === 0) ? 'admin-page' : '' ?>">
 
