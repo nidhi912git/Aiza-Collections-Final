@@ -6,6 +6,10 @@ include "../includes/header.php";
 
 $code = mysqli_real_escape_string($conn, $_GET['code'] ?? '');
 
+/* DEFAULT SIZE */
+$selected_size = $_GET['size'] ?? 'M';
+
+/* GET PRODUCT */
 $pq = mysqli_query($conn, "
 SELECT *
 FROM products
@@ -27,17 +31,27 @@ $iq = mysqli_query($conn, "
 SELECT image_path
 FROM product_images
 WHERE product_code='$code'
-OR product_code LIKE '$code-%'
-ORDER BY LENGTH(image_path), image_path
+ORDER BY image_path
 ");
 
 $images = [];
 
 while ($i = mysqli_fetch_assoc($iq)) {
-    $images[] = imgPath($i['image_path']);
+    $images[] = imgPath($i['image_path'] ?? '');
 }
 
-/* make images available to JS slider */
+/* GET STOCK FOR SELECTED SIZE */
+
+$stockQ = mysqli_query($conn, "
+SELECT stock_qty 
+FROM product_stock 
+WHERE product_code='$code' AND size='$selected_size'
+");
+
+$stockRow = mysqli_fetch_assoc($stockQ);
+$available = $stockRow['stock_qty'] ?? 0;
+
+/* PASS IMAGES TO JS */
 echo "<script>window.productImages = " . json_encode($images) . ";</script>";
 
 /* SIMILAR PRODUCTS */
@@ -49,11 +63,13 @@ SELECT
 p.product_code,
 p.product_name,
 p.price,
-p.stock_qty,
-MIN(i.image_path) AS image_path
+MIN(i.image_path) AS image_path,
+SUM(ps.stock_qty) as total_stock
 FROM products p
 LEFT JOIN product_images i
 ON p.product_code=i.product_code
+LEFT JOIN product_stock ps
+ON p.product_code=ps.product_code
 WHERE p.category_num='$cat'
 AND p.product_code!='$code'
 AND p.product_code NOT LIKE '%-%'
@@ -64,123 +80,126 @@ LIMIT 10
 
 <section>
 
-    <div class="product-layout">
+<div class="product-layout">
 
-        <!-- PRODUCT IMAGE SLIDER -->
+    <!-- IMAGE -->
 
-        <div class="product-image">
+    <div class="product-image">
 
-            <button class="img-nav prev" onclick="changeImage(-1)">❮</button>
+        <button class="img-nav prev" onclick="changeImage(-1)">❮</button>
 
-            <img
-                id="prod-img"
-                src="<?= $images[0] ?? '/aiza-collections-final/assets/no-image.jpg' ?>"
-                alt="<?= htmlspecialchars($product['product_name']) ?>">
+        <img
+            id="prod-img"
+            src="<?= $images[0] ?? '/aiza-collections-final/assets/no-image.jpg' ?>"
+            alt="<?= htmlspecialchars($product['product_name']) ?>">
 
-            <button class="img-nav next" onclick="changeImage(1)">❯</button>
+        <button class="img-nav next" onclick="changeImage(1)">❯</button>
+
+    </div>
+
+    <!-- DETAILS -->
+
+    <div class="product-details">
+
+        <h1><?= htmlspecialchars($product['product_name']) ?></h1>
+
+        <p class="product-price">
+            ₹<?= number_format($product['price']) ?>
+        </p>
+
+        <p class="product-description">
+            <?= nl2br(htmlspecialchars($product['description'])) ?>
+        </p>
+
+        <!-- SIZE -->
+
+        <div class="product-row size-row">
+
+            <span class="label">Size:</span>
+
+            <div class="sizes">
+
+                <?php
+                $sizes = mysqli_query($conn, "
+                SELECT size,stock_qty
+                FROM product_stock
+                WHERE product_code='$code'
+                ORDER BY FIELD(size,'S','M','L','XL','XXL')
+                ");
+                ?>
+
+                <?php while ($s = mysqli_fetch_assoc($sizes)): ?>
+
+                    <button
+                        type="button"
+                        data-size="<?= $s['size'] ?>"
+                        <?= ($s['total_stock'] ?? 0) <= 0 ? "disabled" : "" ?>
+                        <?= $s['size'] ?>
+                    </button>
+
+                <?php endwhile; ?>
+
+            </div>
 
         </div>
 
-        <!-- PRODUCT DETAILS -->
+        <!-- QUANTITY -->
 
-        <div class="product-details">
+        <div class="product-row">
 
-            <h1><?= htmlspecialchars($product['product_name']) ?></h1>
+            <span class="label">Quantity:</span>
 
-            <p class="product-price">
-                ₹<?= number_format($product['price']) ?>
+            <div class="cart-qty">
+
+                <button class="qty-btn" onclick="decreaseQty()">−</button>
+
+                <span id="qty">1</span>
+
+                <button class="qty-btn" onclick="increaseQty()">+</button>
+
+            </div>
+
+        </div>
+
+        <!-- ACTIONS -->
+
+        <div class="product-actions">
+
+            <button
+                class="add-cart-btn"
+                data-code="<?= $code ?>"
+                data-size="<?= $selected_size ?>"
+                onclick="addCurrentProductToCart(this)"
+                <?= $available <= 0 ? "disabled" : "" ?>>
+                Add to Cart
+            </button>
+
+            <button
+                class="wishlist-btn"
+                data-code="<?= $code ?>"
+                onclick="addCurrentProductToWishlist(this)">
+                ♡
+            </button>
+
+        </div>
+
+        <!-- STOCK DISPLAY -->
+
+        <?php if ($available <= 0): ?>
+
+            <p class="stock out">
+                Out of Stock
             </p>
 
-            <p class="product-description">
-                <?= nl2br(htmlspecialchars($product['description'])) ?>
+        <?php else: ?>
+
+            <p class="stock in">
+                Available: <?= $available ?>
             </p>
 
-            <!-- SIZE -->
+        <?php endif; ?>
 
-            <div class="product-row size-row">
-
-                <span class="label">Size:</span>
-
-                <div class="sizes">
-
-                    <?php
-
-                    $sizes = mysqli_query($conn, "
-                    SELECT size,stock_qty
-                    FROM product_stock
-                    WHERE product_code='$code'
-                    ORDER BY FIELD(size,'S','M','L','XL','XXL')
-                    ");
-
-                    ?>
-
-                    <div class="sizes">
-
-                        <?php while ($s = mysqli_fetch_assoc($sizes)): ?>
-
-                            <button
-                                type="button"
-                                data-size="<?= $s['size'] ?>"
-                                <?= $s['stock_qty'] <= 0 ? "disabled" : "" ?>>
-                                <?= $s['size'] ?>
-                            </button>
-
-                        <?php endwhile; ?>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- QUANTITY -->
-
-            <div class="product-row">
-
-                <span class="label">Quantity:</span>
-
-                <div class="cart-qty">
-
-                    <button class="qty-btn" onclick="decreaseQty()">−</button>
-
-                    <span id="qty">1</span>
-
-                    <button class="qty-btn" onclick="increaseQty()">+</button>
-
-                </div>
-
-            </div>
-
-            <!-- ACTION BUTTONS -->
-
-            <div class="product-actions">
-
-                <button
-                    class="add-cart-btn"
-                    data-code="<?= $code ?>"
-                    onclick="addCurrentProductToCart(this)"
-                    <?= $product['stock_qty'] <= 0 ? "disabled" : "" ?>>
-                    Add to Cart
-                </button>
-
-                <button
-                    class="wishlist-btn"
-                    data-code="<?= $code ?>"
-                    onclick="addCurrentProductToWishlist(this)">
-                    ♡
-                </button>
-
-            </div>
-
-            <?php if ($product['stock_qty'] <= 0): ?>
-
-                <p class="stock out">
-                    Out of Stock
-                </p>
-
-            <?php endif; ?>
-
-            <!-- SIZE CHART -->
+        <!-- SIZE CHART -->
 
             <div class="size-chart">
 
@@ -272,7 +291,7 @@ LIMIT 10
                                 class="add-cart-btn"
                                 data-code="<?= $s['product_code'] ?>"
                                 onclick="addToCart(event,this)"
-                                <?= $s['stock_qty'] <= 0 ? "disabled" : "" ?>>
+                                <?= $s['total_stock'] <= 0 ? "disabled" : "" ?>>
                                 Add to Cart
                             </button>
 

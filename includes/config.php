@@ -43,17 +43,17 @@ function imgPath($path) {
         return "/aiza-collections-final/assets/no-image.jpg";
     }
 
-    // if already full path (old images)
+    // OLD images already inside assets (FULL PATH STORED)
     if (strpos($path, 'assets/') !== false) {
         return "/aiza-collections-final/" . $path;
     }
 
-    // if already contains uploads
-    if (strpos($path, 'uploads/') !== false) {
+    // OLD images stored like: images/xxx.jpg
+    if (strpos($path, 'uploads/') === false) {
         return "/aiza-collections-final/assets/" . $path;
     }
 
-    // default (new uploads)
+    // NEW uploaded images
     return "/aiza-collections-final/assets/uploads/" . $path;
 }
 function getStock($conn, $code, $size) {
@@ -68,4 +68,5 @@ function getStock($conn, $code, $size) {
     $row = mysqli_fetch_assoc($res);
 
     return $row ? (int)$row['stock_qty'] : 0;
+
 }

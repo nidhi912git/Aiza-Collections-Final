@@ -51,19 +51,18 @@ if (mysqli_num_rows($result) > 0) {
 
 $stmt = mysqli_prepare($conn, "
     INSERT INTO products
-    (product_code,category_num,product_name,description,price,color,is_featured,is_active)
-    VALUES (?,?,?,?,?,?,?,?)
+    (product_code,category_num,product_name,description,price,is_featured,is_active)
+    VALUES (?,?,?,?,?,?,?)
 ");
 
 mysqli_stmt_bind_param(
     $stmt,
-    "sissdsii",
+    "sissdii",
     $code,
     $category,
     $name,
     $desc,
     $price,
-    $color,
     $featured,
     $active
 );
@@ -72,26 +71,30 @@ mysqli_stmt_execute($stmt);
 
 /* ================= CREATE SIZE STOCK (FIXED POSITION) ================= */
 
+
 $sizes = ['S', 'M', 'L', 'XL', 'XXL'];
 
 foreach ($sizes as $size_item) {
 
-    $stmt2 = mysqli_prepare($conn, "
-        INSERT INTO product_stock(product_code,size,stock_qty)
-        VALUES(?,?,?)
+
+    $result = mysqli_query($conn, "
+        INSERT INTO product_stock (product_code, size, stock_qty)
+        VALUES ('$code', '$size', 15)
     ");
 
-    mysqli_stmt_bind_param($stmt2, "ssi", $code, $size_item, $stock);
-    mysqli_stmt_execute($stmt2);
+    if (!$result) {
+        die("Stock Insert Error: " . mysqli_error($conn));
+    }
 }
+exit;
 
 /* ================= IMAGE UPLOAD ================= */
 
 $allowed_types = ['image/jpeg', 'image/png', 'image/jpg'];
 $max_size = 150 * 1024; // 150KB
 
-if (isset($_FILES['images'])) {
 
+if (!empty($_FILES['images']['name'][0])) {
     $total = count($_FILES['images']['name']);
 
     if ($total < 1 || $total > 5) {
@@ -123,8 +126,9 @@ if (isset($_FILES['images'])) {
 
         $upload_path = "../../assets/uploads/" . $new_name;
 
-        move_uploaded_file($tmp, $upload_path);
-
+        if (!move_uploaded_file($tmp, $upload_path)) {
+             die("Image upload failed");
+        }
         mysqli_query($conn, "
             INSERT INTO product_images (product_code, image_path)
             VALUES ('$code', '$new_name')

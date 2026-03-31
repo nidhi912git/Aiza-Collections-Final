@@ -143,7 +143,7 @@ $search = $_GET['q'] ?? '';
       <div class="product-card"
         onclick="viewProduct('<?= $row['product_code'] ?>')">
 
-        <img src="<?= imgPath($row['image_path'] ?? 'no-image.jpg') ?>">
+        <img src="<?= imgPath($row['image_path'] ?? '') ?>">
 
         <h4><?= htmlspecialchars($row['product_name']) ?></h4>
 
