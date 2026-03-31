@@ -8,32 +8,21 @@ require_admin();
 
 include "../../includes/header.php";
 
-/* OUT OF STOCK PRODUCTS */
+/* =====================================
+   STOCK CONFLICTS (SIZE-WISE CORRECT)
+===================================== */
 
-$out_query = mysqli_query($conn, "
-SELECT
-p.product_code,
-p.product_name,
-SUM(ps.stock_qty) stock
-FROM products p
-LEFT JOIN product_stock ps
-ON p.product_code=ps.product_code
-GROUP BY p.product_code
-HAVING stock = 0
-");
-
-/* LOW STOCK PRODUCTS */
-
-$low_query = mysqli_query($conn, "
-SELECT
-p.product_code,
-p.product_name,
-SUM(ps.stock_qty) stock
-FROM products p
-LEFT JOIN product_stock ps
-ON p.product_code=ps.product_code
-GROUP BY p.product_code
-HAVING stock BETWEEN 1 AND 5
+$q = mysqli_query($conn, "
+    SELECT 
+        p.product_code,
+        p.product_name,
+        ps.size,
+        ps.stock_qty
+    FROM product_stock ps
+    JOIN products p
+    ON ps.product_code = p.product_code
+    WHERE ps.stock_qty <= 5
+    ORDER BY ps.stock_qty ASC
 ");
 ?>
 
@@ -41,7 +30,7 @@ HAVING stock BETWEEN 1 AND 5
 
     <div class="admin-header">
 
-        <div></div> <!-- left empty -->
+        <div></div>
 
         <h2 class="section-title">Stock Conflicts</h2>
 
@@ -51,13 +40,11 @@ HAVING stock BETWEEN 1 AND 5
 
     </div>
 
-    <!-- OUT OF STOCK -->
+    <h3 style="margin-top:30px;">Stock Issues (Size-wise)</h3>
 
-    <h3 style="margin-top:30px;">Out of Stock</h3>
+    <?php if (mysqli_num_rows($q) == 0): ?>
 
-    <?php if (mysqli_num_rows($out_query) == 0): ?>
-
-        <p>No products are currently out of stock.</p>
+        <p>No stock issues 🎉</p>
 
     <?php else: ?>
 
@@ -66,10 +53,11 @@ HAVING stock BETWEEN 1 AND 5
             <tr>
                 <th>Product Code</th>
                 <th>Product Name</th>
+                <th>Size</th>
                 <th>Status</th>
             </tr>
 
-            <?php while ($row = mysqli_fetch_assoc($out_query)): ?>
+            <?php while ($row = mysqli_fetch_assoc($q)): ?>
 
                 <tr>
 
@@ -77,45 +65,16 @@ HAVING stock BETWEEN 1 AND 5
 
                     <td><?= htmlspecialchars($row['product_name']) ?></td>
 
-                    <td style="color:red;font-weight:bold;">Out of Stock</td>
+                    <td><?= $row['size'] ?></td>
 
-                </tr>
-
-            <?php endwhile; ?>
-
-        </table>
-
-    <?php endif; ?>
-
-
-    <!-- LOW STOCK -->
-
-    <h3 style="margin-top:40px;">Low Stock (≤ 5)</h3>
-
-    <?php if (mysqli_num_rows($low_query) == 0): ?>
-
-        <p>No low stock products.</p>
-
-    <?php else: ?>
-
-        <table class="admin-table">
-
-            <tr>
-                <th>Product Code</th>
-                <th>Product Name</th>
-                <th>Stock Left</th>
-            </tr>
-
-            <?php while ($row = mysqli_fetch_assoc($low_query)): ?>
-
-                <tr>
-
-                    <td><?= htmlspecialchars($row['product_code']) ?></td>
-
-                    <td><?= htmlspecialchars($row['product_name']) ?></td>
-
-                    <td style="color:#e67e22;font-weight:bold;">
-                        <?= $row['stock'] ?>
+                    <td style="
+                        <?= $row['stock_qty'] == 0 
+                            ? 'color:red;font-weight:bold;' 
+                            : 'color:#e67e22;font-weight:bold;' ?>
+                    ">
+                        <?= $row['stock_qty'] == 0 
+                            ? 'Out of Stock' 
+                            : 'Low Stock (' . $row['stock_qty'] . ')' ?>
                     </td>
 
                 </tr>

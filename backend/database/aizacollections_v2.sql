@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 31, 2026 at 04:43 PM
+-- Generation Time: Mar 31, 2026 at 07:25 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -35,22 +35,6 @@ CREATE TABLE `orders` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `orders`
---
-
-INSERT INTO `orders` (`order_id`, `user_id`, `order_total`, `order_status`, `created_at`) VALUES
-(1, 14, 2000.00, 'Pending', '2026-03-09 13:01:08'),
-(2, 14, 3700.00, 'Pending', '2026-03-10 11:21:36'),
-(3, 14, 3700.00, 'Pending', '2026-03-10 11:27:07'),
-(4, 14, 7500.00, 'Processing', '2026-03-10 11:31:12'),
-(5, 13, 2500.00, 'Shipped', '2026-03-14 01:42:55'),
-(7, 16, 10000.00, 'Delivered', '2026-03-17 15:17:16'),
-(8, 13, 8800.00, 'Pending', '2026-03-30 04:49:02'),
-(13, 17, 3000.00, 'Cancelled', '2026-03-30 11:10:21'),
-(14, 17, 3000.00, 'Cancelled', '2026-03-30 11:24:44'),
-(15, 17, 5200.00, 'Processing', '2026-03-30 11:25:40');
-
 -- --------------------------------------------------------
 
 --
@@ -64,34 +48,9 @@ CREATE TABLE `order_items` (
   `quantity` int(11) NOT NULL,
   `price` decimal(10,2) NOT NULL,
   `size` varchar(10) DEFAULT NULL,
-  `item_status` varchar(20) DEFAULT 'Placed'
+  `item_status` varchar(20) DEFAULT 'Placed',
+  `cancelled_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `order_items`
---
-
-INSERT INTO `order_items` (`item_id`, `order_id`, `product_code`, `quantity`, `price`, `size`, `item_status`) VALUES
-(1, 3, 'A2', 1, 2000.00, 'S', 'Placed'),
-(2, 3, 'A7', 1, 700.00, 'XL', 'Placed'),
-(3, 3, 'C6', 1, 1000.00, 'M', 'Placed'),
-(4, 4, 'D13', 1, 2500.00, 'M', 'Placed'),
-(5, 4, 'D7', 1, 3000.00, 'S', 'Placed'),
-(6, 4, 'S15', 1, 2000.00, 'L', 'Placed'),
-(7, 5, 'C2', 1, 1000.00, 'XL', 'Cancelled'),
-(8, 5, 'D1', 1, 1500.00, 'M', 'Cancelled'),
-(9, 7, 'C1', 4, 2500.00, 'L', 'Placed'),
-(10, 8, 'A4', 1, 2500.00, 'L', 'Placed'),
-(11, 8, 'A3', 1, 2150.00, 'L', 'Placed'),
-(12, 8, 'A2', 1, 2000.00, 'M', 'Placed'),
-(13, 8, 'A3', 1, 2150.00, 'M', 'Placed'),
-(14, 13, 'A2', 1, 2000.00, 'M', 'Cancelled'),
-(15, 13, 'S19', 1, 1000.00, 'M', 'Cancelled'),
-(16, 14, 'C2', 1, 1000.00, 'XL', 'Cancelled'),
-(17, 14, 'S15', 1, 2000.00, 'S', 'Cancelled'),
-(18, 15, 'A7', 1, 700.00, 'XL', 'Placed'),
-(19, 15, 'C5', 1, 1000.00, 'M', 'Placed'),
-(20, 15, 'D10', 1, 3500.00, 'XXL', 'Cancelled');
 
 -- --------------------------------------------------------
 
@@ -1129,6 +1088,18 @@ ALTER TABLE `user_wishlist`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `order_items`
+--
+ALTER TABLE `order_items`
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `product_images`

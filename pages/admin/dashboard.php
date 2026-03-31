@@ -1,6 +1,5 @@
-
 <?php
-$page_id = "admin-page";
+$page_id = "dashboard";
 
 include "../../includes/config.php";
 include "../../includes/security.php";
@@ -8,6 +7,19 @@ include "../../includes/security.php";
 require_admin();
 
 include "../../includes/header.php";
+
+/* ===============================
+   CHECK LOW STOCK (<=5)
+================================ */
+
+$conflict_check = mysqli_query($conn, "
+    SELECT COUNT(*) AS total
+    FROM product_stock
+    WHERE stock_qty <= 5
+");
+
+$row = mysqli_fetch_assoc($conflict_check);
+$conflicts = $row['total'] ?? 0;
 
 /* TOTAL PRODUCTS (unique products only) */
 
@@ -194,5 +206,13 @@ LIMIT 5
     <?php endif; ?>
 
 </section>
+
+<?php if ($conflicts > 0): ?>
+<script>
+window.addEventListener("DOMContentLoaded", function () {
+    showPopup("⚠️ <?= $conflicts ?> items are low or out of stock!");
+});
+</script>
+<?php endif; ?>
 
 <?php include "../../includes/footer.php"; ?>
