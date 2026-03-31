@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 30, 2026 at 07:54 PM
+-- Generation Time: Mar 31, 2026 at 09:22 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `aizacollections`
+-- Database: `aizacollections_v2`
 --
 
 -- --------------------------------------------------------
@@ -40,16 +40,16 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`order_id`, `user_id`, `order_total`, `order_status`, `created_at`) VALUES
-(1, 14, 2000.00, 'Pending', '2026-03-09 18:31:08'),
-(2, 14, 3700.00, 'Pending', '2026-03-10 16:51:36'),
-(3, 14, 3700.00, 'Pending', '2026-03-10 16:57:07'),
-(4, 14, 7500.00, 'Processing', '2026-03-10 17:01:12'),
-(5, 13, 2500.00, 'Shipped', '2026-03-14 07:12:55'),
-(7, 16, 10000.00, 'Delivered', '2026-03-17 20:47:16'),
-(8, 13, 8800.00, 'Pending', '2026-03-30 10:19:02'),
-(13, 17, 3000.00, 'Cancelled', '2026-03-30 16:40:21'),
-(14, 17, 3000.00, 'Cancelled', '2026-03-30 16:54:44'),
-(15, 17, 5200.00, 'Processing', '2026-03-30 16:55:40');
+(1, 14, 2000.00, 'Pending', '2026-03-09 13:01:08'),
+(2, 14, 3700.00, 'Pending', '2026-03-10 11:21:36'),
+(3, 14, 3700.00, 'Pending', '2026-03-10 11:27:07'),
+(4, 14, 7500.00, 'Processing', '2026-03-10 11:31:12'),
+(5, 13, 2500.00, 'Shipped', '2026-03-14 01:42:55'),
+(7, 16, 10000.00, 'Delivered', '2026-03-17 15:17:16'),
+(8, 13, 8800.00, 'Pending', '2026-03-30 04:49:02'),
+(13, 17, 3000.00, 'Cancelled', '2026-03-30 11:10:21'),
+(14, 17, 3000.00, 'Cancelled', '2026-03-30 11:24:44'),
+(15, 17, 5200.00, 'Processing', '2026-03-30 11:25:40');
 
 -- --------------------------------------------------------
 
@@ -1006,14 +1006,14 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `name`, `email`, `phone_number`, `password_hash`, `role`, `created_at`, `remember_token`) VALUES
-(10, 'Nidhi Balaji', 'nidhibalaji219@gmail.com', '7676528462', '$2y$10$mB/KOy8mcjMzoLjxnUWPRO46bza8vp1MrjZrjGCuBBqgN6V10WaDK', 'manager', '2026-03-09 15:05:42', NULL),
-(11, 'Aashika Menon', 'aashikamenon2004@gmail.com', '7411437721', '$2y$10$mGLUKvfEtXQRGeQAISoDPufkxht/813GlreUq7PhUeUq5Lak92Ite', 'manager', '2026-03-09 15:07:08', NULL),
-(12, 'Anitha Patel', 'anithapatel1203@gmail.com', '8618247172', '$2y$10$p4Dg7gc5Eu8H9yceC/kcDe02MlBm5e0p5/w/UzGY/ieSuKQI8FzjO', 'manager', '2026-03-09 15:07:54', NULL),
-(13, 'Aditi Tupsakri', 'adititupsakri@gmail.com', '9108893232', '$2y$10$PPi.XVd2B2BC9aOQ3/XjVelQwKCWliIFCNq3Bd8AVtAGyhdyNFKG6', 'manager', '2026-03-09 15:08:35', '70e8f8d643df0c8ec96d437a5a9ce04ceac7c4b40e61f8cadd1ca8f69096f296'),
-(14, 'Kaushik', 'svkaushik2210@gmail.com', '9538003807', '$2y$10$8HtmB4ftp5ugp1sid/sEI.dPR02MjrCiKfYz/gwvD2NClkmqpqGZ2', 'user', '2026-03-09 18:06:13', NULL),
-(15, 'aditi tupsakri', 'adititupsakri.work@gmail.com', '9108893232', '$2y$10$h2SYBECGqRP99klpwPEhfe6vxtjhApFq7Mo3UkXSsUU9CaQU1J7yG', 'user', '2026-03-12 15:07:10', NULL),
-(16, 'Shobha Tupsakri', 'shobha@gmail.com', '9844203996', '$2y$10$HVpevc2Qc0zX0DleIQBjuexlm/pIa2k/u6ZZDiAAXGywoHXs2pnP6', 'user', '2026-03-17 20:40:28', NULL),
-(17, 'Rachana', 'patelanitha64@gmail.com', '8618247172', '$2y$10$HBeOwy/erN5OJYzGmzOYM.K0sB47sr5iG5XYgu9NKs6Jcxo5amsaq', 'user', '2026-03-30 16:39:39', NULL);
+(10, 'Nidhi Balaji', 'nidhibalaji219@gmail.com', '7676528462', '$2y$10$mB/KOy8mcjMzoLjxnUWPRO46bza8vp1MrjZrjGCuBBqgN6V10WaDK', 'manager', '2026-03-09 09:35:42', NULL),
+(11, 'Aashika Menon', 'aashikamenon2004@gmail.com', '7411437721', '$2y$10$mGLUKvfEtXQRGeQAISoDPufkxht/813GlreUq7PhUeUq5Lak92Ite', 'manager', '2026-03-09 09:37:08', NULL),
+(12, 'Anitha Patel', 'anithapatel1203@gmail.com', '8618247172', '$2y$10$p4Dg7gc5Eu8H9yceC/kcDe02MlBm5e0p5/w/UzGY/ieSuKQI8FzjO', 'manager', '2026-03-09 09:37:54', NULL),
+(13, 'Aditi Tupsakri', 'adititupsakri@gmail.com', '9108893232', '$2y$10$PPi.XVd2B2BC9aOQ3/XjVelQwKCWliIFCNq3Bd8AVtAGyhdyNFKG6', 'manager', '2026-03-09 09:38:35', '70e8f8d643df0c8ec96d437a5a9ce04ceac7c4b40e61f8cadd1ca8f69096f296'),
+(14, 'Kaushik', 'svkaushik2210@gmail.com', '9538003807', '$2y$10$8HtmB4ftp5ugp1sid/sEI.dPR02MjrCiKfYz/gwvD2NClkmqpqGZ2', 'user', '2026-03-09 12:36:13', NULL),
+(15, 'aditi tupsakri', 'adititupsakri.work@gmail.com', '9108893232', '$2y$10$h2SYBECGqRP99klpwPEhfe6vxtjhApFq7Mo3UkXSsUU9CaQU1J7yG', 'user', '2026-03-12 09:37:10', NULL),
+(16, 'Shobha Tupsakri', 'shobha@gmail.com', '9844203996', '$2y$10$HVpevc2Qc0zX0DleIQBjuexlm/pIa2k/u6ZZDiAAXGywoHXs2pnP6', 'user', '2026-03-17 15:10:28', NULL),
+(17, 'Rachana', 'patelanitha64@gmail.com', '8618247172', '$2y$10$HBeOwy/erN5OJYzGmzOYM.K0sB47sr5iG5XYgu9NKs6Jcxo5amsaq', 'user', '2026-03-30 11:09:39', NULL);
 
 -- --------------------------------------------------------
 
@@ -1067,8 +1067,8 @@ ALTER TABLE `orders`
 --
 ALTER TABLE `order_items`
   ADD PRIMARY KEY (`item_id`),
-  ADD KEY `fk_order_items_product` (`product_code`),
-  ADD KEY `idx_order_items_order` (`order_id`);
+  ADD KEY `idx_order_items_order` (`order_id`),
+  ADD KEY `idx_order_items_product` (`product_code`);
 
 --
 -- Indexes for table `products`
@@ -1077,8 +1077,7 @@ ALTER TABLE `products`
   ADD PRIMARY KEY (`product_code`),
   ADD KEY `idx_category` (`category_num`),
   ADD KEY `idx_featured` (`is_featured`),
-  ADD KEY `idx_active` (`is_active`),
-  ADD KEY `idx_product_category` (`category_num`);
+  ADD KEY `idx_active` (`is_active`);
 
 --
 -- Indexes for table `product_images`
@@ -1092,70 +1091,35 @@ ALTER TABLE `product_images`
 --
 ALTER TABLE `product_stock`
   ADD PRIMARY KEY (`stock_id`),
-  ADD UNIQUE KEY `product_code` (`product_code`,`size`),
-  ADD KEY `idx_product_stock` (`product_code`,`size`);
+  ADD UNIQUE KEY `uniq_product_size` (`product_code`,`size`);
 
 --
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`user_id`),
-  ADD UNIQUE KEY `email` (`email`),
-  ADD UNIQUE KEY `email_2` (`email`),
-  ADD KEY `idx_user_email` (`email`);
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- Indexes for table `user_cart`
 --
 ALTER TABLE `user_cart`
-  ADD PRIMARY KEY (`user_id`,`product_code`,`size`);
+  ADD PRIMARY KEY (`user_id`,`product_code`,`size`),
+  ADD KEY `fk_cart_product` (`product_code`);
 
 --
 -- Indexes for table `user_sessions`
 --
 ALTER TABLE `user_sessions`
   ADD PRIMARY KEY (`session_id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD KEY `idx_user_sessions_user` (`user_id`);
 
 --
 -- Indexes for table `user_wishlist`
 --
 ALTER TABLE `user_wishlist`
-  ADD PRIMARY KEY (`user_id`,`product_code`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `orders`
---
-ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
-
---
--- AUTO_INCREMENT for table `order_items`
---
-ALTER TABLE `order_items`
-  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
-
---
--- AUTO_INCREMENT for table `product_images`
---
-ALTER TABLE `product_images`
-  MODIFY `image_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=352;
-
---
--- AUTO_INCREMENT for table `product_stock`
---
-ALTER TABLE `product_stock`
-  MODIFY `stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=381;
-
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  ADD PRIMARY KEY (`user_id`,`product_code`),
+  ADD KEY `fk_wishlist_product` (`product_code`);
 
 --
 -- Constraints for dumped tables
@@ -1165,35 +1129,46 @@ ALTER TABLE `users`
 -- Constraints for table `orders`
 --
 ALTER TABLE `orders`
-  ADD CONSTRAINT `fk_orders_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `fk_orders_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `order_items`
 --
 ALTER TABLE `order_items`
   ADD CONSTRAINT `fk_order_items_order` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_order_items_product` FOREIGN KEY (`product_code`) REFERENCES `products` (`product_code`) ON DELETE CASCADE,
-  ADD CONSTRAINT `order_items_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `order_items_ibfk_2` FOREIGN KEY (`product_code`) REFERENCES `products` (`product_code`) ON DELETE CASCADE;
+  ADD CONSTRAINT `fk_order_items_product` FOREIGN KEY (`product_code`) REFERENCES `products` (`product_code`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `product_images`
 --
 ALTER TABLE `product_images`
-  ADD CONSTRAINT `fk_product_code` FOREIGN KEY (`product_code`) REFERENCES `products` (`product_code`) ON DELETE CASCADE;
+  ADD CONSTRAINT `fk_product_images_product` FOREIGN KEY (`product_code`) REFERENCES `products` (`product_code`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `product_stock`
 --
 ALTER TABLE `product_stock`
-  ADD CONSTRAINT `fk_stock_product` FOREIGN KEY (`product_code`) REFERENCES `products` (`product_code`) ON DELETE CASCADE;
+  ADD CONSTRAINT `fk_product_stock_product` FOREIGN KEY (`product_code`) REFERENCES `products` (`product_code`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `user_cart`
+--
+ALTER TABLE `user_cart`
+  ADD CONSTRAINT `fk_cart_product` FOREIGN KEY (`product_code`) REFERENCES `products` (`product_code`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_cart_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `user_sessions`
 --
 ALTER TABLE `user_sessions`
-  ADD CONSTRAINT `user_sessions_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `fk_user_sessions_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `user_wishlist`
+--
+ALTER TABLE `user_wishlist`
+  ADD CONSTRAINT `fk_wishlist_product` FOREIGN KEY (`product_code`) REFERENCES `products` (`product_code`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_wishlist_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

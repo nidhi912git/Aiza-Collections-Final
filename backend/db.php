@@ -2,7 +2,7 @@
 $host = "localhost";
 $user = "root";
 $password = "";
-$database = "aizacollections";
+$database = "aizacollections_v2";
 
 $conn = mysqli_connect($host, $user, $password, $database);
 
