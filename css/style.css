@@ -3756,3 +3756,15 @@ width:150px;
   min-width: 160px;
   text-align: center;
 }
+.popup {
+    background: #a65a2e; /* same as Browse Catalog button */
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 999;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
