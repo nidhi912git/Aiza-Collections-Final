@@ -46,16 +46,15 @@ ORDER BY p.product_name
 
 <section>
 
-    <div class="admin-header">
+    <div class="admin-header-products">
 
-        <h2 class="section-title">Manager's Overview of Products</h2>
+        <h2 class="section-title">
+            Manager's Overview of Products
+        </h2>
 
-        <div style="display:flex;gap:12px;">
-
+        <div class="admin-actions">
             <a href="dashboard.php" class="btn">Dashboard</a>
-
-            <a href="add_product.php" class="btn">Add New Product</a>
-
+            <a href="add_product.php" class="btn add-product-btn">Add New Product</a>
         </div>
 
     </div>

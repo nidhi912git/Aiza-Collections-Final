@@ -18,7 +18,17 @@ ORDER BY role DESC,name
 
 <section>
 
-    <h2 class="section-title">Manage Staff</h2>
+    <div class="admin-header">
+
+        <div></div> <!-- left empty -->
+
+        <h2 class="section-title">Manage Staff</h2>
+
+        <div class="admin-actions">
+            <a href="dashboard.php" class="btn">Dashboard</a>
+        </div>
+
+    </div>
 
     <a href="add_staff.php" class="btn">Add Staff</a>
 

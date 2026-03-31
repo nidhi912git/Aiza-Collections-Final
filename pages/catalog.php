@@ -15,8 +15,22 @@ $where[] = "p.product_code NOT LIKE '%-%'";
 $where[] = "p.is_active = 1";
 
 if ($search !== '') {
-    $safe = mysqli_real_escape_string($conn, $search);
-    $where[] = "p.product_name LIKE '%$safe%'";
+    $safe = mysqli_real_escape_string($conn, strtolower($search));
+
+    $where[] = "(
+        LOWER(p.product_name) LIKE '%$safe%'
+        OR (
+            p.category_num = CASE
+                WHEN '$safe' LIKE '%anarkali%' THEN 1
+                WHEN '$safe' LIKE '%chikankari%' THEN 2
+                WHEN '$safe' LIKE '%coord%' OR '$safe' LIKE '%co-ord%' THEN 3
+                WHEN '$safe' LIKE '%dress%' THEN 4
+                WHEN '$safe' LIKE '%sharara%' THEN 5
+                WHEN '$safe' LIKE '%kurta%' THEN 6
+                ELSE -1
+            END
+         )
+    )";
 }
 
 if ($category !== 'all') {

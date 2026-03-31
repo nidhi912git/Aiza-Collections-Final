@@ -532,3 +532,4 @@ document.querySelectorAll(".confirm-form").forEach((form) => {
     confirmAction(message, form);
   });
 });
+

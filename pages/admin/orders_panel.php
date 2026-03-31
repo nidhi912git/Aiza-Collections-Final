@@ -26,7 +26,17 @@ ORDER BY o.created_at DESC
 
 <section>
 
-    <h2 class="section-title">Orders Panel</h2>
+    <div class="admin-header">
+
+        <div></div> <!-- left empty -->
+
+        <h2 class="section-title">Orders Panel</h2>
+
+        <div class="admin-actions">
+            <a href="dashboard.php" class="btn">Dashboard</a>
+        </div>
+
+    </div>
 
     <div class="orders-table-container">
 

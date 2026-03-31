@@ -39,7 +39,17 @@ HAVING stock BETWEEN 1 AND 5
 
 <section>
 
-    <h2 class="section-title">Stock Conflicts</h2>
+    <div class="admin-header">
+
+        <div></div> <!-- left empty -->
+
+        <h2 class="section-title">Stock Conflicts</h2>
+
+        <div class="admin-actions">
+            <a href="dashboard.php" class="btn">Dashboard</a>
+        </div>
+
+    </div>
 
     <!-- OUT OF STOCK -->
 

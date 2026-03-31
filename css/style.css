@@ -3722,3 +3722,37 @@ width:150px;
 .admin-table td:nth-child(5){
 width:150px;
 }
+
+.admin-header {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.admin-header h2 {
+  text-align: center;
+}
+
+.admin-actions {
+  justify-self: end;
+}
+
+.admin-header-products {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.admin-header-products .admin-actions {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.add-product-btn {
+  white-space: nowrap;
+  padding: 10px 18px;
+  min-width: 160px;
+  text-align: center;
+}

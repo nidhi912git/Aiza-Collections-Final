@@ -114,7 +114,7 @@ ORDER BY created_at DESC
                                 <?= date("d M Y", strtotime($order['created_at'])) ?>
                             </span>
 
-                            <span>
+                            <span style="<?= strtolower($order['order_status']) == 'cancelled' ? 'color:red; font-weight:600;' : '' ?>">
                                 <?= htmlspecialchars($order['order_status']) ?>
                             </span>
 

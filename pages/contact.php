@@ -66,7 +66,7 @@ include "../includes/header.php";
     <p>Come visit us in-person to have the best shopping experience and get your best fits. We are located in Veera Pillai Street, near the famous Commercial Street of Bengaluru.</p>
     <p>Find the Google Maps link below to easily locate us.</p>
 
-    <a href="https://maps.google.com/..." target="_blank" class="btn map-btn">
+    <a href="https://maps.app.goo.gl/4hTgSLNoQsnjKgsT6" target="_blank" class="btn map-btn">
       Open in Google Maps
     </a>
   </div>
@@ -123,47 +123,50 @@ include "../includes/header.php";
     Thank you for the message
   </div>
 
-  <form class="contact-form"
-    onsubmit="document.getElementById('form-success-message').style.display='block'; this.reset(); return false;">
+  <form class="contact-form" onsubmit="event.preventDefault(); return handleFormSubmit(this)">
 
     <!-- NAME -->
     <div class="form-row">
-      <input
-        type="text"
+      <input type="text"
         placeholder="First Name"
-        pattern="[A-Za-z\s-]+"
-        title="Only letters allowed"
-        onkeypress="allowOnlyLetters(event)"
+        pattern="[A-Za-z]{2,}"
+        title="Minimum 2 letters"
         required>
 
-      <input
-        type="text"
+      <input type="text"
         placeholder="Last Name"
-        pattern="[A-Za-z\s-]+"
-        title="Only letters allowed"
-        onkeypress="allowOnlyLetters(event)"
+        pattern="[A-Za-z]{2,}"
+        title="Minimum 2 letters"
         required>
     </div>
 
     <!-- EMAIL + PHONE -->
     <div class="form-row">
-      <input type="email" placeholder="Email" required>
+      <input type="email"
+        placeholder="Email"
+        pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$"
+        required>
 
       <input type="tel"
         placeholder="Phone (10 digits)"
-        required
-        inputmode="numeric"
-        pattern="[0-9]{10}"
-        minlength="10"
+        pattern="[6-9][0-9]{9}"
         maxlength="10"
-        title="Please enter a 10-digit phone number">
+        required>
     </div>
 
     <!-- SUBJECT -->
-    <input type="text" placeholder="Subject" required>
+    <input type="text"
+      placeholder="Subject"
+      minlength="5"
+      maxlength="100"
+      required>
 
     <!-- MESSAGE -->
-    <textarea rows="5" placeholder="Your Message" required></textarea>
+    <textarea rows="5"
+      placeholder="Your Message"
+      minlength="10"
+      maxlength="500"
+      required></textarea>
 
     <button type="submit">Send Message</button>
   </form>
@@ -171,13 +174,35 @@ include "../includes/header.php";
 
 <?php include "../includes/footer.php"; ?>
 
-<!-- ✅ SCRIPT (placed at bottom for best performance) -->
 <script>
-  function allowOnlyLetters(e) {
-    const char = String.fromCharCode(e.which);
+  function handleFormSubmit(form) {
 
-    if (!/[a-zA-Z\s-]/.test(char)) {
-      e.preventDefault();
+    const inputs = form.querySelectorAll("input, textarea");
+
+    for (let i of inputs) {
+      if (i.value.trim() === "") {
+        alert("Fields cannot be empty or spaces only");
+        return false;
+      }
     }
+
+    const phone = form.querySelector('input[type="tel"]').value;
+
+    // ❌ block repeated digits like 8888888888
+    if (/^(\d)\1{9}$/.test(phone) || !/^[6-9]\d{9}$/.test(phone)) {
+      alert("Invalid phone number");
+      return false;
+    }
+
+    // ❌ block sequences like 1234567890
+    if (/1234567890|0987654321/.test(phone)) {
+      alert("Invalid phone number");
+      return false;
+    }
+
+    document.getElementById('form-success-message').style.display = 'block';
+    form.reset();
+
+    return false;
   }
 </script>
