@@ -89,7 +89,6 @@ LIMIT 5
 ");
 
 ?>
-
 <section>
 
     <h2 class="section-title">Store Operations Dashboard</h2>
@@ -135,6 +134,7 @@ LIMIT 5
         </div>
 
     </div>
+    <div class="card-box">
 
     <h3 class="dashboard-subtitle">Low Stock Alerts</h3>
 
@@ -168,7 +168,15 @@ LIMIT 5
 
     <?php endif; ?>
 
+    </div>
+
+    <div class="card-box">
+
     <h3 class="dashboard-subtitle">Recent Orders</h3>
+
+    <p class="card-subtext">
+        These are the top 5 recent orders you've received
+    </p>
 
     <?php if (mysqli_num_rows($recent) == 0): ?>
 
@@ -204,6 +212,7 @@ LIMIT 5
         </table>
 
     <?php endif; ?>
+    </div>
 
 </section>
 

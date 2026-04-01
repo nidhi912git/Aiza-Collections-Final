@@ -7,6 +7,50 @@ include "../../includes/security.php";
 require_admin();
 
 include "../../includes/header.php";
+$search   = $_GET['q'] ?? '';
+$category = $_GET['category'] ?? 'all';
+$price    = $_GET['price'] ?? 'default';
+
+/* WHERE CONDITIONS */
+
+$where = [];
+$where[] = "p.product_code NOT LIKE '%-%'";
+$where[] = "p.is_active = 1";
+
+if ($search !== '') {
+    $safe = mysqli_real_escape_string($conn, strtolower($search));
+
+    $where[] = "(
+        LOWER(p.product_name) LIKE '%$safe%'
+        OR (
+            p.category_num = CASE
+                WHEN '$safe' LIKE '%anarkali%' THEN 1
+                WHEN '$safe' LIKE '%chikankari%' THEN 2
+                WHEN '$safe' LIKE '%coord%' OR '$safe' LIKE '%co-ord%' THEN 3
+                WHEN '$safe' LIKE '%dress%' THEN 4
+                WHEN '$safe' LIKE '%sharara%' THEN 5
+                WHEN '$safe' LIKE '%kurta%' THEN 6
+                ELSE -1
+            END
+         )
+    )";
+}
+
+if ($category !== 'all') {
+    $cat = intval($category);
+    $where[] = "p.category_num = $cat";
+}
+
+/* ORDER BY */
+
+$order = "";
+
+if ($price === "low-high") {
+    $order = "ORDER BY p.price ASC";
+} elseif ($price === "high-low") {
+    $order = "ORDER BY p.price DESC";
+}
+
 
 /* GET PRODUCTS WITH MAIN IMAGE + STOCK */
 $res = mysqli_query($conn, "
@@ -58,6 +102,42 @@ ORDER BY p.product_name
         </div>
 
     </div>
+    
+    <form class="catalog-filters" method="get">
+
+        <select name="category" onchange="this.form.submit()">
+
+            <option value="all">All Categories</option>
+
+            <option value="1" <?= $category == 1 ? 'selected' : '' ?>>Anarkali Set</option>
+
+            <option value="2" <?= $category == 2 ? 'selected' : '' ?>>Chikankari</option>
+
+            <option value="3" <?= $category == 3 ? 'selected' : '' ?>>Co‑ord Set</option>
+
+            <option value="4" <?= $category == 4 ? 'selected' : '' ?>>Dress Material</option>
+
+            <option value="5" <?= $category == 5 ? 'selected' : '' ?>>Sharara Set</option>
+
+            <option value="6" <?= $category == 6 ? 'selected' : '' ?>>Straight Kurta Set</option>
+
+        </select>
+
+        <input type="hidden" name="q" value="<?= htmlspecialchars($search) ?>">
+
+        <select name="price" onchange="this.form.submit()">
+
+            <option value="default">Sort by Price</option>
+
+            <option value="low-high" <?= $price == 'low-high' ? 'selected' : '' ?>>Low to High</option>
+
+            <option value="high-low" <?= $price == 'high-low' ? 'selected' : '' ?>>High to Low</option>
+
+        </select>
+
+    </form>
+
+
 
     <?php if (isset($_SESSION['undo'])): ?>
 

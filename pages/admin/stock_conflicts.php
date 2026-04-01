@@ -39,6 +39,7 @@ $q = mysqli_query($conn, "
         </div>
 
     </div>
+    <div class ="card-box">
 
     <h3 style="margin-top:30px;">Stock Issues (Size-wise)</h3>
 
@@ -80,7 +81,7 @@ $q = mysqli_query($conn, "
                 </tr>
 
             <?php endwhile; ?>
-
+            </div>
         </table>
 
     <?php endif; ?>

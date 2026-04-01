@@ -7,83 +7,133 @@ include "../../includes/security.php";
 require_admin();
 verify_csrf();
 
-/* GET FORM DATA */
+/* =========================
+   GET FORM DATA
+========================= */
 
-$code     = $_POST['code'] ?? '';
+$code     = trim($_POST['code'] ?? '');
 $category = intval($_POST['category'] ?? 0);
 $name     = trim($_POST['name'] ?? '');
 $price    = floatval($_POST['price'] ?? 0);
-$color    = trim($_POST['color'] ?? '');
 $desc     = trim($_POST['desc'] ?? '');
 $featured = intval($_POST['featured'] ?? 0);
 $active   = intval($_POST['active'] ?? 1);
 
-/* SIZE STOCK */
-
-$stock_S   = intval($_POST['stock_S'] ?? 0);
-$stock_M   = intval($_POST['stock_M'] ?? 0);
-$stock_L   = intval($_POST['stock_L'] ?? 0);
-$stock_XL  = intval($_POST['stock_XL'] ?? 0);
-$stock_XXL = intval($_POST['stock_XXL'] ?? 0);
-
-/* UPDATE PRODUCT INFO */
-
-$stmt = mysqli_prepare($conn, "
-UPDATE products
-SET
-category_num = ?,
-product_name = ?,
-description = ?,
-price = ?,
-color = ?,
-is_featured = ?,
-is_active = ?
-WHERE product_code = ?
-");
-
-mysqli_stmt_bind_param(
-    $stmt,
-    "issdsiis",
-    $category,
-    $name,
-    $desc,
-    $price,
-    $color,
-    $featured,
-    $active,
-    $code
-);
-
-mysqli_stmt_execute($stmt);
-
-/* UPDATE SIZE STOCK */
+/* =========================
+   SIZE STOCK (STRICT)
+========================= */
 
 $stocks = [
-    "S" => $stock_S,
-    "M" => $stock_M,
-    "L" => $stock_L,
-    "XL" => $stock_XL,
-    "XXL" => $stock_XXL
+    "S"   => intval($_POST['stock_S'] ?? 0),
+    "M"   => intval($_POST['stock_M'] ?? 0),
+    "L"   => intval($_POST['stock_L'] ?? 0),
+    "XL"  => intval($_POST['stock_XL'] ?? 0),
+    "XXL" => intval($_POST['stock_XXL'] ?? 0)
 ];
 
-foreach ($stocks as $size => $qty) {
+/* =========================
+   VALIDATION
+========================= */
 
-    $stmt2 = mysqli_prepare($conn, "
-    UPDATE product_stock
-    SET stock_qty=?
-    WHERE product_code=? AND size=?
-    ");
-
-    mysqli_stmt_bind_param($stmt2, "iss", $qty, $code, $size);
-
-    mysqli_stmt_execute($stmt2);
+if (!$code || !$name || $price <= 0 || $category <= 0) {
+    $_SESSION['popup'] = "Invalid product data.";
+    header("Location: products.php");
+    exit;
 }
 
-/* SUCCESS MESSAGE */
+/* =========================
+   START TRANSACTION
+========================= */
 
-$_SESSION['popup'] = "Product updated successfully.";
+mysqli_begin_transaction($conn);
 
-/* REDIRECT */
+try {
+
+    /* =========================
+       UPDATE PRODUCT
+    ========================= */
+
+    $stmt = mysqli_prepare($conn, "
+        UPDATE products
+        SET
+            category_num = ?,
+            product_name = ?,
+            description = ?,
+            price = ?,
+            is_featured = ?,
+            is_active = ?
+        WHERE TRIM(product_code) = ?
+    ");
+
+    mysqli_stmt_bind_param(
+        $stmt,
+        "issdiis",
+        $category,
+        $name,
+        $desc,
+        $price,
+        $featured,
+        $active,
+        $code
+    );
+
+    mysqli_stmt_execute($stmt);
+
+    /* =========================
+       STOCK UPDATE (FORCED MATCH)
+    ========================= */
+
+    foreach ($stocks as $size => $qty) {
+
+        $size = trim(strtoupper($size)); // normalize
+
+        $stmt2 = mysqli_prepare($conn, "
+            UPDATE product_stock
+            SET stock_qty = ?
+            WHERE TRIM(product_code) = ? AND TRIM(size) = ?
+        ");
+
+        mysqli_stmt_bind_param($stmt2, "iss", $qty, $code, $size);
+        mysqli_stmt_execute($stmt2);
+
+        /* 🔥 FORCE CHECK */
+
+        if (mysqli_stmt_affected_rows($stmt2) === 0) {
+
+            // Check if row exists but mismatch
+            $check = mysqli_prepare($conn, "
+                SELECT * FROM product_stock
+                WHERE TRIM(product_code) = ? AND TRIM(size) = ?
+            ");
+
+            mysqli_stmt_bind_param($check, "ss", $code, $size);
+            mysqli_stmt_execute($check);
+
+            $result = mysqli_stmt_get_result($check);
+
+            if (mysqli_num_rows($result) == 0) {
+
+                // Insert ONLY if truly not exists
+                $stmt3 = mysqli_prepare($conn, "
+                    INSERT INTO product_stock (product_code, size, stock_qty)
+                    VALUES (?, ?, ?)
+                ");
+
+                mysqli_stmt_bind_param($stmt3, "ssi", $code, $size, $qty);
+                mysqli_stmt_execute($stmt3);
+            }
+        }
+    }
+
+    mysqli_commit($conn);
+
+    $_SESSION['popup'] = "Product updated successfully.";
+
+} catch (Exception $e) {
+
+    mysqli_rollback($conn);
+    $_SESSION['popup'] = "Error: " . $e->getMessage();
+}
 
 header("Location: products.php");
 exit;

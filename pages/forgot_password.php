@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (mysqli_num_rows($q) > 0) {
 
         echo "<p style='color:green;text-align:center'>
-            Please contact the store admin to reset your password.
+            Please contact the store manager to reset your password.
         </p>";
     } else {
 

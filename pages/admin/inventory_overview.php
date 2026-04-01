@@ -48,7 +48,7 @@ LIMIT 5
 
 <section>
 
-    <<div class="admin-header">
+    <div class="admin-header">
 
         <div></div> <!-- left empty -->
 
@@ -59,6 +59,7 @@ LIMIT 5
         </div>
 
     </div>
+    <div class ="card-box">
 
     <div class="admin-stats">
 
@@ -98,6 +99,8 @@ LIMIT 5
             </tr>
 
         <?php endwhile; ?>
+
+        </div>
 
     </table>
 
