@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 01, 2026 at 06:15 AM
+-- Generation Time: Apr 01, 2026 at 07:16 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -76,6 +76,7 @@ INSERT INTO `products` (`category_num`, `product_code`, `product_name`, `descrip
 (1, 'A1', 'Olive Garden Elegance', 'An ivory kurta with olive and mustard floral prints, featuring delicate embroidery on the neckline and lace-detailed sleeves. Paired with a matching dupatta, it offers a soft, elegant look perfect for festive or daytime wear.', 2500.00, 0, 1),
 (1, 'A1-1', 'Olive Garden Elegance', 'An ivory kurta with olive and mustard floral prints, featuring delicate embroidery on the neckline and lace-detailed sleeves. Paired with a matching dupatta, it offers a soft, elegant look perfect for festive or daytime wear.', 2500.00, 0, 1),
 (1, 'A1-2', 'Olive Garden Elegance', 'An ivory kurta with olive and mustard floral prints, featuring delicate embroidery on the neckline and lace-detailed sleeves. Paired with a matching dupatta, it offers a soft, elegant look perfect for festive or daytime wear.', 2500.00, 0, 1),
+(1, 'A10', 'idk', 'aergfvaefgv', 400.00, 0, 1),
 (1, 'A2', 'Misty Blue Grace', 'A soft blue floral printed kurta set featuring delicate traditional patterns and elegant detailing on the neckline. Paired with a beautifully coordinated dupatta and matching bottoms, the outfit creates a graceful and timeless look, perfect for festive gatherings, casual celebrations, or elegant daywear.', 2000.00, 0, 1),
 (1, 'A2-1', 'Misty Blue Grace', 'A soft blue floral printed kurta set featuring delicate traditional patterns and elegant detailing on the neckline. Paired with a beautifully coordinated dupatta and matching bottoms, the outfit creates a graceful and timeless look, perfect for festive gatherings, casual celebrations, or elegant daywear.', 2000.00, 0, 1),
 (1, 'A3', 'Sunshine Bloom', 'A vibrant mustard-yellow kurta set featuring delicate floral prints and a comfortable, elegant silhouette. Paired with striped bottoms and a beautifully patterned dupatta with floral borders, this outfit brings a bright and cheerful charm, perfect for festive gatherings or everyday ethnic wear.', 2150.00, 0, 1),
@@ -540,7 +541,8 @@ INSERT INTO `product_images` (`image_id`, `product_code`, `image_path`) VALUES
 (348, 'S33-2', 'assets/images/straight_kurti/S33-2.jpeg'),
 (349, 'S34', 'assets/images/straight_kurti/S34.jpeg'),
 (350, 'S34-1', 'assets/images/straight_kurti/S34-1.jpeg'),
-(351, 'S34-2', 'assets/images/straight_kurti/S34-2.jpeg');
+(351, 'S34-2', 'assets/images/straight_kurti/S34-2.jpeg'),
+(354, 'A10', '1775017768_0_1775008508_0_Common Fashion Mistakes That Instantly Age Your Look.jpg');
 
 -- --------------------------------------------------------
 
@@ -939,7 +941,12 @@ INSERT INTO `product_stock` (`stock_id`, `product_code`, `size`, `stock_qty`) VA
 (378, 'SH6', 'M', 15),
 (379, 'SH6', 'S', 15),
 (380, 'SH6', 'XL', 15),
-(381, 'SH6', 'XXL', 15);
+(381, 'SH6', 'XXL', 15),
+(387, 'A10', 'S', 15),
+(388, 'A10', 'M', 15),
+(389, 'A10', 'L', 15),
+(390, 'A10', 'XL', 15),
+(391, 'A10', 'XXL', 15);
 
 -- --------------------------------------------------------
 
@@ -1098,13 +1105,13 @@ ALTER TABLE `order_items`
 -- AUTO_INCREMENT for table `product_images`
 --
 ALTER TABLE `product_images`
-  MODIFY `image_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=354;
+  MODIFY `image_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=355;
 
 --
 -- AUTO_INCREMENT for table `product_stock`
 --
 ALTER TABLE `product_stock`
-  MODIFY `stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=387;
+  MODIFY `stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=392;
 
 --
 -- Constraints for dumped tables
