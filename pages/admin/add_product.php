@@ -50,12 +50,11 @@ include "../../includes/header.php";
 
         <label>Initial Stock Per Size</label>
 
-        <input
-            type="number"
-            name="stock"
-            min="0"
-            value="15"
-            required>
+         <input type="number" name="stock[S]" value="15">
+         <input type="number" name="stock[M]" value="15">
+         <input type="number" name="stock[L]" value="15">
+         <input type="number" name="stock[XL]" value="15">
+         <input type="number" name="stock[XXL]" value="15">
 
         <p style="font-size:13px;color:#666;margin-top:-6px;margin-bottom:10px;">
             Stock will be created for sizes: S, M, L, XL, XXL

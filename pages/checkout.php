@@ -134,6 +134,10 @@ try {
          throw new Exception("Stock entry missing for product.");
       }
 
+      if ($stockRow['stock_qty'] < $qty) {
+         throw new Exception("Not enough stock");
+      }
+
       if ($stockRow['stock_qty'] <= 0) {
          $_SESSION['popup'] = "Out of stock. Check again in a few days.";
          mysqli_rollback($conn);
