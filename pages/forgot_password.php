@@ -2,43 +2,44 @@
 include "../includes/config.php";
 include "../includes/header.php";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    $contact = trim($_POST['contact']);
+    $email = trim($_POST['email'] ?? '');
 
-    $q = mysqli_query($conn, "
-    SELECT email,phone_number
-    FROM users
-    WHERE email='$contact' OR phone_number='$contact'
-    ");
-
-    if (mysqli_num_rows($q) > 0) {
-
-        echo "<p style='color:green;text-align:center'>
-            Please contact the store manager to reset your password.
-        </p>";
+    if (!$email) {
+        $error = "Please enter your email";
     } else {
 
-        echo "<p style='color:red;text-align:center'>
-            Account not found.
-        </p>";
+        $stmt = mysqli_prepare($conn, "SELECT user_id FROM users WHERE email=?");
+        mysqli_stmt_bind_param($stmt, "s", $email);
+        mysqli_stmt_execute($stmt);
+        $res = mysqli_stmt_get_result($stmt);
+
+        if ($user = mysqli_fetch_assoc($res)) {
+            header("Location: reset_password.php?id=" . $user['user_id']);
+            exit;
+        } else {
+            $error = "Email not found";
+        }
     }
 }
 ?>
 
 <div class="auth-box">
-
     <h2>Forgot Password</h2>
 
     <form method="post" class="auth-form">
 
-        <label>Email or Phone Number</label>
-        <input type="text" name="contact" required>
+        <label>Email</label>
+        <input type="email" name="email" required>
 
-        <button class="btn">Recover Account</button>
+        <button class="btn">Continue</button>
 
     </form>
 
+    <?php if (isset($error)): ?>
+        <p class="auth-error"><?= $error ?></p>
+    <?php endif; ?>
 </div>
 
 <?php include "../includes/footer.php"; ?>
