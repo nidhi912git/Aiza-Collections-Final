@@ -138,12 +138,13 @@ $total = 0;
 
                     <?php
                     $status = $item['order_status'] ?? 'Pending';
-
-                    if (
-                        ($item['item_status'] ?? 'Placed') == 'Placed' &&
-                        in_array($status, ['Pending', 'Placed', 'Processing'])
-                    ):
                     ?>
+
+                    <?php if (
+                        ($item['item_status'] ?? '') != 'Cancelled' &&
+                        strtolower($status) != 'cancelled' &&
+                        in_array($status, ['Pending', 'Placed', 'Processing'])
+                    ): ?>
 
                         <form
                             method="POST"
@@ -161,20 +162,24 @@ $total = 0;
 
                         </form>
 
+                    <?php else: ?>
+
+                        <button class="action-btn" disabled style="opacity:0.5; cursor:not-allowed;">
+                            Cancelled
+                        </button>
+
                     <?php endif; ?>
 
                 </div>
 
-            </div>
+            </div> <!-- ✅ FIX: closed list-card -->
 
-        <?php endwhile; ?>
+        <?php endwhile; ?> <!-- ✅ FIX: closed loop -->
 
     </div>
 
     <h3 style="text-align:center;margin-top:30px;">
-
         Order Total ₹<?= number_format($total) ?>
-
     </h3>
 
     <div style="text-align:center;margin-top:25px;">
@@ -243,17 +248,13 @@ $total = 0;
     });
 
     function closeCancelModal() {
-
         document.getElementById("cancelModal").style.display = "none";
-
     }
 
     function confirmCancelSubmit() {
-
         if (cancelForm) {
             cancelForm.submit();
         }
-
     }
 </script>
 

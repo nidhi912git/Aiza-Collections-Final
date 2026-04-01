@@ -9,12 +9,28 @@ require_admin();
 $order_id = intval($_GET['id'] ?? 0);
 
 /* ===============================
+   CHECK ORDER STATUS FIRST
+================================ */
+
+$checkQ = mysqli_query($conn, "
+SELECT order_status FROM orders WHERE order_id='$order_id'
+");
+
+$checkRow = mysqli_fetch_assoc($checkQ);
+$isCancelled = strtolower($checkRow['order_status'] ?? '') == 'cancelled';
+
+/* ===============================
    UPDATE ORDER STATUS
 ================================ */
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
    verify_csrf();
+
+   // ❌ BLOCK IF CANCELLED
+   if ($isCancelled) {
+      die("This order is cancelled and cannot be updated.");
+   }
 
    $status = $_POST['status'] ?? '';
 
@@ -146,6 +162,7 @@ $items_query = mysqli_stmt_get_result($stmt2);
             <td>₹<?= number_format($item['price']) ?></td>
 
             <td>₹<?= number_format($item['price'] * $item['quantity']) ?></td>
+
             <?php
             if (($item['item_status'] ?? '') != 'Cancelled') {
                $total += $item['price'] * $item['quantity'];
@@ -191,20 +208,28 @@ $items_query = mysqli_stmt_get_result($stmt2);
                Select Status
             </div>
 
-            <div class="dropdown-menu">
+            <div class="dropdown-menu" <?= $isCancelled ? 'style="pointer-events:none; opacity:0.5;"' : '' ?>>
+
                <div class="dropdown-item">Placed</div>
                <div class="dropdown-item">Processing</div>
                <div class="dropdown-item">Shipped</div>
                <div class="dropdown-item">Delivered</div>
                <div class="dropdown-item">Cancelled</div>
+
             </div>
 
             <input type="hidden" name="status" id="statusInput">
 
          </div>
 
-         <button type="submit" name="update_status" class="btn update-status-btn">
+         <button
+            type="submit"
+            name="update_status"
+            class="btn update-status-btn"
+            <?= $isCancelled ? 'disabled style="opacity:0.5; cursor:not-allowed;"' : '' ?>>
+
             Update Status
+
          </button>
 
       </form>

@@ -15,7 +15,26 @@ if (!$id) {
     exit;
 }
 
-/* REMOVE STAFF ROLE -> BACK TO CUSTOMER */
+/* ===============================
+   CHECK ROLE FIRST (IMPORTANT)
+================================ */
+
+$check = mysqli_query($conn, "
+SELECT role FROM users WHERE user_id='$id'
+");
+
+$row = mysqli_fetch_assoc($check);
+
+/* ❌ BLOCK IF ALREADY USER */
+if (($row['role'] ?? '') == 'user') {
+    $_SESSION['popup'] = "Cannot remove. User is not a staff member.";
+    header("Location: manage_staff.php");
+    exit;
+}
+
+/* ===============================
+   REMOVE STAFF ROLE
+================================ */
 
 $stmt = mysqli_prepare($conn, "
 UPDATE users

@@ -1879,14 +1879,16 @@ img[src*="icons"] {
 }
 
 #catalog-page .catalog-filters select {
-  padding: 10px 16px;
-  font-size: 0.95rem;
-  border-radius: var(--radius);
+  padding: 8px 14px;
+  font-size: 14px;
+  border-radius: 999px;
   border: 1px solid var(--border);
   background: var(--card);
   color: var(--text);
-  min-width: 200px;
+  width: 220px; /* ✅ fixed width */
+  max-width: 100%;
   cursor: pointer;
+}
 }
 
 #catalog-page .catalog-filters select:focus {
