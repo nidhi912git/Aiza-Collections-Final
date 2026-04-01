@@ -31,17 +31,21 @@ function canAddToCart($conn, $code, $size, $current_qty, &$message = "")
 
     $available = intval($row['stock_qty'] ?? 0);
 
-    // ❌ completely out of stock
+    // completely out of stock
     if ($available <= 0) {
         $message = "Out of stock. Check again in a few days.";
         return false;
     }
 
-    // ❌ reached max available stock
     if ($current_qty >= $available) {
-        $message = "Only $available items available for this size.";
-        return false;
-    }
+    $message = "You've reached max stock ($available)";
+    return false;
+}
+
+if ($current_qty + 1 > $available) {
+    $message = "Cannot add more. Only $available available.";
+    return false;
+}
 
     return true;
 }

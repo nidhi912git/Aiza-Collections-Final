@@ -115,6 +115,13 @@ function increaseQty() {
   let qtyEl = document.getElementById("qty");
   let qty = parseInt(qtyEl.innerText) || 1;
 
+  const stock = parseInt(sizeBtn.dataset.stock) || 0;
+
+  if (qty >= stock) {
+    showPopup("Maximum stock reached");
+    return;
+  }
+
   qtyEl.innerText = qty + 1;
 }
 
@@ -170,18 +177,27 @@ function askSize(action, code) {
       const size = btn.dataset.size;
 
       fetch("/aiza-collections-final/pages/list-handler.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: `product_code=${encodeURIComponent(code)}&size=${encodeURIComponent(size)}&action=${action === "cart" ? "add_cart" : "add_wishlist"}`,
-      }).then(() => {
-        showPopup(
-          action === "cart" ? "✔ Added to cart" : "♡ Added to wishlist",
-        );
+  method: "POST",
+  headers: { "Content-Type": "application/x-www-form-urlencoded" },
+  body: `product_code=${encodeURIComponent(code)}&size=${encodeURIComponent(size)}&action=${action === "cart" ? "add_cart" : "add_wishlist"}`,
+})
+  .then((res) => res.text())
+  .then((data) => {
 
-        overlay.remove();
-      });
-    };
+    if (data.trim() === "added_cart") {
+      showPopup("✔ Added to cart");
+      updateCartCounter(1);
+    } else if (data.trim() === "added_wishlist") {
+      showPopup("♡ Added to wishlist");
+    } else {
+      showPopup(data);
+    }
+
+    overlay.remove();
   });
+}
+}
+)
 }
 
 /* ===============================

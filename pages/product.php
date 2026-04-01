@@ -301,13 +301,22 @@ LIMIT 10
                         <div class="actions horizontal-actions"
                             onclick="event.stopPropagation();">
 
-                            <button
-                                class="add-cart-btn"
-                                data-code="<?= $s['product_code'] ?>"
-                                onclick="addToCart(event,this)"
-                                <?= $s['total_stock'] <= 0 ? "disabled" : "" ?>>
-                                Add to Cart
-                            </button>
+                            <?php if ($s['total_stock'] <= 0): ?>
+
+    <button class="add-cart-btn" disabled>
+        Out of Stock
+    </button>
+
+<?php else: ?>
+
+    <button
+        class="add-cart-btn"
+        data-code="<?= $s['product_code'] ?>"
+        onclick="addToCart(event,this)">
+        Add to Cart
+    </button>
+
+<?php endif; ?>
 
                             <button
                                 class="wishlist-btn"
