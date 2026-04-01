@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 01, 2026 at 07:16 AM
+-- Generation Time: Apr 01, 2026 at 07:51 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -35,6 +35,15 @@ CREATE TABLE `orders` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`order_id`, `user_id`, `order_total`, `order_status`, `created_at`) VALUES
+(1, 17, 5000.00, 'Cancelled', '2026-04-01 05:39:01'),
+(2, 17, 5500.00, 'Processing', '2026-04-01 05:40:01'),
+(3, 17, 6200.00, 'Delivered', '2026-04-01 05:40:26');
+
 -- --------------------------------------------------------
 
 --
@@ -51,6 +60,20 @@ CREATE TABLE `order_items` (
   `item_status` varchar(20) DEFAULT 'Placed',
   `cancelled_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `order_items`
+--
+
+INSERT INTO `order_items` (`item_id`, `order_id`, `product_code`, `quantity`, `price`, `size`, `item_status`, `cancelled_at`) VALUES
+(1, 1, 'CO5', 1, 2000.00, 'M', 'Cancelled', '2026-04-01 11:10:32'),
+(2, 1, 'SH6', 1, 3000.00, 'XL', 'Cancelled', '2026-04-01 11:17:13'),
+(3, 2, 'C8', 1, 1500.00, 'L', 'Placed', NULL),
+(4, 2, 'D12', 1, 3000.00, 'XL', 'Cancelled', '2026-04-01 11:17:23'),
+(5, 2, 'S17', 1, 1000.00, 'M', 'Placed', NULL),
+(6, 3, 'S25', 1, 1500.00, 'XL', 'Placed', NULL),
+(7, 3, 'S9', 1, 1200.00, 'XL', 'Placed', NULL),
+(8, 3, 'SH4', 1, 3500.00, 'M', 'Placed', NULL);
 
 -- --------------------------------------------------------
 
@@ -642,7 +665,7 @@ INSERT INTO `product_stock` (`stock_id`, `product_code`, `size`, `stock_qty`) VA
 (79, 'C7', 'S', 15),
 (80, 'C7', 'XL', 15),
 (81, 'C7', 'XXL', 15),
-(82, 'C8', 'L', 15),
+(82, 'C8', 'L', 14),
 (83, 'C8', 'M', 15),
 (84, 'C8', 'S', 15),
 (85, 'C8', 'XL', 15),
@@ -783,7 +806,7 @@ INSERT INTO `product_stock` (`stock_id`, `product_code`, `size`, `stock_qty`) VA
 (220, 'S16', 'XL', 15),
 (221, 'S16', 'XXL', 15),
 (222, 'S17', 'L', 15),
-(223, 'S17', 'M', 15),
+(223, 'S17', 'M', 14),
 (224, 'S17', 'S', 15),
 (225, 'S17', 'XL', 15),
 (226, 'S17', 'XXL', 15),
@@ -830,7 +853,7 @@ INSERT INTO `product_stock` (`stock_id`, `product_code`, `size`, `stock_qty`) VA
 (267, 'S25', 'L', 15),
 (268, 'S25', 'M', 15),
 (269, 'S25', 'S', 15),
-(270, 'S25', 'XL', 15),
+(270, 'S25', 'XL', 14),
 (271, 'S25', 'XXL', 15),
 (272, 'S26', 'L', 15),
 (273, 'S26', 'M', 15),
@@ -910,7 +933,7 @@ INSERT INTO `product_stock` (`stock_id`, `product_code`, `size`, `stock_qty`) VA
 (347, 'S9', 'L', 15),
 (348, 'S9', 'M', 15),
 (349, 'S9', 'S', 15),
-(350, 'S9', 'XL', 15),
+(350, 'S9', 'XL', 14),
 (351, 'S9', 'XXL', 15),
 (352, 'SH1', 'L', 15),
 (353, 'SH1', 'M', 15),
@@ -928,7 +951,7 @@ INSERT INTO `product_stock` (`stock_id`, `product_code`, `size`, `stock_qty`) VA
 (365, 'SH3', 'XL', 15),
 (366, 'SH3', 'XXL', 15),
 (367, 'SH4', 'L', 15),
-(368, 'SH4', 'M', 15),
+(368, 'SH4', 'M', 14),
 (369, 'SH4', 'S', 15),
 (370, 'SH4', 'XL', 15),
 (371, 'SH4', 'XXL', 15),
@@ -970,6 +993,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `name`, `email`, `phone_number`, `password_hash`, `role`, `created_at`, `remember_token`) VALUES
+(0, 'Anitha Trial', 'photosonlyanitha@gmail.com', '8618247172', '$2y$10$AGCvFLGA9VqUguf/.Xj3xeWG7p.SJTyd7AR/blW7eKIUJfOktm7SO', 'staff', '2026-04-01 05:24:21', NULL),
 (10, 'Nidhi Balaji', 'nidhibalaji219@gmail.com', '7676528462', '$2y$10$mB/KOy8mcjMzoLjxnUWPRO46bza8vp1MrjZrjGCuBBqgN6V10WaDK', 'manager', '2026-03-09 09:35:42', NULL),
 (11, 'Aashika Menon', 'aashikamenon2004@gmail.com', '7411437721', '$2y$10$mGLUKvfEtXQRGeQAISoDPufkxht/813GlreUq7PhUeUq5Lak92Ite', 'manager', '2026-03-09 09:37:08', NULL),
 (12, 'Anitha Patel', 'anithapatel1203@gmail.com', '8618247172', '$2y$10$p4Dg7gc5Eu8H9yceC/kcDe02MlBm5e0p5/w/UzGY/ieSuKQI8FzjO', 'manager', '2026-03-09 09:37:54', NULL),
@@ -1093,13 +1117,13 @@ ALTER TABLE `user_wishlist`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `product_images`

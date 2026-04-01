@@ -41,7 +41,7 @@ $orders = mysqli_fetch_assoc($q2)['total'] ?? 0;
 $q3 = mysqli_query($conn, "
 SELECT COUNT(*) AS total
 FROM orders
-WHERE order_status IN ('Placed','Processing')
+WHERE order_status IN ('Pending','Placed','Processing')
 ");
 
 $pending = mysqli_fetch_assoc($q3)['total'] ?? 0;
