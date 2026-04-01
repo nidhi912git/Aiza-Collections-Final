@@ -343,4 +343,24 @@ LIMIT 10
 
 <div class="popup"></div>
 
+<script>
+let currentIndex = 0;
+let images = window.productImages || [];
+
+function changeImage(step) {
+    if (images.length === 0) return;
+
+    currentIndex += step;
+
+    if (currentIndex < 0) {
+        currentIndex = images.length - 1;
+    } else if (currentIndex >= images.length) {
+        currentIndex = 0;
+    }
+
+    document.getElementById("prod-img").src = images[currentIndex];
+}
+</script>
+
+
 <?php include "../includes/footer.php"; ?>

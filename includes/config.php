@@ -43,17 +43,17 @@ function imgPath($path) {
         return "/aiza-collections-final/assets/no-image.jpg";
     }
 
-    // OLD images already inside assets (FULL PATH STORED)
+    // already full path
     if (strpos($path, 'assets/') !== false) {
         return "/aiza-collections-final/" . $path;
     }
 
-    // OLD images stored like: images/xxx.jpg
-    if (strpos($path, 'uploads/') === false) {
+    // already has uploads/
+    if (strpos($path, 'uploads/') !== false) {
         return "/aiza-collections-final/assets/" . $path;
     }
 
-    // NEW uploaded images
+    // plain filename
     return "/aiza-collections-final/assets/uploads/" . $path;
 }
 function getStock($conn, $code, $size) {
