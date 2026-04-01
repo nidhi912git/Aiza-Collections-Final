@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 01, 2026 at 07:51 AM
+-- Generation Time: Apr 01, 2026 at 09:41 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -99,7 +99,6 @@ INSERT INTO `products` (`category_num`, `product_code`, `product_name`, `descrip
 (1, 'A1', 'Olive Garden Elegance', 'An ivory kurta with olive and mustard floral prints, featuring delicate embroidery on the neckline and lace-detailed sleeves. Paired with a matching dupatta, it offers a soft, elegant look perfect for festive or daytime wear.', 2500.00, 0, 1),
 (1, 'A1-1', 'Olive Garden Elegance', 'An ivory kurta with olive and mustard floral prints, featuring delicate embroidery on the neckline and lace-detailed sleeves. Paired with a matching dupatta, it offers a soft, elegant look perfect for festive or daytime wear.', 2500.00, 0, 1),
 (1, 'A1-2', 'Olive Garden Elegance', 'An ivory kurta with olive and mustard floral prints, featuring delicate embroidery on the neckline and lace-detailed sleeves. Paired with a matching dupatta, it offers a soft, elegant look perfect for festive or daytime wear.', 2500.00, 0, 1),
-(1, 'A10', 'idk', 'aergfvaefgv', 400.00, 0, 1),
 (1, 'A2', 'Misty Blue Grace', 'A soft blue floral printed kurta set featuring delicate traditional patterns and elegant detailing on the neckline. Paired with a beautifully coordinated dupatta and matching bottoms, the outfit creates a graceful and timeless look, perfect for festive gatherings, casual celebrations, or elegant daywear.', 2000.00, 0, 1),
 (1, 'A2-1', 'Misty Blue Grace', 'A soft blue floral printed kurta set featuring delicate traditional patterns and elegant detailing on the neckline. Paired with a beautifully coordinated dupatta and matching bottoms, the outfit creates a graceful and timeless look, perfect for festive gatherings, casual celebrations, or elegant daywear.', 2000.00, 0, 1),
 (1, 'A3', 'Sunshine Bloom', 'A vibrant mustard-yellow kurta set featuring delicate floral prints and a comfortable, elegant silhouette. Paired with striped bottoms and a beautifully patterned dupatta with floral borders, this outfit brings a bright and cheerful charm, perfect for festive gatherings or everyday ethnic wear.', 2150.00, 0, 1),
@@ -564,8 +563,7 @@ INSERT INTO `product_images` (`image_id`, `product_code`, `image_path`) VALUES
 (348, 'S33-2', 'assets/images/straight_kurti/S33-2.jpeg'),
 (349, 'S34', 'assets/images/straight_kurti/S34.jpeg'),
 (350, 'S34-1', 'assets/images/straight_kurti/S34-1.jpeg'),
-(351, 'S34-2', 'assets/images/straight_kurti/S34-2.jpeg'),
-(354, 'A10', '1775017768_0_1775008508_0_Common Fashion Mistakes That Instantly Age Your Look.jpg');
+(351, 'S34-2', 'assets/images/straight_kurti/S34-2.jpeg');
 
 -- --------------------------------------------------------
 
@@ -964,12 +962,7 @@ INSERT INTO `product_stock` (`stock_id`, `product_code`, `size`, `stock_qty`) VA
 (378, 'SH6', 'M', 15),
 (379, 'SH6', 'S', 15),
 (380, 'SH6', 'XL', 15),
-(381, 'SH6', 'XXL', 15),
-(387, 'A10', 'S', 15),
-(388, 'A10', 'M', 15),
-(389, 'A10', 'L', 15),
-(390, 'A10', 'XL', 15),
-(391, 'A10', 'XXL', 15);
+(381, 'SH6', 'XXL', 15);
 
 -- --------------------------------------------------------
 
@@ -993,7 +986,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `name`, `email`, `phone_number`, `password_hash`, `role`, `created_at`, `remember_token`) VALUES
-(0, 'Anitha Trial', 'photosonlyanitha@gmail.com', '8618247172', '$2y$10$AGCvFLGA9VqUguf/.Xj3xeWG7p.SJTyd7AR/blW7eKIUJfOktm7SO', 'staff', '2026-04-01 05:24:21', NULL),
+(1, 'Anitha Trial', 'photosonlyanitha@gmail.com', '8618247172', '$2y$10$AGCvFLGA9VqUguf/.Xj3xeWG7p.SJTyd7AR/blW7eKIUJfOktm7SO', 'staff', '2026-04-01 05:24:21', NULL),
 (10, 'Nidhi Balaji', 'nidhibalaji219@gmail.com', '7676528462', '$2y$10$mB/KOy8mcjMzoLjxnUWPRO46bza8vp1MrjZrjGCuBBqgN6V10WaDK', 'manager', '2026-03-09 09:35:42', NULL),
 (11, 'Aashika Menon', 'aashikamenon2004@gmail.com', '7411437721', '$2y$10$mGLUKvfEtXQRGeQAISoDPufkxht/813GlreUq7PhUeUq5Lak92Ite', 'manager', '2026-03-09 09:37:08', NULL),
 (12, 'Anitha Patel', 'anithapatel1203@gmail.com', '8618247172', '$2y$10$p4Dg7gc5Eu8H9yceC/kcDe02MlBm5e0p5/w/UzGY/ieSuKQI8FzjO', 'manager', '2026-03-09 09:37:54', NULL),
@@ -1001,7 +994,8 @@ INSERT INTO `users` (`user_id`, `name`, `email`, `phone_number`, `password_hash`
 (14, 'Kaushik', 'svkaushik2210@gmail.com', '9538003807', '$2y$10$8HtmB4ftp5ugp1sid/sEI.dPR02MjrCiKfYz/gwvD2NClkmqpqGZ2', 'user', '2026-03-09 12:36:13', NULL),
 (15, 'aditi tupsakri', 'adititupsakri.work@gmail.com', '9108893232', '$2y$10$h2SYBECGqRP99klpwPEhfe6vxtjhApFq7Mo3UkXSsUU9CaQU1J7yG', 'user', '2026-03-12 09:37:10', NULL),
 (16, 'Shobha Tupsakri', 'shobha@gmail.com', '9844203996', '$2y$10$HVpevc2Qc0zX0DleIQBjuexlm/pIa2k/u6ZZDiAAXGywoHXs2pnP6', 'user', '2026-03-17 15:10:28', NULL),
-(17, 'Rachana', 'patelanitha64@gmail.com', '8618247172', '$2y$10$HBeOwy/erN5OJYzGmzOYM.K0sB47sr5iG5XYgu9NKs6Jcxo5amsaq', 'user', '2026-03-30 11:09:39', NULL);
+(17, 'Rachana', 'patelanitha64@gmail.com', '8618247172', '$2y$10$IKSkwtTN6nFZqxc9Jj0lVevRuH/KqUcNFY1jW3khLdfxZ45btLoqW', 'user', '2026-03-30 11:09:39', NULL),
+(18, 'Nidhi', 'bookishrambling@gmail.com', '8618247172', '$2y$10$vzhe9pIxB1M9BMPjPd6AcOCnzc4VP.a2OzoKCHHFWNZfLVT/fckUK', 'user', '2026-04-01 07:36:41', NULL);
 
 -- --------------------------------------------------------
 
@@ -1136,6 +1130,12 @@ ALTER TABLE `product_images`
 --
 ALTER TABLE `product_stock`
   MODIFY `stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=392;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- Constraints for dumped tables
