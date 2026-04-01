@@ -109,7 +109,7 @@ exit;
 $res = mysqli_query($conn, $query);
 ?>
 
-<section>
+<section class="admin-products-page">
 
     <div class="admin-header-products">
 

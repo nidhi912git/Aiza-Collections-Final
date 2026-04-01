@@ -20,7 +20,7 @@ ORDER BY role DESC,name
 
     <div class="admin-header">
 
-        <div></div> <!-- left empty -->
+        <div></div>
 
         <h2 class="section-title">Manage Staff</h2>
 
@@ -51,10 +51,9 @@ ORDER BY role DESC,name
 
                 <td>
 
-                    <?php if ($u['role'] != 'manager'): ?>
+                    <?php if ($u['role'] == 'staff'): ?>
 
-                        <form method="POST" action="remove_staff.php"
-                            onsubmit="return confirm('Remove staff access?');">
+                        <form method="POST" action="remove_staff.php" class="remove-form">
 
                             <input type="hidden" name="csrf" value="<?= csrf_token() ?>">
                             <input type="hidden" name="user_id" value="<?= $u['user_id'] ?>">
@@ -63,7 +62,7 @@ ORDER BY role DESC,name
 
                         </form>
 
-                    <?php else: ?>
+                    <?php elseif ($u['role'] == 'manager'): ?>
 
                         <span style="color:#999;">Manager</span>
 
@@ -78,5 +77,51 @@ ORDER BY role DESC,name
     </table>
 
 </section>
+
+<!-- ✅ REMOVE MODAL -->
+<div id="removeModal" class="modal-overlay">
+    <div class="modal-box">
+
+        <h3>Remove Staff</h3>
+
+        <p>Are you sure you want to remove this staff?</p>
+
+        <div class="modal-actions">
+
+            <button class="btn modal-cancel" onclick="closeRemoveModal()">No</button>
+
+            <button class="btn modal-confirm" onclick="confirmRemove()">Yes</button>
+
+        </div>
+
+    </div>
+</div>
+
+<script>
+let removeForm = null;
+
+document.querySelectorAll(".remove-form").forEach(form => {
+
+    form.addEventListener("submit", function(e) {
+
+        e.preventDefault();
+        removeForm = this;
+
+        document.getElementById("removeModal").style.display = "flex";
+
+    });
+
+});
+
+function closeRemoveModal() {
+    document.getElementById("removeModal").style.display = "none";
+}
+
+function confirmRemove() {
+    if (removeForm) {
+        removeForm.submit();
+    }
+}
+</script>
 
 <?php include "../../includes/footer.php"; ?>

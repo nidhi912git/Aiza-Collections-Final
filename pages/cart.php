@@ -10,29 +10,29 @@ $total = 0;
 
 <section>
 
-<h2 class="section-title">Your Cart</h2>
+    <h2 class="section-title">Your Cart</h2>
 
-<p class="cart-subtext" style="text-align:center;margin-bottom:20px;">
-    Looking for more styles?
-    <a href="/aiza-collections-final/pages/catalog.php" class="btn" style="margin-left:10px;">
-        Browse Catalog
-    </a>
-</p>
+    <p class="cart-subtext" style="text-align:center;margin-bottom:20px;">
+        Looking for more styles?
+        <a href="/aiza-collections-final/pages/catalog.php" class="btn" style="margin-left:10px;">
+            Browse Catalog
+        </a>
+    </p>
 
-<?php if (!$cart): ?>
+    <?php if (!$cart): ?>
 
-    <p style="text-align:center;">🛒 Your cart is empty</p>
+        <p style="text-align:center;">🛒 Your cart is empty</p>
 
-<?php else: ?>
+    <?php else: ?>
 
-    <div class="list-container">
+        <div class="list-container">
 
-    <?php foreach ($cart as $key => $qty):
+            <?php foreach ($cart as $key => $qty):
 
-        list($code, $size) = explode("_", $key);
+                list($code, $size) = explode("_", $key);
 
-        /* PRODUCT DATA */
-        $q = mysqli_query($conn, "
+                /* PRODUCT DATA */
+                $q = mysqli_query($conn, "
         SELECT
         p.product_name,
         p.price,
@@ -44,171 +44,184 @@ $total = 0;
         GROUP BY p.product_code
         ");
 
-        $p = mysqli_fetch_assoc($q);
-        if (!$p) continue;
+                $p = mysqli_fetch_assoc($q);
+                if (!$p) continue;
 
-        /* ✅ STOCK FETCH (NEW) */
-        $stockQ = mysqli_query($conn, "
+                /* ✅ STOCK FETCH (NEW) */
+                $stockQ = mysqli_query($conn, "
         SELECT stock_qty
         FROM product_stock
         WHERE product_code='$code' AND size='$size'
         ");
 
-        $stockRow = mysqli_fetch_assoc($stockQ);
-        $available = $stockRow['stock_qty'] ?? 0;
+                $stockRow = mysqli_fetch_assoc($stockQ);
+                $available = $stockRow['stock_qty'] ?? 0;
 
-        $sub = $p['price'] * $qty;
-        $total += $sub;
-    ?>
+                $sub = $p['price'] * $qty;
+                $total += $sub;
+            ?>
 
-        <div class="list-card"
-            onclick="window.location.href='/aiza-collections-final/pages/product.php?code=<?= $code ?>'">
+                <div class="list-card"
+                    onclick="window.location.href='/aiza-collections-final/pages/product.php?code=<?= $code ?>'">
 
-            <img class="list-img"
-                src="<?= imgPath($p['image_path']) ?>"
-                alt="<?= htmlspecialchars($p['product_name']) ?>">
+                    <img class="list-img"
+                        src="<?= imgPath($p['image_path']) ?>"
+                        alt="<?= htmlspecialchars($p['product_name']) ?>">
 
-            <div class="list-info">
+                    <div class="list-info">
 
-                <h4><?= htmlspecialchars($p['product_name']) ?></h4>
+                        <h4><?= htmlspecialchars($p['product_name']) ?></h4>
 
-                <div class="list-meta">
+                        <div class="list-meta">
 
-                    <span class="price">
-                        ₹<?= number_format($p['price']) ?>
-                    </span>
+                            <span class="price">
+                                ₹<?= number_format($p['price']) ?>
+                            </span>
 
-                    <span class="item-size">
-                        Size: <?= htmlspecialchars($size) ?>
-                    </span>
+                            <span class="item-size">
+                                Size: <?= htmlspecialchars($size) ?>
+                            </span>
+
+                        </div>
+
+                        <!-- ✅ SHOW STOCK -->
+                        <p style="font-size:13px;color:gray;">
+                            Available: <?= $available ?>
+                        </p>
+
+                        <div class="list-qty" onclick="event.stopPropagation();">
+
+                            <!-- DECREASE -->
+                            <form method="post"
+                                action="list-handler.php"
+                                onsubmit="event.preventDefault(); confirmDecrease(<?= $qty ?>, this);">
+
+                                <input type="hidden" name="product_code" value="<?= $code ?>">
+                                <input type="hidden" name="size" value="<?= $size ?>">
+                                <input type="hidden" name="action" value="decrease">
+
+                                <button class="qty-btn">−</button>
+                            </form>
+
+                            <span class="qty-value">
+                                <?= $qty ?>
+                            </span>
+
+                            <!-- INCREASE -->
+                            <form method="post" action="list-handler.php">
+
+                                <input type="hidden" name="product_code" value="<?= $code ?>">
+                                <input type="hidden" name="size" value="<?= $size ?>">
+                                <input type="hidden" name="action" value="add">
+
+                                <!-- ✅ DISABLE IF MAX -->
+                                <button class="qty-btn"
+                                    onclick="return handleCartIncrease(<?= $qty ?>, <?= $available ?>)">
+                                    +
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                        <p class="list-subtotal">
+                            Subtotal ₹<?= number_format($sub) ?>
+                        </p>
+
+                    </div>
+
+                    <div class="list-actions" onclick="event.stopPropagation();">
+
+                        <!-- REMOVE -->
+                        <form method="post"
+                            action="list-handler.php"
+                            onsubmit="event.preventDefault(); confirmAction('Remove this item?', this);">
+
+                            <input type="hidden" name="product_code" value="<?= $code ?>">
+                            <input type="hidden" name="size" value="<?= $size ?>">
+                            <input type="hidden" name="action" value="remove_cart">
+
+                            <button type="submit" class="action-btn remove-btn">
+                                Remove
+                            </button>
+
+                        </form>
+
+                        <!-- MOVE -->
+                        <form method="post"
+                            action="list-handler.php"
+                            onsubmit="event.preventDefault(); confirmAction('Move this item to wishlist?', this);">
+
+                            <input type="hidden" name="product_code" value="<?= $code ?>">
+                            <input type="hidden" name="size" value="<?= $size ?>">
+                            <input type="hidden" name="action" value="cart_to_wishlist">
+
+                            <button type="submit" class="action-btn move-btn">
+                                ♡ Move to Wishlist
+                            </button>
+
+                        </form>
+
+                    </div>
 
                 </div>
 
-                <!-- ✅ SHOW STOCK -->
-                <p style="font-size:13px;color:gray;">
-                    Available: <?= $available ?>
-                </p>
-
-                <div class="list-qty" onclick="event.stopPropagation();">
-
-                    <!-- DECREASE -->
-                    <form method="post"
-                        action="list-handler.php"
-                        onsubmit="event.preventDefault(); confirmDecrease(<?= $qty ?>, this);">
-
-                        <input type="hidden" name="product_code" value="<?= $code ?>">
-                        <input type="hidden" name="size" value="<?= $size ?>">
-                        <input type="hidden" name="action" value="decrease">
-
-                        <button class="qty-btn">−</button>
-                    </form>
-
-                    <span class="qty-value">
-                        <?= $qty ?>
-                    </span>
-
-                    <!-- INCREASE -->
-                    <form method="post" action="list-handler.php">
-
-                        <input type="hidden" name="product_code" value="<?= $code ?>">
-                        <input type="hidden" name="size" value="<?= $size ?>">
-                        <input type="hidden" name="action" value="add">
-
-                        <!-- ✅ DISABLE IF MAX -->
-                        <button class="qty-btn"
-                            <?= $qty >= $available ? "disabled" : "" ?>>
-                            +
-                        </button>
-
-                    </form>
-
-                </div>
-
-                <p class="list-subtotal">
-                    Subtotal ₹<?= number_format($sub) ?>
-                </p>
-
-            </div>
-
-            <div class="list-actions" onclick="event.stopPropagation();">
-
-                <!-- REMOVE -->
-                <form method="post"
-                    action="list-handler.php"
-                    onsubmit="event.preventDefault(); confirmAction('Remove this item?', this);">
-
-                    <input type="hidden" name="product_code" value="<?= $code ?>">
-                    <input type="hidden" name="size" value="<?= $size ?>">
-                    <input type="hidden" name="action" value="remove_cart">
-
-                    <button type="submit" class="action-btn remove-btn">
-                        Remove
-                    </button>
-
-                </form>
-
-                <!-- MOVE -->
-                <form method="post"
-                    action="list-handler.php"
-                    onsubmit="event.preventDefault(); confirmAction('Move this item to wishlist?', this);">
-
-                    <input type="hidden" name="product_code" value="<?= $code ?>">
-                    <input type="hidden" name="size" value="<?= $size ?>">
-                    <input type="hidden" name="action" value="cart_to_wishlist">
-
-                    <button type="submit" class="action-btn move-btn">
-                        ♡ Move to Wishlist
-                    </button>
-
-                </form>
-
-            </div>
+            <?php endforeach; ?>
 
         </div>
 
-    <?php endforeach; ?>
+        <h3 id="cart-total" style="text-align:center;margin-top:2rem;">
+            Total ₹<?= number_format($total) ?>
+        </h3>
 
-    </div>
+        <div style="text-align:center;margin-top:20px;">
 
-    <h3 id="cart-total" style="text-align:center;margin-top:2rem;">
-        Total ₹<?= number_format($total) ?>
-    </h3>
+            <form action="/aiza-collections-final/pages/checkout.php" method="post"
+                onsubmit="event.preventDefault(); confirmAction('Are you sure you want to place this order?', this);">
 
-    <div style="text-align:center;margin-top:20px;">
+                <button type="submit" class="btn">Proceed to Checkout</button>
 
-        <form action="/aiza-collections-final/pages/checkout.php" method="post"
-            onsubmit="event.preventDefault(); confirmAction('Are you sure you want to place this order?', this);">
+            </form>
 
-            <button type="submit" class="btn">Proceed to Checkout</button>
+        </div>
 
-        </form>
-
-    </div>
-
-<?php endif; ?>
+    <?php endif; ?>
 
 </section>
 
 <?php if (isset($_SESSION['popup'])): ?>
-<script>
-window.addEventListener("DOMContentLoaded", function() {
-    showPopup("<?= $_SESSION['popup'] ?>");
-});
-</script>
-<?php unset($_SESSION['popup']); endif; ?>
+    <script>
+        window.addEventListener("DOMContentLoaded", function() {
+            showPopup("<?= $_SESSION['popup'] ?>");
+        });
+    </script>
+<?php unset($_SESSION['popup']);
+endif; ?>
 
 <div class="popup"></div>
 
 <script>
-function confirmDecrease(qty, form) {
-    if (qty == 1) {
-        confirmAction(
-            "This will remove the product from your cart. Continue?",
-            form
-        );
-    } else {
-        form.submit();
+    function confirmDecrease(qty, form) {
+        if (qty == 1) {
+            confirmAction(
+                "This will remove the product from your cart. Continue?",
+                form
+            );
+        } else {
+            form.submit();
+        }
     }
+</script>
+
+<script>
+function handleCartIncrease(qty, stock) {
+
+    if (qty >= stock) {
+        showPopup("Cannot add more — stock limit reached");
+        return false;
+    }
+
+    return true; // allow form submit
 }
 </script>
 
