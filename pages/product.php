@@ -31,7 +31,8 @@ $iq = mysqli_query($conn, "
 SELECT image_path
 FROM product_images
 WHERE product_code='$code'
-ORDER BY image_path
+   OR product_code LIKE '$code-%'
+ORDER BY product_code
 ");
 
 $images = [];
@@ -86,14 +87,15 @@ LIMIT 10
 
         <div class="product-image">
 
-            <button class="img-nav prev" onclick="changeImage(-1)">❮</button>
+          <button class="img-nav prev" onclick="changeImage(-1)">❮</button>
 
-            <img
-                id="prod-img"
-                src="<?= $images[0] ?? '/aiza-collections-final/assets/no-image.jpg' ?>"
-                alt="<?= htmlspecialchars($product['product_name']) ?>">
+          <img
+            id="prod-img"
+            src="<?= $images[0] ?? '/aiza-collections-final/assets/no-image.jpg' ?>"
+            alt="<?= htmlspecialchars($product['product_name']) ?>">
 
-            <button class="img-nav next" onclick="changeImage(1)">❯</button>
+          <button class="img-nav next" onclick="changeImage(1)">❯</button>
+
 
         </div>
 
@@ -344,23 +346,27 @@ LIMIT 10
 <div class="popup"></div>
 
 <script>
-let currentIndex = 0;
-let images = window.productImages || [];
+ let currentIndex = 0;
 
-function changeImage(step) {
-    if (images.length === 0) return;
+ function changeImage(step) {
+
+    let images = window.productImages || [];
+    const img = document.getElementById("prod-img");
+
+    if (!images.length || !img) return;
 
     currentIndex += step;
 
     if (currentIndex < 0) {
         currentIndex = images.length - 1;
-    } else if (currentIndex >= images.length) {
+    }
+
+    if (currentIndex >= images.length) {
         currentIndex = 0;
     }
 
-    document.getElementById("prod-img").src = images[currentIndex];
-}
+    img.src = images[currentIndex];
+ }
 </script>
-
 
 <?php include "../includes/footer.php"; ?>
