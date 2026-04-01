@@ -74,7 +74,7 @@ ORDER BY created_at DESC
                     </td>
                     <td>
                         <a class="btn small-btn"
-                            href="update_order_status.php?id=<?= $o['order_id'] ?>">
+                            href="view_order.php?id=<?= $o['order_id'] ?>">
                             Update
                         </a>
                     </td>

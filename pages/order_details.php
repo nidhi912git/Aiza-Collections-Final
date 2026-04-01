@@ -165,7 +165,7 @@ $total = 0;
                     <?php else: ?>
 
                         <button class="action-btn" disabled style="opacity:0.5; cursor:not-allowed;">
-                            Cancelled
+                            Cannot Cancel
                         </button>
 
                     <?php endif; ?>
