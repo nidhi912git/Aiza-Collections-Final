@@ -37,7 +37,15 @@ include_once __DIR__ . "/security.php";
     <span class="shop-name">AIZA COLLECTIONS</span>
 
     <!-- SEARCH (DESKTOP) -->
-    <form class="header-search desktop-only" action="/aiza-collections-final/pages/catalog.php" method="get">
+    <?php
+      $search_action = "/aiza-collections-final/pages/catalog.php";
+      if (is_admin()) {
+        $search_action = "/aiza-collections-final/pages/admin/products.php";
+        } elseif (is_staff()) {
+          $search_action = "/aiza-collections-final/pages/staff/products.php";
+      }
+    ?>
+    <form class="header-search desktop-only" action="<?= $search_action ?>" method="get">
       <input type="search" name="q" placeholder="Search products...">
     </form>
 
@@ -52,7 +60,7 @@ include_once __DIR__ . "/security.php";
     <nav class="main-nav" id="main-nav">
 
       <!-- SEARCH (MOBILE INSIDE PANE) -->
-      <form class="mobile-search mobile-only" action="/aiza-collections-final/pages/catalog.php" method="get">
+      <form class="mobile-search mobile-only" action="<?= $search_action ?>" method="get">
         <input type="search" name="q" placeholder="Search products...">
       </form>
 
