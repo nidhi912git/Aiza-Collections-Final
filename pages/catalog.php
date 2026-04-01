@@ -78,7 +78,7 @@ $order
 $result = mysqli_query($conn, $sql);
 ?>
 
-<section>
+<section class="catalog-page-wrapper">
 
     <h2 class="section-title">Our Collection</h2>
 
