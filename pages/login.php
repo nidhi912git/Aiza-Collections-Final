@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($u['role'] === 'manager') {
                header("Location: /aiza-collections-final/pages/admin/products.php");
             } elseif ($u['role'] === 'staff') {
-               header("Location: /aiza-collections-final/pages/admin/staff_dashboard.php");
+               header("Location: /aiza-collections-final/pages/staff/dashboard.php");
             } else {
                header("Location: /aiza-collections-final/pages/home.php");
             }
